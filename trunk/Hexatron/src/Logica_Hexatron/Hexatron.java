@@ -11,17 +11,17 @@ package Logica_Hexatron;
  */
 public class Hexatron {
 
-  private  int matriz[][];
+  private  Celda matriz[][];
   private int ancho=50;
   private int alto=50;
 
-    public int[][] getMatriz() {
+    public Celda[][] getMatriz() {
         return matriz;
     }
 
     public Hexatron()
     {
-        matriz=new int[alto][ancho];
+        matriz=new Celda[alto][ancho];
         poblar();
 
     }
@@ -57,10 +57,19 @@ public class Hexatron {
     }
 
     public void poblar() {
-        matriz= new int[alto][ancho];
+        matriz= new Celda[alto][ancho];
           for(int i =0; i<matriz.length; i++)
             for(int j =0; j<matriz[i].length; j++)
-                matriz[i][j]=(int)(Math.random()*4)+1;
+            {
+                int tipo = (int)(Math.random()*3)+1;
+                if(tipo ==1)
+                matriz[i][j]=new Bacteria(1);
+                else if (tipo == 2)
+                matriz[i][j]=new Bacteria(2);
+                 else
+                    matriz[i][j]=new Vacio();  
+        
+              }
 
     }
 

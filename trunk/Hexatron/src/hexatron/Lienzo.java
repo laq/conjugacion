@@ -4,7 +4,10 @@
  */
 package hexatron;
 
+import Logica_Hexatron.Bacteria;
+import Logica_Hexatron.Celda;
 import Logica_Hexatron.Hexatron;
+import Logica_Hexatron.Vacio;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -72,20 +75,24 @@ public class Lienzo extends Canvas {
         for (int i = 0; i < getMatriz().length; i++) {
             for (int j = 0; j < getMatriz()[i].length; j++) {
 
-                if (getMatriz()[i][j] == 1) {
-                    g.setColor(Color.green);
-                    g.drawPolygon(xPoints, yPoints, 6);
-                } else if (getMatriz()[i][j] == 2) {
-                    g.setColor(Color.yellow);
-                    g.fillPolygon(xPoints, yPoints, 6);
-                } else if (getMatriz()[i][j] == 3) {
-                    g.setColor(Color.red);
-                    g.fillPolygon(xPoints, yPoints, 6);
-                } else if (getMatriz()[i][j] == 4) {
-                    g.setColor(Color.blue);
-                    g.fillPolygon(xPoints, yPoints, 6);
+                if(getMatriz()[i][j] instanceof Bacteria)
+            {
+                if(((Bacteria)(getMatriz()[i][j])).getTipo()==1)
+                {
+                g.setColor(Color.blue);
+              g.fillPolygon(xPoints, yPoints, 6);
                 }
-
+ else
+                {
+                    g.setColor(Color.red);
+              g.fillPolygon(xPoints, yPoints, 6);}
+                
+                
+              }
+     else if(getMatriz()[i][j] instanceof Vacio)
+            {
+                g.setColor(Color.green);
+              g.drawPolygon(xPoints, yPoints, 6);  }
 
 
                 for (int k = 0; k < 6; k++) {
@@ -147,7 +154,7 @@ public class Lienzo extends Canvas {
     /**
      * @return the Matriz
      */
-    public int[][] getMatriz() {
+    public Celda[][] getMatriz() {
         return getHexatron().getMatriz();
     }
 
