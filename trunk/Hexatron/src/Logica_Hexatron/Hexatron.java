@@ -12,8 +12,8 @@ package Logica_Hexatron;
 public class Hexatron {
 
   private  int matriz[][];
-  private int ancho;
-  private int alto;
+  private int ancho=50;
+  private int alto=50;
 
     public int[][] getMatriz() {
         return matriz;
@@ -56,9 +56,10 @@ public class Hexatron {
         this.alto = alto;
     }
 
-    private void poblar() {
+    public void poblar() {
+        matriz= new int[ancho][alto];
           for(int i =0; i<matriz.length; i++)
-            for(int j =0; j<matriz.length; j++)
+            for(int j =0; j<matriz[i].length; j++)
                 matriz[i][j]=(int)(Math.random()*4)+1;
 
     }
