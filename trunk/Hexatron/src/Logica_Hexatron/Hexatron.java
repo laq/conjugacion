@@ -21,7 +21,7 @@ public class Hexatron {
 
     public Hexatron()
     {
-        matriz=new int[ancho][alto];
+        matriz=new int[alto][ancho];
         poblar();
 
     }
@@ -57,7 +57,7 @@ public class Hexatron {
     }
 
     public void poblar() {
-        matriz= new int[ancho][alto];
+        matriz= new int[alto][ancho];
           for(int i =0; i<matriz.length; i++)
             for(int j =0; j<matriz[i].length; j++)
                 matriz[i][j]=(int)(Math.random()*4)+1;
