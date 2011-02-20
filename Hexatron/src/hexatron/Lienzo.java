@@ -46,7 +46,28 @@ public class Lienzo extends Canvas {
 
     public void update(Graphics g) {
 
-             g.setColor(Color.white);
+        int pxwidth = this.getWidth();
+        int pxheight = this.getHeight();
+        float width = pxwidth / hexatron.getAncho();
+        float height = pxheight / hexatron.getAlto();
+        float val = width > height ? height : width;
+        int valHex = (int)(val/2 - (val / 10));
+        xPoints[0] = valHex;
+        xPoints[1] = 2 * valHex;
+        xPoints[2] = 2 * valHex;
+        xPoints[3] = valHex;
+        xPoints[4] = 0;
+        xPoints[5] = 0;
+
+        yPoints[0] = 0;
+        yPoints[1] = valHex;
+        yPoints[2] = 2 * valHex;
+        yPoints[3] = 3 * valHex;
+        yPoints[4] = 2 * valHex;
+        yPoints[5] = valHex;
+        // int val=12;
+
+        g.setColor(Color.white);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         for (int i = 0; i < getMatriz().length; i++) {
             for (int j = 0; j < getMatriz()[i].length; j++) {
@@ -68,40 +89,58 @@ public class Lienzo extends Canvas {
 
 
                 for (int k = 0; k < 6; k++) {
-                    xPoints[k] = xPoints[k] + 12;
+                    xPoints[k] = xPoints[k] + (int)val;
                 }
 
 
 
             }
             for (int k = 0; k < 6; k++) {
-                yPoints[k] = yPoints[k] + 12;
+                yPoints[k] = yPoints[k] + (int)val;
             }
             cont++;
             if (cont % 2 == 0) {
-                xPoints[0] = 5;
-                xPoints[1] = 10;
-                xPoints[2] = 10;
-                xPoints[3] = 5;
+//                xPoints[0] = 5;
+//                xPoints[1] = 10;
+//                xPoints[2] = 10;
+//                xPoints[3] = 5;
+//                xPoints[4] = 0;
+//                xPoints[5] = 0;
+                xPoints[0] = valHex;
+                xPoints[1] = 2 * valHex;
+                xPoints[2] = 2 * valHex;
+                xPoints[3] = valHex;
                 xPoints[4] = 0;
                 xPoints[5] = 0;
             } else {
-                xPoints[0] = 12;
-                xPoints[1] = 17;
-                xPoints[2] = 17;
-                xPoints[3] = 12;
-                xPoints[4] = 7;
-                xPoints[5] = 7;
+//                xPoints[0] = 12;
+//                xPoints[1] = 17;
+//                xPoints[2] = 17;
+//                xPoints[3] = 12;
+//                xPoints[4] = 7;
+//                xPoints[5] = 7;
+                xPoints[0] = valHex + (3 * valHex) / 2;
+                xPoints[1] = 2 * valHex + (3 * valHex) / 2;
+                xPoints[2] = 2 * valHex + (3 * valHex) / 2;
+                xPoints[3] = valHex + (3 * valHex) / 2;
+                xPoints[4] = 0 + (3 * valHex) / 2;
+                xPoints[5] = 0 + (3 * valHex) / 2;
             }
 
         }
 
+//        yPoints[0] = 0;
+//        yPoints[1] = 5;
+//        yPoints[2] = 10;
+//        yPoints[3] = 15;
+//        yPoints[4] = 10;
+//        yPoints[5] = 5;
         yPoints[0] = 0;
-        yPoints[1] = 5;
-        yPoints[2] = 10;
-        yPoints[3] = 15;
-        yPoints[4] = 10;
-        yPoints[5] = 5;
+        yPoints[1] = valHex;
+        yPoints[2] = 2 * valHex;
+        yPoints[3] = 3 * valHex;
+        yPoints[4] = 2 * valHex;
+        yPoints[5] = valHex;
 
     }
 
