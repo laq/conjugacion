@@ -66,7 +66,7 @@ public class Hexatron {
                 matriz[i][j]=new Bacteria(1);
                 else if (tipo == 2)
                 matriz[i][j]=new Bacteria(2);
-                 else
+                else
                     matriz[i][j]=new Vacio();  
         
               }

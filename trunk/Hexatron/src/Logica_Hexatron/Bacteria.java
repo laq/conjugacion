@@ -16,11 +16,13 @@ public class Bacteria extends Celda {
      private int tipo;
      private String codigo_gen;
      private int estado;
+     private int direccionCabeza;//1 hacia arriba 4 es hacia atras y el resto son los puntos intermedios
     
     
     public Bacteria (int tipo)
     {
     this.tipo = tipo;
+    direccionCabeza=(int)(Math.random()*5)+1;
     }
 
   
@@ -64,6 +66,20 @@ public class Bacteria extends Celda {
      */
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    /**
+     * @return the direccionCabeza
+     */
+    public int getDireccionCabeza() {
+        return direccionCabeza;
+    }
+
+    /**
+     * @param direccionCabeza the direccionCabeza to set
+     */
+    public void setDireccionCabeza(int direccionCabeza) {
+        this.direccionCabeza = direccionCabeza;
     }
     
     
