@@ -16,6 +16,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,6 +31,35 @@ public class MiDibujo extends JFrame {
     
     private Hexatron hexatron = new Hexatron();
     Lienzo lienzo = new Lienzo(getHexatron());
+
+    public MiDibujo(){
+
+    }
+
+    public void addMouse(){
+        this.addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent e) {
+                paso();
+            }
+
+            public void mousePressed(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void mouseReleased(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void mouseEntered(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void mouseExited(MouseEvent e) {
+//                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+        });
+    }
 
     private static MenuBar crearMenuBar(final MiDibujo midibujo) throws HeadlessException {
         MenuBar menubar = new MenuBar();
@@ -110,6 +141,7 @@ public class MiDibujo extends JFrame {
 
         MiDibujo midibujo = new MiDibujo();
         MenuBar menubar = crearMenuBar(midibujo);
+        midibujo.addMouse();
         midibujo.setMenuBar(menubar);
         midibujo.lienzo.setDoubleBuffered(true);
         midibujo.dibujar();
