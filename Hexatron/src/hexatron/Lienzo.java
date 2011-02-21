@@ -40,7 +40,7 @@ public class Lienzo extends JPanel implements Runnable {
      */
     public Lienzo(Hexatron hexatron) {
         this.hexatron = hexatron;
-    }  
+    }
 
     
     @Override
