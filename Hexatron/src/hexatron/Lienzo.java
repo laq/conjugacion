@@ -8,9 +8,13 @@ import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Celda;
 import Logica_Hexatron.Hexatron;
 import Logica_Hexatron.Vacio;
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 /**
@@ -54,7 +58,7 @@ public class Lienzo extends Canvas {
         float width = pxwidth / hexatron.getAncho();
         float height = pxheight / hexatron.getAlto();
         float val = width > height ? height : width;
-        int valHex = (int)(val/2 - (val / 10));
+        int valHex = (int) (val / 2 - (val / 10));
         xPoints[0] = valHex;
         xPoints[1] = 2 * valHex;
         xPoints[2] = 2 * valHex;
@@ -74,36 +78,26 @@ public class Lienzo extends Canvas {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         for (int i = 0; i < getMatriz().length; i++) {
             for (int j = 0; j < getMatriz()[i].length; j++) {
-
-                if(getMatriz()[i][j] instanceof Bacteria)
-            {
-                if(((Bacteria)(getMatriz()[i][j])).getTipo()==1)
-                {
-                g.setColor(Color.blue);
-              g.fillPolygon(xPoints, yPoints, 6);
+                if (getMatriz()[i][j] instanceof Bacteria) {
+                    Bacteria bact=(Bacteria)(getMatriz()[i][j]);
+                    if (bact.getTipo() == 1) {
+                        g.setColor(Color.blue);
+                        g.fillPolygon(xPoints, yPoints, 6);
+                    } else {
+                        g.setColor(Color.CYAN);
+                        g.fillPolygon(xPoints, yPoints, 6);
+                    }
+                    paintHead(bact,g,valHex);
+                } else if (getMatriz()[i][j] instanceof Vacio) {
+                    g.setColor(Color.green);
+                    g.drawPolygon(xPoints, yPoints, 6);
                 }
- else
-                {
-                    g.setColor(Color.red);
-              g.fillPolygon(xPoints, yPoints, 6);}
-                
-                
-              }
-     else if(getMatriz()[i][j] instanceof Vacio)
-            {
-                g.setColor(Color.green);
-              g.drawPolygon(xPoints, yPoints, 6);  }
-
-
                 for (int k = 0; k < 6; k++) {
-                    xPoints[k] = xPoints[k] + (int)val;
+                    xPoints[k] = xPoints[k] + (int) val;
                 }
-
-
-
             }
             for (int k = 0; k < 6; k++) {
-                yPoints[k] = yPoints[k] + (int)val;
+                yPoints[k] = yPoints[k] + (int) val;
             }
             cont++;
             if (cont % 2 == 0) {
@@ -170,6 +164,25 @@ public class Lienzo extends Canvas {
      */
     public void setHexatron(Hexatron hexatron) {
         this.hexatron = hexatron;
+    }
+
+   
+
+    private void paintHead(Bacteria bact, Graphics g, int val) {
+        g.setColor(Color.red);
+        Graphics2D g2d=((Graphics2D)g);
+        Stroke s=g2d.getStroke();
+        g2d.setStroke(new BasicStroke(val/2));
+        int i=0,j=1;
+        
+        i=bact.getDireccionCabeza()-1;
+        j=bact.getDireccionCabeza();
+
+
+
+        g.drawLine(xPoints[i], yPoints[i], xPoints[j], yPoints[j]);
+        g2d.setStroke(s);
+
     }
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
