@@ -66,7 +66,7 @@ public class MiDibujo extends JFrame{
     midibujo.setBounds(0, 0,screenx,screeny-50);
     midibujo.setVisible(true);
     midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
-  
+    midibujo.startSimulation();
     }
 
     /**
@@ -74,6 +74,10 @@ public class MiDibujo extends JFrame{
      */
     public Hexatron getHexatron() {
         return hexatron;
+    }
+
+    private void startSimulation() {
+        lienzo.startSimulation(20);
     }
 
 }
