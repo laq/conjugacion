@@ -16,6 +16,8 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase que hereda de Canvas y sirve para dibujar una linea.
@@ -79,7 +81,7 @@ public class Lienzo extends Canvas {
         for (int i = 0; i < getMatriz().length; i++) {
             for (int j = 0; j < getMatriz()[i].length; j++) {
                 if (getMatriz()[i][j] instanceof Bacteria) {
-                    Bacteria bact=(Bacteria)(getMatriz()[i][j]);
+                    Bacteria bact = (Bacteria) (getMatriz()[i][j]);
                     if (bact.getTipo() == 1) {
                         g.setColor(Color.blue);
                         g.fillPolygon(xPoints, yPoints, 6);
@@ -87,7 +89,7 @@ public class Lienzo extends Canvas {
                         g.setColor(Color.CYAN);
                         g.fillPolygon(xPoints, yPoints, 6);
                     }
-                    paintHead(bact,g,valHex);
+                    paintHead(bact, g, valHex);
                 } else if (getMatriz()[i][j] instanceof Vacio) {
                     g.setColor(Color.green);
                     g.drawPolygon(xPoints, yPoints, 6);
@@ -166,23 +168,33 @@ public class Lienzo extends Canvas {
         this.hexatron = hexatron;
     }
 
-   
-
     private void paintHead(Bacteria bact, Graphics g, int val) {
         g.setColor(Color.red);
-        Graphics2D g2d=((Graphics2D)g);
-        Stroke s=g2d.getStroke();
-        g2d.setStroke(new BasicStroke(val/2));
-        int i=0,j=1;
-        
-        i=bact.getDireccionCabeza()-1;
-        j=bact.getDireccionCabeza();
+        Graphics2D g2d = ((Graphics2D) g);
+        Stroke s = g2d.getStroke();
+        g2d.setStroke(new BasicStroke(val / 2));
+        int i = 0, j = 1;
 
-
+        i = (bact.getDireccionCabeza() - 1);
+        i = i < 0 ? 5 : i;
+        j = bact.getDireccionCabeza() % 6;
 
         g.drawLine(xPoints[i], yPoints[i], xPoints[j], yPoints[j]);
         g2d.setStroke(s);
 
+    }
+
+    void startSimulation(int generations) {
+        int i = 0;
+        while (i < generations) {
+            hexatron.nextGen();
+            this.repaint();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
