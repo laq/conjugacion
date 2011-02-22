@@ -4,6 +4,13 @@
  */
 package Logica_Hexatron;
 
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Vector;
+import sun.reflect.generics.tree.Tree;
+import utils.LogPrinter;
+
 /**
  *
  * @author Ztiphen
@@ -110,38 +117,39 @@ public class Hexatron {
                 tempj--;
                 break;
         }
-        
-        if (i % 2 == 0) {          
+
+        if (i % 2 == 0) {
             jj = direction > 3 ? j - 1 : tempj;
         } else {
             jj = direction < 4 ? j + 1 : tempj;
         }
-        System.out.println("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction);
+        LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
         Bacteria bact = matriz[ii][jj] instanceof Bacteria ? (Bacteria) matriz[ii][jj] : null;
         return bact;
     }
 
     public void nextGen() {
+
+
         for (int i = 1; i < matriz.length; i++) {
             for (int j = 1; j < matriz[i].length; j++) {
-
-                //conjugacion
                 if (matriz[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
-                    if ((bact).getTipo() == 1) {
-                        Bacteria bact2 = getBacteriaAtFrom(bact.getDireccionCabeza(), i, j);
-                        if (bact2 != null && bact2.getTipo() != 1) {
-                            bact2.setTipo(1);
-                        }
+                    float choice = (float) Math.random();
 
+                    if (choice < Constants.conjugationProbability) {
+                        bact.conjugar(getBacteriaAtFrom(bact.getDireccionCabeza(), i, j));
+                    } else if (choice < Constants.movementProbability) {                //Movimiento
+                        bact.moverBacteria();
                     }
-                }
-
-                if (matriz[i][j] instanceof Bacteria) {
-                    Bacteria bact = (Bacteria) matriz[i][j];
-                    bact.setDireccionCabeza((bact.getDireccionCabeza() % 6)+1 );
+                    //else HACER NADA
+                    bact.runTime();
                 }
             }
         }
     }
+
+    
+
+   
 }

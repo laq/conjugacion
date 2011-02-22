@@ -7,6 +7,7 @@ package hexatron;
 import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Celda;
 import Logica_Hexatron.Hexatron;
+import Logica_Hexatron.Quimico;
 import Logica_Hexatron.Vacio;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
@@ -83,6 +84,9 @@ public class Lienzo extends JPanel implements Runnable {
                 } else if (getMatriz()[i][j] instanceof Vacio) {
                     g.setColor(Color.green);
                     g.drawPolygon(xPoints, yPoints, 6);
+                }else if (getMatriz()[i][j] instanceof Quimico) {
+                    g.setColor(Color.PINK);
+                    g.fillPolygon(xPoints, yPoints, 6);
                 }
                 for (int k = 0; k < 6; k++) {
                     xPoints[k] = xPoints[k] + (int) val;
