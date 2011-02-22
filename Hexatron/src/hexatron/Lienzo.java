@@ -30,7 +30,7 @@ public class Lienzo extends JPanel implements Runnable {
     int xPoints[] = {5, 10, 10, 5, 0, 0};
     int yPoints[] = {0, 5, 10, 15, 10, 5};
     private Hexatron hexatron;
-    int cont = 0;
+    
     Image offscreen;
     Graphics gBuff;
     private int generations=5;
@@ -91,9 +91,9 @@ public class Lienzo extends JPanel implements Runnable {
             for (int k = 0; k < 6; k++) {
                 yPoints[k] = yPoints[k] + (int) val;
             }
-            cont++;
+            
             //Para hacer el desface horizontal y alinear los hexagonos
-            if (cont % 2 == 0) {
+            if (i % 2 != 0) {
                 xPoints[0] = valHex;
                 xPoints[1] = 2 * valHex;
                 xPoints[2] = 2 * valHex;
@@ -155,7 +155,7 @@ public class Lienzo extends JPanel implements Runnable {
 
         i = (bact.getDireccionCabeza() - 1);
         i = i < 0 ? 5 : i;
-        j = bact.getDireccionCabeza() % 6;
+        j = (bact.getDireccionCabeza()) % 6;
 
         g.drawLine(xPoints[i], yPoints[i], xPoints[j], yPoints[j]);
         g2d.setStroke(s);
