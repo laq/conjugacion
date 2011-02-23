@@ -122,7 +122,18 @@ public class MiDibujo extends JFrame {
         menu.add(menuItem);
 
 
+       Menu menu2 = new Menu("Ayuda");
+        menuItem = new MenuItem("Sobre...", new MenuShortcut(KeyEvent.VK_H));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Version en desarrollo, por: \n Leonardo Quiñonez \n Stifen Panche", "Sobre..", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        menu2.add(menuItem);
+
         menubar.add(menu);
+        menubar.add(menu2);
         return menubar;
     }
 
