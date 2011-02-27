@@ -11,7 +11,7 @@ package Logica_Hexatron;
  */
 public class Celda {
     
-    
+   float concentracion;
    int x;
    int y;
    
