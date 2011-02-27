@@ -97,7 +97,7 @@ public class Hexatron {
      * @param j
      * @return
      */
-    public Bacteria getBacteriaAtFrom(int direction, int i, int j) {
+    public Celda getCellAtFrom(int direction, int i, int j) {
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -124,8 +124,8 @@ public class Hexatron {
             jj = direction < 4 ? j + 1 : tempj;
         }
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
-        Bacteria bact = matriz[ii][jj] instanceof Bacteria ? (Bacteria) matriz[ii][jj] : null;
-        return bact;
+        
+        return matriz[i][j];
     }
 
     public void nextGen() {
@@ -138,15 +138,36 @@ public class Hexatron {
                     float choice = (float) Math.random();
 
                     if (choice < Constants.conjugationProbability) {
-                        bact.conjugar(getBacteriaAtFrom(bact.getDireccionCabeza(), i, j));
+                        Celda c=getCellAtFrom(bact.getDireccionCabeza(), i, j);
+                        Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
+                        bact.conjugar(bact2);
                     } else if (choice < Constants.movementProbability) {                //Movimiento
                         bact.moverBacteria();
                     }
                     //else HACER NADA
                     bact.runTime();
                 }
+                concentrationDiffussion(i,j);
             }
         }
+    }
+
+    private void concentrationDiffussion(int i, int j) {
+        float concentracionAcumulada=matriz[i][j].getConcentration();
+        for(int k=0;k<6;k++){
+            concentracionAcumulada+=getCellAtFrom(k, i, j).getConcentration();
+        }
+        float nueva=concentracionAcumulada/7+30;
+        System.out.println("Nueva:"+nueva);
+        if (nueva==0){
+            nueva=100f;
+        }
+        if (nueva>Celda.concentrationMax){
+            nueva=0;
+        }
+        System.out.println("Nueva:"+nueva);
+
+        matriz[i][j].setConcentration(nueva);
     }
 
     
