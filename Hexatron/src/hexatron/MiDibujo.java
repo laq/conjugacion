@@ -4,7 +4,9 @@
  */
 package hexatron;
 
+import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -28,18 +30,37 @@ import javax.swing.JOptionPane;
  */
 public class MiDibujo extends JFrame {
 
-    
+  
+
+
     private Hexatron hexatron = new Hexatron();
-    Lienzo lienzo = new Lienzo(getHexatron());
+    private Lienzo lienzo = new Lienzo(getHexatron());
+    static private String msj=null;
 
-    public MiDibujo(){
-
+    public MiDibujo() {
     }
 
-    public void addMouse(){
+     public static void main(String args[]) {
+        int screenx = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screeny = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+        MiDibujo midibujo = new MiDibujo();
+        MenuBar menubar = crearMenuBar(midibujo);
+        midibujo.addMouse();
+        midibujo.setMenuBar(menubar);
+        midibujo.lienzo.setDoubleBuffered(true);
+        midibujo.dibujar();
+        midibujo.setBounds(0, 0, screenx, screeny - 50);
+        midibujo.setVisible(true);
+        midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+
+    public void addMouse() {
         this.addMouseListener(new MouseListener() {
+
             public void mouseClicked(MouseEvent e) {
-                paso();
+                step();
             }
 
             public void mousePressed(MouseEvent e) {
@@ -57,21 +78,43 @@ public class MiDibujo extends JFrame {
             public void mouseExited(MouseEvent e) {
 //                throw new UnsupportedOperationException("Not supported yet.");
             }
-
         });
+    }
+     public void dibujar() {
+        this.add(lienzo);
+    }
+
+    public void repintar() {
+        lienzo.setHexatron(hexatron);
+        lienzo.repaint();
     }
 
     private static MenuBar crearMenuBar(final MiDibujo midibujo) throws HeadlessException {
         MenuBar menubar = new MenuBar();
-        Menu menu = new Menu("automata");
+
+        Menu menu= menuAutomata(midibujo);
+        menubar.add(menu);
+        menu = menuConjugation();
+        menubar.add(menu);
+        menu = menuHelp(menu);
+        menubar.setHelpMenu(menu);
+
+        
+        
+       
+        
+        return menubar;
+    }
+      private static Menu menuAutomata(final MiDibujo midibujo)  {
+        Menu menu = new Menu("Automata");
+        MenuItem menuItem = new MenuItem("Dimensions", new MenuShortcut(KeyEvent.VK_D));
         //Cuadrar ancho y alto
-        MenuItem menuItem = new MenuItem("Dimenciones", new MenuShortcut(KeyEvent.VK_D));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                String sanch = JOptionPane.showInputDialog("# numero de celulas a lo ancho, actual");
+                String sanch = JOptionPane.showInputDialog("grill width, actual:" + midibujo.hexatron.getAncho());
                 int ancho = Integer.parseInt(sanch);
-                String salto = JOptionPane.showInputDialog("# numero de celulas a lo alto");
+                String salto = JOptionPane.showInputDialog("grill heigth, actual:" + midibujo.hexatron.getAlto());
                 int alto = Integer.parseInt(salto);
                 midibujo.getHexatron().setAlto(alto);
                 midibujo.getHexatron().setAncho(ancho);
@@ -82,36 +125,37 @@ public class MiDibujo extends JFrame {
         });
         menu.add(menuItem);
         //Cuadrar numero de generaciones
-        menuItem = new MenuItem("Generaciones", new MenuShortcut(KeyEvent.VK_G));
+        menuItem = new MenuItem("Generations", new MenuShortcut(KeyEvent.VK_G));
         menuItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-                String sgen = JOptionPane.showInputDialog("# numero de Generaciones Por Correr, actual:"+midibujo.lienzo.getGenerations());
+                String sgen = JOptionPane.showInputDialog("# of Generations to run, actual:" + midibujo.lienzo.getGenerations());
                 midibujo.lienzo.setGenerations(Integer.parseInt(sgen));
+                midibujo.getMenuBar().getMenu(0).getItem(2).setLabel("Start simulation and run for " + sgen + " generations");
             }
         });
         menu.add(menuItem);
-
         //Iniciar simulacion
-        menuItem = new MenuItem("Iniciar simulation", new MenuShortcut(KeyEvent.VK_I));
+        menuItem = new MenuItem("Run simulation for " + midibujo.lienzo.getGenerations() + " generations", new MenuShortcut(KeyEvent.VK_R));
         menuItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 //midibujo.startSimulation();
                 new Thread(midibujo.lienzo).start();
             }
         });
         menu.add(menuItem);
-
         //step
-        menuItem = new MenuItem("Paso", new MenuShortcut(KeyEvent.VK_P));
+        menuItem = new MenuItem("Step", new MenuShortcut(KeyEvent.VK_S));
         menuItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-                midibujo.paso();
+                midibujo.step();
             }
         });
         menu.add(menuItem);
-
         //re pobloar
-        menuItem = new MenuItem("Repoblar", new MenuShortcut(KeyEvent.VK_R));
+        menuItem = new MenuItem("Clear and Restart(Random)", new MenuShortcut(KeyEvent.VK_C));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -120,54 +164,49 @@ public class MiDibujo extends JFrame {
             }
         });
         menu.add(menuItem);
+        return menu;
+    }
 
-
-       Menu menu2 = new Menu("Ayuda");
-        menuItem = new MenuItem("Sobre...", new MenuShortcut(KeyEvent.VK_H));
+    private static Menu menuConjugation()  {
+        Menu menu;
+        menu = new Menu("Conjugation");
+        MenuItem menuItem = new MenuItem("Probabilities", new MenuShortcut(KeyEvent.VK_P));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Version en desarrollo, por: \n Leonardo Quiñonez \n Stifen Panche", "Sobre..", JOptionPane.INFORMATION_MESSAGE);
+                float movement = Constants.movementProbability - Constants.conjugationProbability;
+                String sgen = JOptionPane.showInputDialog("Probability of conjugation, actual:" + Constants.conjugationProbability);
+                Constants.conjugationProbability = Float.parseFloat(sgen);
+                sgen = JOptionPane.showInputDialog("Probability of movement, actual:" + movement);
+                Constants.movementProbability = Float.parseFloat(sgen) + Constants.conjugationProbability;
+                //No se hacen las siguientes por ser obvias
+                // sgen = JOptionPane.showInputDialog("Probability of doing nothing, actual:" + Constants.nothingProbability);
+                // Constants.nothingProbability = Integer.parseInt(sgen) + Constants.movementProbability;
             }
         });
-        menu2.add(menuItem);
-
-        menubar.add(menu);
-        menubar.add(menu2);
-        return menubar;
+        menu.add(menuItem);
+        return menu;
     }
 
-    public void dibujar() {
-        this.add(lienzo);
+    private static Menu menuHelp(Menu menu) throws HeadlessException {
+        menu = new Menu("?");
+        MenuItem menuItem = new MenuItem("About...", new MenuShortcut(KeyEvent.VK_H));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Development verion, By: \n Stifen Panche \n y \n Leonardo Quiñonez", "About..", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        menu.add(menuItem);
+        return menu;
     }
-
-    public void repintar() {
-        lienzo.setHexatron(hexatron);
-        lienzo.repaint();
-    }
-
-    public static void main(String args[]) {
-        int screenx = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int screeny = Toolkit.getDefaultToolkit().getScreenSize().height;
-
-        MiDibujo midibujo = new MiDibujo();
-        MenuBar menubar = crearMenuBar(midibujo);
-        midibujo.addMouse();
-        midibujo.setMenuBar(menubar);
-        midibujo.lienzo.setDoubleBuffered(true);
-        midibujo.dibujar();
-        midibujo.setBounds(0, 0, screenx, screeny - 50);
-        midibujo.setVisible(true);
-        midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
-    /**
+   
+   /**
      * @return the hexatron
      */
     public Hexatron getHexatron() {
         return hexatron;
     }
-
     
 
     @Override
@@ -175,7 +214,7 @@ public class MiDibujo extends JFrame {
         paint(g);
     }
 
-    private void paso() {
+    private void step() {
         lienzo.startSimulation(1);
     }
 }
