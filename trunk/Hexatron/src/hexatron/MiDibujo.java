@@ -228,6 +228,15 @@ public class MiDibujo extends JFrame {
             }
         });
         menu.add(menuItem);
+         menuItem = new JCheckBoxMenuItem("Bacteria Concentration Layer",false);
+         m.lienzo.setBacteriaConcentrationLayer(menuItem);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                m.repintar();
+            }
+        });
+        menu.add(menuItem);
         return menu;
     }
     
