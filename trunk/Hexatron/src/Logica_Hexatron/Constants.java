@@ -17,4 +17,6 @@ public class Constants {
 
     public static int timeToConjugate=1;
 
+    public static float borderDefault=300;
+
 }

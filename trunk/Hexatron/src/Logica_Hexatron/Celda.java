@@ -11,9 +11,17 @@ package Logica_Hexatron;
  */
 public class Celda {
    public static float concentrationMax=1000;
-   private float concentration=(float)Math.random()*400;
+   private float concentration;
    int x;
    int y;
+
+   public Celda(float conc){
+       concentration=conc;
+   }
+
+   public Celda(){
+       concentration=(float)Math.random()*concentrationMax;
+   }
 
     /**
      * @return the concentration

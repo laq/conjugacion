@@ -22,6 +22,7 @@ import java.awt.geom.Line2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -37,6 +38,7 @@ public class Lienzo extends JPanel implements Runnable {
     private Image offscreen;
     private Graphics gBuff;
     private int generations = 5;
+    private JLabel jlable;
 
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
@@ -197,6 +199,7 @@ public class Lienzo extends JPanel implements Runnable {
         while (i < generations) {
             hexatron.nextGen();
             Graphics gr = this.getGraphics();
+             jlable.setText("Current Generation:"+hexatron.getGeneration());
             this.repaint();
 
             try {
@@ -206,14 +209,16 @@ public class Lienzo extends JPanel implements Runnable {
                 ex.printStackTrace();
             }
             i++;
+
+            
         }
+       
     }
 
     private Color colorRange(Celda cell) {
         Color c;
         float col=cell.getConcentration() / Celda.concentrationMax;
-        c = new Color(col,col,col);
-        System.out.println(c);
+        c = new Color(col,col,col);        
         return c;
     }
 
@@ -261,6 +266,20 @@ public class Lienzo extends JPanel implements Runnable {
      */
     public void setConcentrationLayer(JCheckBoxMenuItem concentrationLayer) {
         this.concentrationLayer = concentrationLayer;
+    }
+
+    /**
+     * @return the jlable
+     */
+    public JLabel getJlable() {
+        return jlable;
+    }
+
+    /**
+     * @param jlable the jlable to set
+     */
+    public void setJlable(JLabel jlable) {
+        this.jlable = jlable;
     }
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
