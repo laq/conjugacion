@@ -34,11 +34,13 @@ public class Lienzo extends JPanel implements Runnable {
     private int yPoints[] = {0, 5, 10, 15, 10, 5};
     private JCheckBoxMenuItem bacteriaLayer;
     private JCheckBoxMenuItem concentrationLayer;
+    private JCheckBoxMenuItem bacteriaConcentrationLayer;
     private Hexatron hexatron;
     private Image offscreen;
     private Graphics gBuff;
     private int generations = 5;
     private JLabel jlable;
+
 
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
@@ -79,6 +81,9 @@ public class Lienzo extends JPanel implements Runnable {
                 }
                 if (isConcentrationLayer()) {
                      paintConcentrationLayer(g, i, j, valHex);
+                }
+                 if (isBacteriaConcentrationLayer()) {
+                     paintBacteriaConcentrationLayer(g, i, j, valHex);
                 }
                 for (int k = 0; k < 6; k++) {
                     xPoints[k] = xPoints[k] + (int) val;
@@ -121,11 +126,12 @@ public class Lienzo extends JPanel implements Runnable {
             if (bact.getTipo() == 1) {
                 g.setColor(Color.blue);
                 g.fillPolygon(xPoints, yPoints, 6);
+                paintHead(bact, g, valHex);
             } else {
                 g.setColor(Color.CYAN);
                 g.fillPolygon(xPoints, yPoints, 6);
             }
-            paintHead(bact, g, valHex);
+            
         } else if (getMatriz()[i][j] instanceof Vacio) {
             g.setColor(Color.green);
             g.drawPolygon(xPoints, yPoints, 6);
@@ -138,11 +144,11 @@ public class Lienzo extends JPanel implements Runnable {
     public void paintConcentrationLayer(Graphics g, int i, int j, int valHex) {
         if (getMatriz()[i][j] instanceof Bacteria) {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
-            g.setColor(colorRange(bact));
+            g.setColor(colorRanger(bact));
             g.fillPolygon(xPoints, yPoints, 6);
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
-            g.setColor(colorRange(getMatriz()[i][j]));
+            g.setColor(colorRanger(getMatriz()[i][j]));
             g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
 //            g.drawPolygon(xPoints, yPoints, 6);
@@ -151,6 +157,24 @@ public class Lienzo extends JPanel implements Runnable {
             g.fillPolygon(xPoints, yPoints, 6);
         }
     }
+
+     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
+         if (getMatriz()[i][j] instanceof Bacteria) {
+            Bacteria bact = (Bacteria) (getMatriz()[i][j]);
+            g.setColor(colorRangeg(bact));
+            g.fillPolygon(xPoints, yPoints, 6);
+
+        } else if (getMatriz()[i][j] instanceof Vacio) {
+         //   g.setColor(Color.white);
+           // g.fillPolygon(xPoints, yPoints, 6);
+            g.setColor(Color.green);
+            g.drawPolygon(xPoints, yPoints, 6);
+        } else if (getMatriz()[i][j] instanceof Quimico) {
+            g.setColor(Color.PINK);
+            g.fillPolygon(xPoints, yPoints, 6);
+        }
+    }
+
 
     @Override
     public void update(Graphics g) {
@@ -215,7 +239,7 @@ public class Lienzo extends JPanel implements Runnable {
        
     }
 
-    private Color colorRange(Celda cell) {
+    private Color colorRanger(Celda cell) {
         Color c;
         int cons=(int)cell.getConcentration();
         cons=(int)Celda.concentrationMax-cons;
@@ -226,6 +250,21 @@ public class Lienzo extends JPanel implements Runnable {
             g=0;
         }
         int b=cons>=510?cons-510:0;
+        c = new Color(r,g,b);
+        return c;
+    }
+
+     private Color colorRangeg(Bacteria bact) {
+        Color c;
+        int cons=(int)bact.getConcentracionBact();
+        cons=(int)Celda.concentrationMax-cons;
+        //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
+        int g=cons<255?cons:255;
+        int b=cons<510&&cons>=255?cons-255:255;
+        if(cons<255){
+            b=0;
+        }
+        int r=cons>=510?cons-510:0;
         c = new Color(r,g,b);
         return c;
     }
@@ -268,7 +307,7 @@ public class Lienzo extends JPanel implements Runnable {
     public boolean isConcentrationLayer() {
         return concentrationLayer.isSelected();
     }
-
+      
     /**
      * @param concentrationLayer the concentrationLayer to set
      */
@@ -276,6 +315,13 @@ public class Lienzo extends JPanel implements Runnable {
         this.concentrationLayer = concentrationLayer;
     }
 
+    private boolean isBacteriaConcentrationLayer() {
+        return bacteriaConcentrationLayer.isSelected();
+    }
+
+    public void setBacteriaConcentrationLayer(JCheckBoxMenuItem bactConcentrationLayer) {
+        this.bacteriaConcentrationLayer = bactConcentrationLayer;
+    }
     /**
      * @return the jlable
      */
@@ -289,6 +335,9 @@ public class Lienzo extends JPanel implements Runnable {
     public void setJlable(JLabel jlable) {
         this.jlable = jlable;
     }
+
+
+
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
      * llamando a paint()

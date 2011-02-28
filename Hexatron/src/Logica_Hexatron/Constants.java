@@ -19,4 +19,6 @@ public class Constants {
 
     public static float borderDefault=300;
 
+    public static float minConjugationConcentration=300;
+
 }

@@ -15,21 +15,36 @@ public class Bacteria extends Celda {
     
 
     
-     private int tipo;
-     private String codigo_gen;
-     private int estado;//1 donadora 2 receptora
+     private int tipo;//1 donadora 2 receptora
+     private String codigo_gen;     
      private float concentracionBact;
      private int direccionCabeza;//1 hacia arriba 4 es hacia atras y el resto son los puntos intermedios
      private int tiempoDonadora=0;
      private int tiempoReceptora=0;
-    
+
+
+     //BEFORE
+//    public Bacteria (int tipo)
+//    {
+//    this.tipo = tipo;
+//    direccionCabeza=(int)(Math.random()*5)+1;
+//    }
+/**
+ * Creacion de bacteria basada en una concentracion
+ * @param tipo
+ */
     public Bacteria (int tipo)
     {
-    this.tipo = tipo;
+//    this.tipo = tipo;//BEFORE
+    concentracionBact=(float)Math.random()*Celda.concentrationMax;
+    if(concentracionBact>Constants.minConjugationConcentration){
+        this.tipo=1;
+    }
+    else{
+        this.tipo=2;
+    }
     direccionCabeza=(int)(Math.random()*5)+1;
     }
-
-  
      /**
      * @return the tipo
      */
@@ -37,12 +52,13 @@ public class Bacteria extends Celda {
         return tipo;
     }
 
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
+    //BEFORE
+//    /**
+//     * @param tipo the tipo to set
+//     */
+//    public void setTipo(int tipo) {
+//        this.tipo = tipo;
+//    }
 
     /**
      * @return the codigo_gen
@@ -58,20 +74,7 @@ public class Bacteria extends Celda {
         this.codigo_gen = codigo_gen;
     }
 
-    /**
-     * @return the estado
-     */
-    public int getEstado() {
-        return estado;
-    }
-
-    /**
-     * @param estado the estado to set
-     */
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
+   
     /**
      * @return the direccionCabeza
      */
@@ -111,7 +114,10 @@ public class Bacteria extends Celda {
     public void conjugar(Bacteria bact2){
           if (this.getTipo() == 1 && this.getTiempo() >= Constants.timeToConjugate) {
             if (bact2 != null && bact2.getTipo() != 1) {
-                bact2.setTipo(1);
+                float cons=this.getConcentracionBact()+bact2.getConcentracionBact();
+                cons=cons/2;
+                bact2.setConcentracionBact(cons);
+                //bact2.setTipo(1);//BEFORE
             }
         }
     }
@@ -123,6 +129,23 @@ public class Bacteria extends Celda {
         }
         else{
          this.setDireccionCabeza(((this.getDireccionCabeza()+4) % 6) + 1);
+        }
+    }
+
+    /**
+     * @return the concentracionBact
+     */
+    public float getConcentracionBact() {
+        return concentracionBact;
+    }
+
+    /**
+     * @param concentracionBact the concentracionBact to set
+     */
+    public void setConcentracionBact(float concentracionBact) {
+        this.concentracionBact = concentracionBact;
+        if(concentracionBact>Constants.minConjugationConcentration){
+            tipo=1;
         }
     }
    
