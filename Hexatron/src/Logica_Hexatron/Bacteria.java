@@ -18,6 +18,7 @@ public class Bacteria extends Celda {
      private int tipo;
      private String codigo_gen;
      private int estado;//1 donadora 2 receptora
+     private float concentracionBact;
      private int direccionCabeza;//1 hacia arriba 4 es hacia atras y el resto son los puntos intermedios
      private int tiempoDonadora=0;
      private int tiempoReceptora=0;

@@ -217,8 +217,16 @@ public class Lienzo extends JPanel implements Runnable {
 
     private Color colorRange(Celda cell) {
         Color c;
-        float col=cell.getConcentration() / Celda.concentrationMax;
-        c = new Color(col,col,col);        
+        int cons=(int)cell.getConcentration();
+        cons=(int)Celda.concentrationMax-cons;
+        //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
+        int r=cons<255?cons:255;
+        int g=cons<510&&cons>=255?cons-255:255;
+        if(cons<255){
+            g=0;
+        }
+        int b=cons>=510?cons-510:0;
+        c = new Color(r,g,b);
         return c;
     }
 

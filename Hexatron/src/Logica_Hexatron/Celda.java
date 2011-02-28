@@ -10,7 +10,7 @@ package Logica_Hexatron;
  * @author Ztiphen
  */
 public class Celda {
-   public static float concentrationMax=1000;
+   public static float concentrationMax=600;
    private float concentration;
    int x;
    int y;

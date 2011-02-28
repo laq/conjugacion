@@ -4,11 +4,6 @@
  */
 package Logica_Hexatron;
 
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
-import sun.reflect.generics.tree.Tree;
 import utils.LogPrinter;
 
 /**
@@ -216,14 +211,17 @@ public class Hexatron {
                 normalCells++;
             }
             if(tempcons==Celda.concentrationMax){
-                topCells++;
+                topCells++;               
             }
         }
-        float nueva=concentracionAcumulada/7+30;//TEMP
-        if (concentracion==0 && nueva<100){
-            nueva=100f;
+        float nueva=concentracionAcumulada/(normalCells+topCells)+1;
+        if (concentracion==Celda.concentrationMax){//sick becomes healthy
+            nueva=0;
         }
-        if (nueva>Celda.concentrationMax){
+        if(concentracion==0 && (normalCells)<4 ){
+            nueva=0;
+        }
+        if(concentracion==0 && (topCells)<4 ){
             nueva=0;
         }
         LogPrinter.printConsole("nuevaConcentracion:"+nueva,4 );
