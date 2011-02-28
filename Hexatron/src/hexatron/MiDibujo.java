@@ -6,6 +6,7 @@ package hexatron;
 
 import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
+import java.awt.Checkbox;
 import java.awt.Graphics;
 import java.awt.MenuBar;
 import java.awt.Toolkit;
@@ -14,12 +15,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JSlider;
 import javax.swing.KeyStroke;
 
 /**
@@ -30,8 +35,9 @@ public class MiDibujo extends JFrame {
 
     private Hexatron hexatron = new Hexatron();
     private Lienzo lienzo = new Lienzo(getHexatron());
+    private JLabel jlable;
 
-    static private String msj = null;
+    
 
     
 
@@ -45,7 +51,14 @@ public class MiDibujo extends JFrame {
         midibujo.setJMenuBar(menubar);
 //        midibujo.setMenuBar(menubar);
         midibujo.lienzo.setDoubleBuffered(true);
-        midibujo.dibujar();
+        Box b=new  Box(BoxLayout.Y_AXIS);
+        midibujo.jlable=new JLabel("Generacions : 0");
+        b.add(midibujo.jlable);
+        midibujo.lienzo.setJlable(midibujo.jlable);
+        b.add(new JSlider());
+        b.add(midibujo.lienzo);
+        midibujo.add(b);
+      //  midibujo.dibujar();
         midibujo.setBounds(0, 0, screenx, screeny - 50);
         midibujo.setVisible(true);
         midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -194,22 +207,24 @@ public class MiDibujo extends JFrame {
         return menu;
     }
 
-    private static JMenu menuView(MiDibujo m) {
+    private static JMenu menuView(final MiDibujo m) {
         JMenu menu;
         menu = new JMenu("View");
         JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem("Bacteria Layer",true);
         m.lienzo.setBacteriaLayer(menuItem);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {               
+            public void actionPerformed(ActionEvent e) {
+                m.repintar();
             }
         });
         menu.add(menuItem);
          menuItem = new JCheckBoxMenuItem("Concentration Layer",false);
          m.lienzo.setConcentrationLayer(menuItem);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,KeyEvent.CTRL_DOWN_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {               
+            public void actionPerformed(ActionEvent e) {
+                m.repintar();
             }
         });
         menu.add(menuItem);
@@ -238,11 +253,12 @@ public class MiDibujo extends JFrame {
     }
 
     @Override
-    public void update(Graphics g) {
+    public void update(Graphics g) {        
         paint(g);
     }
 
     private void step() {
         lienzo.startSimulation(1);
+        
     }
 }
