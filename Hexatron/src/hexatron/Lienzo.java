@@ -10,20 +10,15 @@ import Logica_Hexatron.Hexatron;
 import Logica_Hexatron.Quimico;
 import Logica_Hexatron.Vacio;
 import java.awt.BasicStroke;
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.Line2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 /**
  * Clase que hereda de Canvas y sirve para dibujar una linea.
@@ -40,6 +35,7 @@ public class Lienzo extends JPanel implements Runnable {
     private Graphics gBuff;
     private int generations = 5;
     private JLabel jlable;
+    private JSlider jslider;
 
 
     /**
@@ -227,7 +223,8 @@ public class Lienzo extends JPanel implements Runnable {
             this.repaint();
 
             try {
-                Thread.sleep(500);
+               // Thread.sleep(500);
+                 Thread.sleep(jslider.getMaximum()-jslider.getValue());
             } catch (InterruptedException ex) {
                 System.err.println("ERROR");
                 ex.printStackTrace();
@@ -334,6 +331,14 @@ public class Lienzo extends JPanel implements Runnable {
      */
     public void setJlable(JLabel jlable) {
         this.jlable = jlable;
+    }
+
+    void setJslider(JSlider jslider) {
+        this.jslider=jslider;
+    }
+
+    void setjslider(JSlider jslider) {
+        this.jslider=jslider;
     }
 
 
