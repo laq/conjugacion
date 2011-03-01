@@ -138,6 +138,11 @@ public class Lienzo extends JPanel implements Runnable {
     }
 
     public void paintConcentrationLayer(Graphics g, int i, int j, int valHex) {
+        if(i==0||i==getMatriz().length-1||j==0||j==getMatriz()[0].length-1){
+           g.setColor(Color.LIGHT_GRAY);
+            g.fillPolygon(xPoints, yPoints, 6);
+            return;
+        }
         if (getMatriz()[i][j] instanceof Bacteria) {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
             g.setColor(colorRanger(bact));
