@@ -36,6 +36,7 @@ public class MiDibujo extends JFrame {
     private Hexatron hexatron = new Hexatron();
     private Lienzo lienzo = new Lienzo(getHexatron());
     private JLabel jlable;
+    private JSlider jslider;
 
     
 
@@ -55,7 +56,9 @@ public class MiDibujo extends JFrame {
         midibujo.jlable=new JLabel("Generacions : 0");
         b.add(midibujo.jlable);
         midibujo.lienzo.setJlable(midibujo.jlable);
-        b.add(new JSlider());
+        midibujo.jslider=new JSlider(0, 1500, 750);
+        midibujo.lienzo.setjslider(midibujo.jslider);
+        b.add(midibujo.jslider);
         b.add(midibujo.lienzo);
         midibujo.add(b);
       //  midibujo.dibujar();

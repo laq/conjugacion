@@ -4,6 +4,9 @@
  */
 package Logica_Hexatron;
 
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import utils.LogPrinter;
 
 /**
@@ -16,6 +19,7 @@ public class Hexatron {
     private int ancho = 50;
     private int alto = 50;
     private int generation=0;
+    
 
 
     public Celda[][] getMatriz() {
@@ -214,7 +218,7 @@ public class Hexatron {
                 topCells++;               
             }
         }
-        float nueva=concentracionAcumulada/(normalCells+topCells)+1;
+        float nueva=concentracionAcumulada/(normalCells+topCells)+100;
         if (concentracion==Celda.concentrationMax){//sick becomes healthy
             nueva=0;
         }
@@ -241,6 +245,8 @@ public class Hexatron {
     public void setGeneration(int generation) {
         this.generation = generation;
     }
+
+    
 
     
 
