@@ -211,24 +211,28 @@ public class Hexatron {
             if(tempcons==0){
                 ceroCells++;
             }
-            if(tempcons>0){
+            if(tempcons>0 && tempcons<Celda.concentrationMax){
                 normalCells++;
             }
             if(tempcons==Celda.concentrationMax){
                 topCells++;               
             }
         }
-        float nueva=concentracionAcumulada/(normalCells+topCells)+100;
+        float nueva=ceroCells==6?0:(concentracionAcumulada/(normalCells+topCells+1))+50;
+        if(concentracion==0){
+       LogPrinter.printConsole(concentracion+":"+i+"|"+j+" n:"+normalCells+" top:"+topCells+" nueva:"+nueva,4);
+        }
+        
         if (concentracion==Celda.concentrationMax){//sick becomes healthy
             nueva=0;
         }
-        if(concentracion==0 && (normalCells)<4 ){
+        if(concentracion==0 && ((normalCells)<1&&(topCells)<1) ){
             nueva=0;
         }
-        if(concentracion==0 && (topCells)<4 ){
-            nueva=0;
-        }
+       
+        if(concentracion==0){
         LogPrinter.printConsole("nuevaConcentracion:"+nueva,4 );
+        }
         matriz[i][j].setConcentration(nueva);
     }
 
