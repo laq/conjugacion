@@ -140,10 +140,6 @@ public class Hexatron {
      * @return
      */
     public Celda getCellAtFromRound(int direction, int i, int j) {
-        i=i==1?matriz.length-2:i;
-        i=i==matriz.length-2?1:i;
-        j=j==1?matriz[0].length-2:j;
-        j=j==matriz[0].length-2?1:j;
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -169,9 +165,13 @@ public class Hexatron {
         } else {
             jj = direction < 4 ? j + 1 : tempj;
         }
+        
+        ii=ii>matriz.length-2?1:ii;
+        jj=jj>matriz[0].length-2?1:jj;
+        ii=ii==0?matriz.length-2:ii;
+        jj=jj==0?matriz[0].length-2:jj;
+
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
-        ii=ii>=matriz.length?0:ii;
-        jj=jj>=matriz[0].length?0:jj;
         return matriz[ii][jj];
     }
 
@@ -205,8 +205,9 @@ public class Hexatron {
         int ceroCells=0;
         int normalCells=0;
         int topCells=0;
-        for(int k=0;k<6;k++){
+        for(int k=1;k<=6;k++){
             float tempcons=getCellAtFromRound(k, i, j).getConcentration();
+
             concentracionAcumulada+=tempcons;
             if(tempcons==0){
                 ceroCells++;
@@ -226,7 +227,7 @@ public class Hexatron {
         if (concentracion==Celda.concentrationMax){//sick becomes healthy
             nueva=0;
         }
-        if(concentracion==0 && ((normalCells)<1&&(topCells)<1) ){
+        if(concentracion==0 && ((normalCells)<1&&(topCells)<2) ){
             nueva=0;
         }
        

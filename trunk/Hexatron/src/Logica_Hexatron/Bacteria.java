@@ -86,6 +86,9 @@ public class Bacteria extends Celda {
      * @param direccionCabeza the direccionCabeza to set
      */
     public void setDireccionCabeza(int direccionCabeza) {
+        if(direccionCabeza<1 || direccionCabeza>6){
+            throw new Error("valor invalido");
+        }
         this.direccionCabeza = direccionCabeza;
     }
     
@@ -113,9 +116,12 @@ public class Bacteria extends Celda {
      */
     public void conjugar(Bacteria bact2){
           if (this.getTipo() == 1 && this.getTiempo() >= Constants.timeToConjugate) {
-            if (bact2 != null && bact2.getTipo() != 1) {
+            if (bact2 != null ){//&& bact2.getTipo() != 1) {
                 float cons=this.getConcentracionBact()+bact2.getConcentracionBact();
                 cons=cons/2;
+                if(cons<bact2.getConcentracionBact()){
+                    cons=bact2.getConcentracionBact();//the donor has nothing to give, cause it has less concentration
+                }
                 bact2.setConcentracionBact(cons);
                 //bact2.setTipo(1);//BEFORE
             }
