@@ -122,8 +122,9 @@ public class MiDibujo extends JFrame {
 
     private static JMenu menuAutomata(final MiDibujo midibujo) {
         JMenu menu = new JMenu("Automata");
+        menu.setMnemonic('a');
         JMenuItem menuItem = new JMenuItem("Dimensions");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK));
 
         //Cuadrar ancho y alto
         menuItem.addActionListener(new ActionListener() {
@@ -191,6 +192,7 @@ public class MiDibujo extends JFrame {
     private static JMenu menuConjugation() {
         JMenu menu;
         menu = new JMenu("Conjugation");
+         menu.setMnemonic('c');
         JMenuItem menuItem = new JMenuItem("Probabilities");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
@@ -213,6 +215,7 @@ public class MiDibujo extends JFrame {
     private static JMenu menuView(final MiDibujo m) {
         JMenu menu;
         menu = new JMenu("View");
+         menu.setMnemonic('v');
         JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem("Bacteria Layer",true);
         m.lienzo.setBacteriaLayer(menuItem);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,KeyEvent.CTRL_DOWN_MASK));
