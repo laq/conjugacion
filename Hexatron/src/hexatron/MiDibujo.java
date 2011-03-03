@@ -4,6 +4,7 @@
  */
 package hexatron;
 
+import Logica_Hexatron.Celda;
 import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
 import java.awt.Checkbox;
@@ -53,7 +54,7 @@ public class MiDibujo extends JFrame {
 //        midibujo.setMenuBar(menubar);
         midibujo.lienzo.setDoubleBuffered(true);
         Box b=new  Box(BoxLayout.Y_AXIS);
-        midibujo.jlable=new JLabel("Generacions : 0");
+        midibujo.jlable=new JLabel("Generations : 0");
         b.add(midibujo.jlable);
         midibujo.lienzo.setJlable(midibujo.jlable);
         midibujo.jslider=new JSlider(0, 1500, 750);
@@ -182,6 +183,7 @@ public class MiDibujo extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 midibujo.hexatron.poblar();
+                midibujo.hexatron.setGeneration(0);
                 midibujo.repaint();
             }
         });
@@ -206,6 +208,16 @@ public class MiDibujo extends JFrame {
                 //No se hacen las siguientes por ser obvias
                 // sgen = JOptionPane.showInputDialog("Probability of doing nothing, actual:" + Constants.nothingProbability);
                 // Constants.nothingProbability = Integer.parseInt(sgen) + Constants.movementProbability;
+            }
+        });
+        menu.add(menuItem);
+        menuItem = new JMenuItem("Min Conjugation Concentration");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration+" max:"+Celda.concentrationMax+")");
+                Constants.minConjugationConcentration = Float.parseFloat(sgen);
             }
         });
         menu.add(menuItem);

@@ -47,6 +47,7 @@ public class Lienzo extends JPanel implements Runnable {
 
     @Override
     public void paint(Graphics g) {
+         jlable.setText("Current Generation:"+hexatron.getGeneration());
         int pxwidth = this.getWidth();
         int pxheight = this.getHeight();
         float width = pxwidth / (hexatron.getAncho() + 2);
@@ -224,7 +225,7 @@ public class Lienzo extends JPanel implements Runnable {
         while (i < generations) {
             hexatron.nextGen();
             Graphics gr = this.getGraphics();
-             jlable.setText("Current Generation:"+hexatron.getGeneration());
+            
             this.repaint();
 
             try {
