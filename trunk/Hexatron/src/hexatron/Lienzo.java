@@ -11,6 +11,7 @@ import Logica_Hexatron.Quimico;
 import Logica_Hexatron.Vacio;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -30,13 +31,13 @@ public class Lienzo extends JPanel implements Runnable {
     private JCheckBoxMenuItem bacteriaLayer;
     private JCheckBoxMenuItem concentrationLayer;
     private JCheckBoxMenuItem bacteriaConcentrationLayer;
+    private JCheckBoxMenuItem showConcentrationNumber;
     private Hexatron hexatron;
     private Image offscreen;
     private Graphics gBuff;
     private int generations = 5;
     private JLabel jlable;
     private JSlider jslider;
-
 
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
@@ -47,7 +48,7 @@ public class Lienzo extends JPanel implements Runnable {
 
     @Override
     public void paint(Graphics g) {
-         jlable.setText("Current Generation:"+hexatron.getGeneration());
+        jlable.setText("Current Generation:" + hexatron.getGeneration());
         int pxwidth = this.getWidth();
         int pxheight = this.getHeight();
         float width = pxwidth / (hexatron.getAncho() + 2);
@@ -72,15 +73,15 @@ public class Lienzo extends JPanel implements Runnable {
         g.setColor(Color.white);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         for (int i = 0; i < getMatriz().length; i++) {
-            for (int j = 0; j < getMatriz()[i].length; j++) {                
+            for (int j = 0; j < getMatriz()[i].length; j++) {
                 if (isBacteriaLayer()) {
                     paintBacteriaLayer(g, i, j, valHex);
                 }
                 if (isConcentrationLayer()) {
-                     paintConcentrationLayer(g, i, j, valHex);
+                    paintConcentrationLayer(g, i, j, valHex);
                 }
-                 if (isBacteriaConcentrationLayer()) {
-                     paintBacteriaConcentrationLayer(g, i, j, valHex);
+                if (isBacteriaConcentrationLayer()) {
+                    paintBacteriaConcentrationLayer(g, i, j, valHex);
                 }
                 for (int k = 0; k < 6; k++) {
                     xPoints[k] = xPoints[k] + (int) val;
@@ -128,7 +129,7 @@ public class Lienzo extends JPanel implements Runnable {
                 g.setColor(Color.CYAN);
                 g.fillPolygon(xPoints, yPoints, 6);
             }
-            
+
         } else if (getMatriz()[i][j] instanceof Vacio) {
             g.setColor(Color.green);
             g.drawPolygon(xPoints, yPoints, 6);
@@ -139,8 +140,8 @@ public class Lienzo extends JPanel implements Runnable {
     }
 
     public void paintConcentrationLayer(Graphics g, int i, int j, int valHex) {
-        if(i==0||i==getMatriz().length-1||j==0||j==getMatriz()[0].length-1){
-           g.setColor(Color.LIGHT_GRAY);
+        if (i == 0 || i == getMatriz().length - 1 || j == 0 || j == getMatriz()[0].length - 1) {
+            g.setColor(Color.LIGHT_GRAY);
             g.fillPolygon(xPoints, yPoints, 6);
             return;
         }
@@ -160,15 +161,23 @@ public class Lienzo extends JPanel implements Runnable {
         }
     }
 
-     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
-         if (getMatriz()[i][j] instanceof Bacteria) {
+    private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
+        if (getMatriz()[i][j] instanceof Bacteria) {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
             g.setColor(colorRangeg(bact));
             g.fillPolygon(xPoints, yPoints, 6);
+            g.setColor(Color.white);
+            if (isShowConcentrationNumber()) {
+                Font f = g.getFont();
+                g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
+                g.drawString(" " + (int) bact.getConcentracionBact(), xPoints[5], yPoints[5] + valHex);
+                g.setFont(f);
+            }
+
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
-         //   g.setColor(Color.white);
-           // g.fillPolygon(xPoints, yPoints, 6);
+            //   g.setColor(Color.white);
+            // g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
             g.drawPolygon(xPoints, yPoints, 6);
         } else if (getMatriz()[i][j] instanceof Quimico) {
@@ -176,7 +185,6 @@ public class Lienzo extends JPanel implements Runnable {
             g.fillPolygon(xPoints, yPoints, 6);
         }
     }
-
 
     @Override
     public void update(Graphics g) {
@@ -225,50 +233,50 @@ public class Lienzo extends JPanel implements Runnable {
         while (i < generations) {
             hexatron.nextGen();
             Graphics gr = this.getGraphics();
-            
+
             this.repaint();
 
             try {
-               // Thread.sleep(500);
-                 Thread.sleep(jslider.getMaximum()-jslider.getValue());
+                // Thread.sleep(500);
+                Thread.sleep(jslider.getMaximum() - jslider.getValue());
             } catch (InterruptedException ex) {
                 System.err.println("ERROR");
                 ex.printStackTrace();
             }
             i++;
 
-            
+
         }
-       
+
     }
 
     private Color colorRanger(Celda cell) {
         Color c;
-        int cons=(int)cell.getConcentration();
-        cons=(int)Celda.concentrationMax-cons;
+        int cons = (int) cell.getConcentration();
+        cons = (int) Celda.concentrationMax - cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
-        int r=cons<255?cons:255;
-        int g=cons<510&&cons>=255?cons-255:255;
-        if(cons<255){
-            g=0;
+        int r = cons < 255 ? cons : 255;
+        int g = cons < 510 && cons >= 255 ? cons - 255 : 255;
+        if (cons < 255) {
+            g = 0;
         }
-        int b=cons>=510?cons-510:0;
-        c = new Color(r,g,b);
+        int b = cons >= 510 ? cons - 510 : 0;
+        c = new Color(r, g, b);
         return c;
     }
 
-     private Color colorRangeg(Bacteria bact) {
+    private Color colorRangeg(Bacteria bact) {
         Color c;
-        int cons=(int)bact.getConcentracionBact();
-        cons=(int)Celda.concentrationMax-cons;
+        int cons = (int) bact.getConcentracionBact();
+        cons = (int) Celda.concentrationMax - cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
-        int g=cons<255?cons:255;
-        int b=cons<510&&cons>=255?cons-255:255;
-        if(cons<255){
-            b=0;
+        int g = cons < 255 ? cons : 255;
+        int b = cons < 510 && cons >= 255 ? cons - 255 : 255;
+        if (cons < 255) {
+            b = 0;
         }
-        int r=cons>=510?cons-510:0;
-        c = new Color(r,g,b);
+        int r = cons >= 510 ? cons - 510 : 0;
+        c = new Color(r, g, b);
         return c;
     }
 
@@ -310,7 +318,7 @@ public class Lienzo extends JPanel implements Runnable {
     public boolean isConcentrationLayer() {
         return concentrationLayer.isSelected();
     }
-      
+
     /**
      * @param concentrationLayer the concentrationLayer to set
      */
@@ -325,6 +333,21 @@ public class Lienzo extends JPanel implements Runnable {
     public void setBacteriaConcentrationLayer(JCheckBoxMenuItem bactConcentrationLayer) {
         this.bacteriaConcentrationLayer = bactConcentrationLayer;
     }
+
+    /**
+     * @return the showConcentrationNumber
+     */
+    public boolean isShowConcentrationNumber() {
+        return showConcentrationNumber.isSelected();
+    }
+
+    /**
+     * @param showConcentrationNumber the showConcentrationNumber to set
+     */
+    public void setShowConcentrationNumber(JCheckBoxMenuItem showConcentrationNumber) {
+        this.showConcentrationNumber = showConcentrationNumber;
+    }
+
     /**
      * @return the jlable
      */
@@ -340,15 +363,12 @@ public class Lienzo extends JPanel implements Runnable {
     }
 
     void setJslider(JSlider jslider) {
-        this.jslider=jslider;
+        this.jslider = jslider;
     }
 
     void setjslider(JSlider jslider) {
-        this.jslider=jslider;
+        this.jslider = jslider;
     }
-
-
-
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
      * llamando a paint()
