@@ -126,7 +126,7 @@ public class Hexatron {
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
         ii = ii >= matriz.length ? 0 : ii;
         jj = jj >= matriz[0].length ? 0 : jj;
-        return matriz[ii][jj];
+        return matrizClone[ii][jj];
     }
 
     /**
@@ -136,7 +136,7 @@ public class Hexatron {
      * @param j
      * @return
      */
-    public Celda getCellAtFromRound(int direction, int i, int j) {
+    public Celda getCellAtFromRound(int direction, int i, int j, boolean clone) {
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -169,19 +169,24 @@ public class Hexatron {
         jj = jj == 0 ? matriz[0].length - 2 : jj;
 
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
+        if(clone){
+        return matrizClone[ii][jj];
+        }
+        else{
         return matriz[ii][jj];
+        }
     }
 
     public void nextGen() {
-
+       matrizClone=matriz.clone();
 
         for (int i = 1; i < matriz.length - 1; i++) {
             for (int j = 1; j < matriz[i].length - 1; j++) {
-                if (matriz[i][j] instanceof Bacteria) {
+                if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     float choice = (float) Math.random();
                     if (choice < Constants.conjugationProbability) {
-                        Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j);
+                        Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j,false);
                         Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
                         bact.conjugar(bact2);
                         bacteriaConcetrationDiffusion(i, j);
@@ -189,6 +194,7 @@ public class Hexatron {
                         bact.moverBacteria();
                     }
                     //else HACER NADA
+                    bact.modifyEnviroment(enviromentAverage(i,j));
                     bact.runTime();
                 }
                 concentrationDiffussion(i, j);
@@ -198,13 +204,13 @@ public class Hexatron {
     }
 
     private void concentrationDiffussion(int i, int j) {
-        float concentracion = matriz[i][j].getConcentration();
+        float concentracion = matrizClone[i][j].getConcentration();
         float concentracionAcumulada = concentracion;
         int ceroCells = 0;
         int normalCells = 0;
         int topCells = 0;
         for (int k = 1; k <= 6; k++) {
-            float tempcons = getCellAtFromRound(k, i, j).getConcentration();
+            float tempcons = getCellAtFromRound(k, i, j,true).getConcentration();
 
             concentracionAcumulada += tempcons;
             if (tempcons == 0) {
@@ -256,7 +262,7 @@ public class Hexatron {
         int normalCells = 0;
         int topCells = 0;
         for (int k = 1; k <= 6; k++) {
-            Celda c = getCellAtFromRound(k, i, j);
+            Celda c = getCellAtFromRound(k, i, j,true);
             if (c instanceof Bacteria) {
                 Bacteria bact=(Bacteria)c;
                 float tempcons=bact.getConcentracionBact();
@@ -264,19 +270,35 @@ public class Hexatron {
                 if (tempcons == 0) {
                     ceroCells++;
                 }
-                if (tempcons > 0 && tempcons < Celda.concentrationMax-10) {
+                if (tempcons > 0 && tempcons < Celda.concentrationMax-20) {
                     normalCells++;
                 }
-                if (tempcons > Celda.concentrationMax-10) {
+                if (tempcons > Celda.concentrationMax-20) {
                     topCells++;
                 }
             }
         }
-        if (topCells > 5) {
+        if(concentracion>Celda.concentrationMax-10){
             ((Bacteria) matriz[i][j]).setConcentracionBact(0);
-            LogPrinter.printConsole("cat to cero" + topCells + " " + normalCells + " " + ceroCells + " :" + i + "|" + j, 3);
+        }
+        if (topCells > 5 && concentracion>Celda.concentrationMax-20) {
+            Bacteria bact=((Bacteria) matriz[i][j]);
+            bact.setConcentracionBact(bact.getConcentracionBact()+1);
+            //LogPrinter.printConsole("cat to cero" + topCells + " " + normalCells + " " + ceroCells + " :" + i + "|" + j, 4);
         }
 
 
+    }
+
+    private float enviromentAverage(int i,int j) {
+        float concentracionAcumulada = 0;
+//        int ceroCells = 0;
+//        int normalCells = 0;
+//        int topCells = 0;
+         for (int k = 1; k <= 6; k++) {
+            float tempcons = getCellAtFromRound(k, i, j,true).getConcentration();
+            concentracionAcumulada += tempcons;
+        }
+        return concentracionAcumulada/6;
     }
 }

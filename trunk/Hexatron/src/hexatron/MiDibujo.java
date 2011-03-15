@@ -255,7 +255,7 @@ public class MiDibujo extends JFrame {
             }
         });
         menu.add(menuItem);
-        menuItem = new JCheckBoxMenuItem("Show bact Concentration",true);
+        menuItem = new JCheckBoxMenuItem("Show bact Concentration",false);
         m.lienzo.setShowConcentrationNumber(menuItem);
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
