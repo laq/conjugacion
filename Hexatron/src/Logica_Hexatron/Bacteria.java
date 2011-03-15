@@ -16,6 +16,7 @@ public class Bacteria extends Celda {
     private int direccionCabeza;//1 hacia arriba 4 es hacia atras y el resto son los puntos intermedios
     private int tiempoDonadora = 0;
     private int tiempoReceptora = 0;
+    private Plasmid plasmid;
 
     //BEFORE
 //    public Bacteria (int tipo)
@@ -36,6 +37,7 @@ public class Bacteria extends Celda {
             this.tipo = 2;
         }
         direccionCabeza = (int) (Math.random() * 5) + 1;
+        plasmid=new SimplePlasmid();
     }
 
     /**
@@ -145,5 +147,17 @@ public class Bacteria extends Celda {
         {
             tipo = 2;
         }
+    }
+
+    void modifyEnviroment(float envAvrg) {
+
+        float newenv;
+        float currentenv=this.getConcentration();
+        newenv=calculateNewEnvState(envAvrg,currentenv);
+        this.setConcentration(newenv);
+    }
+
+    private float calculateNewEnvState(float envAvrg, float currentenv) {
+       return plasmid.calculateNewEnvState(envAvrg,currentenv);
     }
 }
