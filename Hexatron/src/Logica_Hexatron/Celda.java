@@ -37,6 +37,9 @@ public class Celda {
         if (concentration>Celda.concentrationMax){
             concentration=Celda.concentrationMax;
         }
+        if (concentration<0){
+            concentration=0;
+        }
         this.concentration = concentration;
     }
    

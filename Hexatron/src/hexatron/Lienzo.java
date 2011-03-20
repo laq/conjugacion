@@ -149,6 +149,9 @@ public class Lienzo extends JPanel implements Runnable {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
             g.setColor(colorRanger(bact));
             g.fillPolygon(xPoints, yPoints, 6);
+            g.setColor(Color.GREEN);
+            g.drawPolygon(xPoints, yPoints, 6);
+
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
             g.setColor(colorRanger(getMatriz()[i][j]));
