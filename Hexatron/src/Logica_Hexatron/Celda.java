@@ -10,7 +10,8 @@ package Logica_Hexatron;
  * @author Ztiphen
  */
 public class Celda {
-   public static float concentrationMax=600;
+   public static float concentrationMax=250;
+   public static float concentrationMin=-250;
    private float concentration;
    int x;
    int y;
@@ -20,7 +21,7 @@ public class Celda {
    }
 
    public Celda(){
-       concentration=(float)Math.random()*concentrationMax;
+       concentration=((float)Math.random()*(concentrationMax-concentrationMin))-concentrationMin;
    }
 
     /**
@@ -37,8 +38,8 @@ public class Celda {
         if (concentration>Celda.concentrationMax){
             concentration=Celda.concentrationMax;
         }
-        if (concentration<0){
-            concentration=0;
+        if (concentration<Celda.concentrationMin){
+            concentration=Celda.concentrationMin;
         }
         this.concentration = concentration;
     }
