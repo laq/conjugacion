@@ -189,7 +189,7 @@ public class Hexatron {
                         Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j,false);
                         Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
                         bact.conjugar(bact2);
-                        bacteriaConcetrationDiffusion(i, j);
+//                        bacteriaConcetrationDiffusion(i, j);
                     } else if (choice < Constants.movementProbability) {                //Movimiento
                         bact.moverBacteria();
                     }
@@ -197,7 +197,9 @@ public class Hexatron {
                     bact.modifyEnviroment(enviromentAverage(i,j));
                     bact.runTime();
                 }
+                else{
                 concentrationDiffussion(i, j);
+                }
             }
         }
         generation++;
@@ -223,21 +225,22 @@ public class Hexatron {
                 topCells++;
             }
         }
-        float nueva = ceroCells == 6 ? 0 : (concentracionAcumulada / (normalCells + topCells + 1)) + 50;
-        if (concentracion == 0) {
-            LogPrinter.printConsole(concentracion + ":" + i + "|" + j + " n:" + normalCells + " top:" + topCells + " nueva:" + nueva, 4);
-        }
-
-        if (concentracion == Celda.concentrationMax) {//sick becomes healthy
-            nueva = 0;
-        }
-        if (concentracion == 0 && ((normalCells) < 1 && (topCells) < 2)) {
-            nueva = 0;
-        }
-
-        if (concentracion == 0) {
-            LogPrinter.printConsole("nuevaConcentracion:" + nueva, 4);
-        }
+         float nueva=concentracion;//(concentracionAcumulada / (normalCells + topCells + 1));
+       // float nueva = ceroCells == 6 ? 0 : (concentracionAcumulada / (normalCells + topCells + 1)) + 50;
+//        if (concentracion == 0) {
+//            LogPrinter.printConsole(concentracion + ":" + i + "|" + j + " n:" + normalCells + " top:" + topCells + " nueva:" + nueva, 4);
+//        }
+//
+//        if (concentracion == Celda.concentrationMax) {//sick becomes healthy
+//            nueva = 0;
+//        }
+//        if (concentracion == 0 && ((normalCells) < 1 && (topCells) < 2)) {
+//            nueva = 0;
+//        }
+//
+//        if (concentracion == 0) {
+//            LogPrinter.printConsole("nuevaConcentracion:" + nueva, 4);
+//        }
         matriz[i][j].setConcentration(nueva);
     }
 
