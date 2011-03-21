@@ -163,6 +163,12 @@ public class Lienzo extends JPanel implements Runnable {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
+         if (isShowConcentrationNumber()) {
+                Font f = g.getFont();
+                g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
+                g.drawString(" " + (int) getMatriz()[i][j].getConcentration(), xPoints[5], yPoints[5] + valHex);
+                g.setFont(f);
+            }
     }
 
     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
@@ -277,7 +283,10 @@ public class Lienzo extends JPanel implements Runnable {
     private Color colorRangeg(Bacteria bact) {
         Color c;
         int cons = (int) bact.getConcentracionBact();
-        cons = (-1) * cons + (int) Celda.concentrationMin;//to exchange the range, so the more concentration is darker.
+        //to exchange the range, so the more concentration is darker.
+        cons = (-1) * cons + (int) (Celda.concentrationMax+Celda.concentrationMin);
+        //set the concentration so its only positive values
+        cons=cons+(int)(0-Celda.concentrationMin);
         int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
         int concentrationValue = concentrationPerUnit * cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
