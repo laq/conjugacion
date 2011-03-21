@@ -20,6 +20,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import utils.LogPrinter;
 
 /**
  * Clase que hereda de Canvas y sirve para dibujar una linea.
@@ -256,14 +257,19 @@ public class Lienzo extends JPanel implements Runnable {
     private Color colorRanger(Celda cell) {
         Color c;
         int cons = (int) cell.getConcentration();
-        cons = (int) Celda.concentrationMax - cons;
+        //to exchange the range, so the more concentration is darker.
+        cons = (-1) * cons + (int) (Celda.concentrationMax+Celda.concentrationMin);
+        //set the concentration so its only positive values
+        cons=cons+(int)(0-Celda.concentrationMin);
+        int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
+        int concentrationValue = concentrationPerUnit * cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
-        int r = cons < 255 ? cons : 255;
-        int g = cons < 510 && cons >= 255 ? cons - 255 : 255;
-        if (cons < 255) {
+        int r = concentrationValue < 255 ? concentrationValue : 255;
+        int g = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
+        if (concentrationValue < 255) {
             g = 0;
         }
-        int b = cons >= 510 ? cons - 510 : 0;
+        int b = concentrationValue >= 510 ? concentrationValue - 510 : 0;
         c = new Color(r, g, b);
         return c;
     }
@@ -271,14 +277,16 @@ public class Lienzo extends JPanel implements Runnable {
     private Color colorRangeg(Bacteria bact) {
         Color c;
         int cons = (int) bact.getConcentracionBact();
-        cons = (int) Celda.concentrationMax - cons;
+        cons = (-1) * cons + (int) Celda.concentrationMin;//to exchange the range, so the more concentration is darker.
+        int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
+        int concentrationValue = concentrationPerUnit * cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
-        int g = cons < 255 ? cons : 255;
-        int b = cons < 510 && cons >= 255 ? cons - 255 : 255;
-        if (cons < 255) {
+        int g = concentrationValue < 255 ? concentrationValue : 255;
+        int b = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
+        if (concentrationValue < 255) {
             b = 0;
         }
-        int r = cons >= 510 ? cons - 510 : 0;
+        int r = concentrationValue >= 510 ? concentrationValue - 510 : 0;
         c = new Color(r, g, b);
         return c;
     }
