@@ -17,7 +17,7 @@ class SimplePlasmid implements Plasmid{
 
     public float calculateNewEnvState(float envAvrg, float currentenv) {
         float newEnv=currentenv;
-        newEnv=(envAvrg+2*currentenv)/3;
+       // newEnv=(envAvrg+2*currentenv)/3;
         newEnv+=plasmidPlus;
         return newEnv;
     }
