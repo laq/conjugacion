@@ -14,7 +14,8 @@ public class Vacio  extends Celda{
         super(conc);
     }
     public Vacio(){
-        super(Constants.borderDefault);
+        super();
     }
+
 
 }

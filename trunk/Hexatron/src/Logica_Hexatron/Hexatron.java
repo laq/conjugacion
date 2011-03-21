@@ -67,14 +67,14 @@ public class Hexatron {
                     tipo = 3;
                     border = true;
                 } else {
-                    tipo = (int) (Math.random() * 3) + 1;
+                    tipo = (int) (Math.random() * 4) + 1;
                 }
                 if (tipo == 1) {
                     matriz[i][j] = new Bacteria(1);
                 } else if (tipo == 2) {
                     matriz[i][j] = new Bacteria(2);
                 } else {
-                    matriz[i][j] = border ? new Vacio() : new Vacio();
+                    matriz[i][j] = border?new Vacio(Constants.borderDefault):new Vacio();
                 }
             }
         }
@@ -198,8 +198,9 @@ public class Hexatron {
                     bact.runTime();
                 }
                 else{
-                concentrationDiffussion(i, j);
+//                concentrationDiffussion(i, j);
                 }
+
             }
         }
         generation++;
