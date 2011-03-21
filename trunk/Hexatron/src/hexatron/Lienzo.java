@@ -271,8 +271,8 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Celda.concentrationMin);
-        int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
-        int concentrationValue = concentrationPerUnit * cons;
+        float concentrationPerUnit =  (700 / (Celda.concentrationMax - Celda.concentrationMin));
+        int concentrationValue = (int)(concentrationPerUnit * cons);
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
         int r = concentrationValue < 255 ? concentrationValue : 255;
         int g = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
