@@ -74,7 +74,7 @@ public class Hexatron {
                 } else if (tipo == 2) {
                     matriz[i][j] = new Bacteria(2);
                 } else {
-                    matriz[i][j] = border?new Vacio(Constants.borderDefault):new Vacio();
+                    matriz[i][j] = border ? new Vacio(Constants.borderDefault) : new Vacio();
                 }
             }
         }
@@ -97,7 +97,7 @@ public class Hexatron {
      * @param j
      * @return
      */
-    public Celda getCellAtFrom(int direction, int i, int j) {
+    public Celda getCellAtFrom(int direction, int i, int j, boolean clone) {
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -126,7 +126,11 @@ public class Hexatron {
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
         ii = ii >= matriz.length ? 0 : ii;
         jj = jj >= matriz[0].length ? 0 : jj;
-        return matrizClone[ii][jj];
+        if (clone) {
+            return matrizClone[ii][jj];
+        } else {
+            return matriz[ii][jj];
+        }
     }
 
     /**
@@ -169,16 +173,15 @@ public class Hexatron {
         jj = jj == 0 ? matriz[0].length - 2 : jj;
 
         LogPrinter.printConsole("i:j/ni:nj=" + i + ":" + j + "/" + ii + ":" + jj + " dir:" + direction, 4);
-        if(clone){
-        return matrizClone[ii][jj];
-        }
-        else{
-        return matriz[ii][jj];
+        if (clone) {
+            return matrizClone[ii][jj];
+        } else {
+            return matriz[ii][jj];
         }
     }
 
     public void nextGen() {
-       matrizClone=matriz.clone();
+        matrizClone = matriz.clone();
 
         for (int i = 1; i < matriz.length - 1; i++) {
             for (int j = 1; j < matriz[i].length - 1; j++) {
@@ -186,20 +189,20 @@ public class Hexatron {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     float choice = (float) Math.random();
                     if (choice < Constants.conjugationProbability) {
-                        Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j,false);
+                        Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
                         Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
-                        bact.conjugar(bact2);
+//                        bact.conjugar(bact2);
 //                        bacteriaConcetrationDiffusion(i, j);
                     } else if (choice < Constants.movementProbability) {                //Movimiento
                         bact.moverBacteria();
                     }
                     //else HACER NADA
-                    bact.modifyEnviroment(enviromentAverage(i,j));
+//                    bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
                 }
-                else{
-//                concentrationDiffussion(i, j);
-                }
+//                else {
+                    concentrationDiffussion(i, j);
+//                }
 
             }
         }
@@ -208,42 +211,73 @@ public class Hexatron {
 
     private void concentrationDiffussion(int i, int j) {
         float concentracion = matrizClone[i][j].getConcentration();
-        float concentracionAcumulada = concentracion;
-        int ceroCells = 0;
-        int normalCells = 0;
-        int topCells = 0;
+        float concentracionAcumulada = 0;
+//        int ceroCells = 0;
+//        int normalCells = 0;
+//        int topCells = 0;
         for (int k = 1; k <= 6; k++) {
-            float tempcons = getCellAtFromRound(k, i, j,true).getConcentration();
+            float tempcons = getCellAtFromRound(k, i, j, true).getConcentration();
 
             concentracionAcumulada += tempcons;
-            if (tempcons == 0) {
-                ceroCells++;
-            }
-            if (tempcons > 0 && tempcons < Celda.concentrationMax) {
-                normalCells++;
-            }
-            if (tempcons == Celda.concentrationMax) {
-                topCells++;
-            }
+//            if (tempcons == 0) {
+//                ceroCells++;
+//            }
+//            if (tempcons > 0 && tempcons < Celda.concentrationMax) {
+//                normalCells++;
+//            }
+//            if (tempcons == Celda.concentrationMax) {
+//                topCells++;
+//            }
         }
-         float nueva=concentracion;//(concentracionAcumulada / (normalCells + topCells + 1));
-       // float nueva = ceroCells == 6 ? 0 : (concentracionAcumulada / (normalCells + topCells + 1)) + 50;
-//        if (concentracion == 0) {
-//            LogPrinter.printConsole(concentracion + ":" + i + "|" + j + " n:" + normalCells + " top:" + topCells + " nueva:" + nueva, 4);
-//        }
-//
-//        if (concentracion == Celda.concentrationMax) {//sick becomes healthy
-//            nueva = 0;
-//        }
-//        if (concentracion == 0 && ((normalCells) < 1 && (topCells) < 2)) {
-//            nueva = 0;
-//        }
-//
-//        if (concentracion == 0) {
-//            LogPrinter.printConsole("nuevaConcentracion:" + nueva, 4);
-//        }
-        matriz[i][j].setConcentration(nueva);
+        float neighborConcentration=(concentracionAcumulada)/6;
+        if(concentracion>=neighborConcentration+15){//TODO idea of sand pile, change limit for droping
+            float nueva=(neighborConcentration+concentracion)/2 ;
+             matriz[i][j].setConcentration(nueva);
+            float cons=concentracion-nueva;
+            neighboorsChangeCons(cons/6,i,j);
+        }
+
+        
     }
+//Vieja concentracion difucion con reaccion
+//    private void concentrationDiffussion(int i, int j) {
+//        float concentracion = matrizClone[i][j].getConcentration();
+//        float concentracionAcumulada = concentracion;
+//        int ceroCells = 0;
+//        int normalCells = 0;
+//        int topCells = 0;
+//        for (int k = 1; k <= 6; k++) {
+//            float tempcons = getCellAtFromRound(k, i, j,true).getConcentration();
+//
+//            concentracionAcumulada += tempcons;
+//            if (tempcons == 0) {
+//                ceroCells++;
+//            }
+//            if (tempcons > 0 && tempcons < Celda.concentrationMax) {
+//                normalCells++;
+//            }
+//            if (tempcons == Celda.concentrationMax) {
+//                topCells++;
+//            }
+//        }
+//         float nueva=concentracion;//(concentracionAcumulada / (normalCells + topCells + 1));
+//       // float nueva = ceroCells == 6 ? 0 : (concentracionAcumulada / (normalCells + topCells + 1)) + 50;
+////        if (concentracion == 0) {
+////            LogPrinter.printConsole(concentracion + ":" + i + "|" + j + " n:" + normalCells + " top:" + topCells + " nueva:" + nueva, 4);
+////        }
+////
+////        if (concentracion == Celda.concentrationMax) {//sick becomes healthy
+////            nueva = 0;
+////        }
+////        if (concentracion == 0 && ((normalCells) < 1 && (topCells) < 2)) {
+////            nueva = 0;
+////        }
+////
+////        if (concentracion == 0) {
+////            LogPrinter.printConsole("nuevaConcentracion:" + nueva, 4);
+////        }
+//        matriz[i][j].setConcentration(nueva);
+//    }
 
     /**
      * @return the generation
@@ -266,43 +300,50 @@ public class Hexatron {
         int normalCells = 0;
         int topCells = 0;
         for (int k = 1; k <= 6; k++) {
-            Celda c = getCellAtFromRound(k, i, j,true);
+            Celda c = getCellAtFromRound(k, i, j, true);
             if (c instanceof Bacteria) {
-                Bacteria bact=(Bacteria)c;
-                float tempcons=bact.getConcentracionBact();
+                Bacteria bact = (Bacteria) c;
+                float tempcons = bact.getConcentracionBact();
 //            concentracionAcumulada+=tempcons;
                 if (tempcons == 0) {
                     ceroCells++;
                 }
-                if (tempcons > 0 && tempcons < Celda.concentrationMax-20) {
+                if (tempcons > 0 && tempcons < Celda.concentrationMax - 20) {
                     normalCells++;
                 }
-                if (tempcons > Celda.concentrationMax-20) {
+                if (tempcons > Celda.concentrationMax - 20) {
                     topCells++;
                 }
             }
         }
-        if(concentracion>Celda.concentrationMax-10){
+        if (concentracion > Celda.concentrationMax - 10) {
             ((Bacteria) matriz[i][j]).setConcentracionBact(0);
         }
-        if (topCells > 5 && concentracion>Celda.concentrationMax-20) {
-            Bacteria bact=((Bacteria) matriz[i][j]);
-            bact.setConcentracionBact(bact.getConcentracionBact()+1);
+        if (topCells > 5 && concentracion > Celda.concentrationMax - 20) {
+            Bacteria bact = ((Bacteria) matriz[i][j]);
+            bact.setConcentracionBact(bact.getConcentracionBact() + 1);
             //LogPrinter.printConsole("cat to cero" + topCells + " " + normalCells + " " + ceroCells + " :" + i + "|" + j, 4);
         }
 
 
     }
 
-    private float enviromentAverage(int i,int j) {
+    private float enviromentAverage(int i, int j) {
         float concentracionAcumulada = 0;
 //        int ceroCells = 0;
 //        int normalCells = 0;
 //        int topCells = 0;
-         for (int k = 1; k <= 6; k++) {
-            float tempcons = getCellAtFromRound(k, i, j,true).getConcentration();
+        for (int k = 1; k <= 6; k++) {
+            float tempcons = getCellAtFromRound(k, i, j, true).getConcentration();
             concentracionAcumulada += tempcons;
         }
-        return concentracionAcumulada/6;
+        return concentracionAcumulada / 6;
+    }
+
+    private void neighboorsChangeCons(float cons, int i, int j) {
+         for (int k = 1; k <= 6; k++) {
+            Celda cell = getCellAtFromRound(k, i, j, true);
+            cell.setConcentration(cell.getConcentration()+cons);
+        }
     }
 }

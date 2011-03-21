@@ -150,8 +150,12 @@ public class Lienzo extends JPanel implements Runnable {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
             g.setColor(colorRanger(bact));
             g.fillPolygon(xPoints, yPoints, 6);
+            Graphics2D g2d = ((Graphics2D) g);
+            Stroke s = g2d.getStroke();
+//            g2d.setStroke(new BasicStroke(valHex / 4));//TODO change bacteria differentation
             g.setColor(Color.GREEN);
             g.drawPolygon(xPoints, yPoints, 6);
+            g2d.setStroke(s);
 
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
@@ -163,12 +167,12 @@ public class Lienzo extends JPanel implements Runnable {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
-         if (isShowConcentrationNumber()) {
-                Font f = g.getFont();
-                g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
-                g.drawString(" " + (int) getMatriz()[i][j].getConcentration(), xPoints[5], yPoints[5] + valHex);
-                g.setFont(f);
-            }
+        if (isShowConcentrationNumber()) {
+            Font f = g.getFont();
+            g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
+            g.drawString(" " + (int) getMatriz()[i][j].getConcentration(), xPoints[5], yPoints[5] + valHex);
+            g.setFont(f);
+        }
     }
 
     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
@@ -264,9 +268,9 @@ public class Lienzo extends JPanel implements Runnable {
         Color c;
         int cons = (int) cell.getConcentration();
         //to exchange the range, so the more concentration is darker.
-        cons = (-1) * cons + (int) (Celda.concentrationMax+Celda.concentrationMin);
+        cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
-        cons=cons+(int)(0-Celda.concentrationMin);
+        cons = cons + (int) (0 - Celda.concentrationMin);
         int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
         int concentrationValue = concentrationPerUnit * cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
@@ -284,9 +288,9 @@ public class Lienzo extends JPanel implements Runnable {
         Color c;
         int cons = (int) bact.getConcentracionBact();
         //to exchange the range, so the more concentration is darker.
-        cons = (-1) * cons + (int) (Celda.concentrationMax+Celda.concentrationMin);
+        cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
-        cons=cons+(int)(0-Celda.concentrationMin);
+        cons = cons + (int) (0 - Celda.concentrationMin);
         int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
         int concentrationValue = concentrationPerUnit * cons;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
