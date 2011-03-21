@@ -5,23 +5,26 @@
 
 package Logica_Hexatron;
 
+import utils.LogPrinter;
+
 /**
  *
  * @author Ztiphen
  */
 public class Celda {
-   public static float concentrationMax=250;
-   public static float concentrationMin=-250;
+   final public static float concentrationMax=250;
+   final public static float concentrationMin=-250;
    private float concentration;
    int x;
    int y;
 
    public Celda(float conc){
-       concentration=conc;
+       this.setConcentration(conc);
    }
 
    public Celda(){
-       concentration=((float)Math.random()*(concentrationMax-concentrationMin))-concentrationMin;
+       concentration=((float)Math.random()*(concentrationMax-concentrationMin))+concentrationMin;
+       LogPrinter.printConsole("celdaInicio"+concentration, 4);
    }
 
     /**

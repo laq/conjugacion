@@ -17,8 +17,8 @@ public class Constants {
 
     public static int timeToConjugate=1;
 
-    public static float borderDefault=300;
+    public static float borderDefault=0;
 
-    public static float minConjugationConcentration=300;
+    public static float minConjugationConcentration=0;
 
 }
