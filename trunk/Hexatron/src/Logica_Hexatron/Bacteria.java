@@ -29,8 +29,10 @@ public class Bacteria extends Celda {
      * @param tipo
      */
     public Bacteria(int tipo) {
+        super(((float) Math.random() * (concentrationMax - concentrationMin)/2) + concentrationMin+(concentrationMax-concentrationMin)/2);
 //    this.tipo = tipo;//BEFORE
 //        concentracionBact = (float) Math.random() * Celda.concentrationMax;
+
         if (this.getConcentration() > Constants.minConjugationConcentration) {
             this.tipo = 1;
              plasmid=new SimplePlasmid();
@@ -164,7 +166,7 @@ public class Bacteria extends Celda {
             return plasmid.calculateNewEnvState(envAvrg,currentenv);
         }
         else{
-            System.out.println((envAvrg/currentenv)*5);
+//            System.out.println((envAvrg/currentenv)*5);LAQ
             return (currentenv+(envAvrg/currentenv)*5);
             
         }
