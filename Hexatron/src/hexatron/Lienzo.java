@@ -152,7 +152,7 @@ public class Lienzo extends JPanel implements Runnable {
             g.fillPolygon(xPoints, yPoints, 6);
             Graphics2D g2d = ((Graphics2D) g);
             Stroke s = g2d.getStroke();
-            g2d.setStroke(new BasicStroke(valHex / 4));//TODO change bacteria differentation
+//            g2d.setStroke(new BasicStroke(valHex / 4));//TODO change bacteria differentation
             g.setColor(Color.GREEN);
             g.drawPolygon(xPoints, yPoints, 6);
             g2d.setStroke(s);

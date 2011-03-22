@@ -190,7 +190,7 @@ public class Hexatron {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     Difusa difusa = new Difusa();
                     int accion = difusa.accion((int) bact.getConcentration());
-                    System.out.println("accion"+accion);
+//                    System.out.println("accion"+accion);
                     switch (accion) {
                         case 4: {
                             Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
@@ -206,8 +206,10 @@ public class Hexatron {
                             bact.girarBacteria();
                             break;
                         }
-                        case 1: {
-                            //muerte
+                        case 0: {
+//                            muerte
+                            Celda newcell=new Vacio(bact.getConcentration());
+                            matrizClone[i][j]=newcell;
                             
                             break;
                         }
