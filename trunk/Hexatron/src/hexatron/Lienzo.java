@@ -152,7 +152,7 @@ public class Lienzo extends JPanel implements Runnable {
             g.fillPolygon(xPoints, yPoints, 6);
             Graphics2D g2d = ((Graphics2D) g);
             Stroke s = g2d.getStroke();
-//            g2d.setStroke(new BasicStroke(valHex / 4));//TODO change bacteria differentation
+            g2d.setStroke(new BasicStroke(valHex / 4));//TODO change bacteria differentation
             g.setColor(Color.GREEN);
             g.drawPolygon(xPoints, yPoints, 6);
             g2d.setStroke(s);
@@ -271,8 +271,8 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Celda.concentrationMin);
-        float concentrationPerUnit =  (700 / (Celda.concentrationMax - Celda.concentrationMin));
-        int concentrationValue = (int)(concentrationPerUnit * cons);
+        float concentrationPerUnit =  (675 / (Celda.concentrationMax - Celda.concentrationMin));
+        int concentrationValue = ((int)(concentrationPerUnit * cons))+25;
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
         int r = concentrationValue < 255 ? concentrationValue : 255;
         int g = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
@@ -291,8 +291,8 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Celda.concentrationMin);
-        int concentrationPerUnit = (int) (510 / (Celda.concentrationMax - Celda.concentrationMin));
-        int concentrationValue = concentrationPerUnit * cons;
+        float concentrationPerUnit =  (510 / (Celda.concentrationMax - Celda.concentrationMin));
+        int concentrationValue = (int)(concentrationPerUnit * cons);
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
         int g = concentrationValue < 255 ? concentrationValue : 255;
         int b = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;

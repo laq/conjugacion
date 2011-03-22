@@ -30,14 +30,15 @@ public class Bacteria extends Celda {
      */
     public Bacteria(int tipo) {
 //    this.tipo = tipo;//BEFORE
-        concentracionBact = (float) Math.random() * Celda.concentrationMax;
-        if (concentracionBact > Constants.minConjugationConcentration) {
+//        concentracionBact = (float) Math.random() * Celda.concentrationMax;
+        if (this.getConcentration() > Constants.minConjugationConcentration) {
             this.tipo = 1;
+             plasmid=new SimplePlasmid();
         } else {
             this.tipo = 2;
         }
         direccionCabeza = (int) (Math.random() * 5) + 1;
-        plasmid=new SimplePlasmid();
+       
     }
 
     /**
@@ -108,18 +109,19 @@ public class Bacteria extends Celda {
     public void conjugar(Bacteria bact2) {
         if (this.getTipo() == 1 && this.getTiempo() >= Constants.timeToConjugate) {
             if (bact2 != null) {//&& bact2.getTipo() != 1) {
-                float cons = this.getConcentracionBact() + bact2.getConcentracionBact();
+                float cons = this.getConcentration() + bact2.getConcentration();
                 cons = cons / 2;
-                if (cons < bact2.getConcentracionBact()) {
-                    cons = bact2.getConcentracionBact();//the donor has nothing to give, cause it has less concentration
+                if (cons < bact2.getConcentration()) {
+                    cons = bact2.getConcentration();//the donor has nothing to give, cause it has less concentration
                 }
-                bact2.setConcentracionBact(cons);
+                bact2.setConcentration(cons);
+             //   bact2.setConcentracionBact(cons);
                 //bact2.setTipo(1);//BEFORE
             }
         }
     }
 
-    public void moverBacteria() {
+    public void girarBacteria() {
         //Movimiento
         int i = (int) (Math.round(Math.random()));//random movement right or left
         if (i < 1) {
@@ -158,6 +160,27 @@ public class Bacteria extends Celda {
     }
 
     private float calculateNewEnvState(float envAvrg, float currentenv) {
-       return plasmid.calculateNewEnvState(envAvrg,currentenv);
+        if(tipo==1){
+            return plasmid.calculateNewEnvState(envAvrg,currentenv);
+        }
+        else{
+            System.out.println((envAvrg/currentenv)*5);
+            return (currentenv+(envAvrg/currentenv)*5);
+            
+        }
     }
+
+    @Override
+    public void setConcentration(float concentration) {
+        super.setConcentration(concentration);
+         if (this.getConcentration() > Constants.minConjugationConcentration) {
+            tipo = 1;
+            plasmid=new SimplePlasmid();
+        }else
+        {
+            tipo = 2;
+            plasmid=null;
+        }
+    }
+
 }

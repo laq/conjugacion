@@ -4,6 +4,7 @@
  */
 package Logica_Hexatron;
 
+import Funciones.Difusa;
 import utils.LogPrinter;
 
 /**
@@ -187,23 +188,34 @@ public class Hexatron {
             for (int j = 1; j < matriz[i].length - 1; j++) {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
-                    float choice = (float) Math.random();
-                    if (choice < Constants.conjugationProbability) {
-                        Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
-                        Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
-//                        bact.conjugar(bact2);
-//                        bacteriaConcetrationDiffusion(i, j);
-                    } else if (choice < Constants.movementProbability) {                //Movimiento
-                        bact.moverBacteria();
+                    Difusa difusa = new Difusa();
+                    int accion = difusa.accion((int) bact.getConcentration());
+                    System.out.println("accion"+accion);
+                    switch (accion) {
+                        case 4: {
+                            Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
+                            Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
+                            bact.conjugar(bact2);
+                            break;
+                        }
+                        case 3: {
+                            //movimiento
+                            break;
+                        }
+                        case 2: {
+                            bact.girarBacteria();
+                            break;
+                        }
+                        case 1: {
+                            //muerte
+                            
+                            break;
+                        }
                     }
-                    //else HACER NADA
-//                    bact.modifyEnviroment(enviromentAverage(i, j));
+                    bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
                 }
-//                else {
-                    concentrationDiffussion(i, j);
-//                }
-
+                concentrationDiffussion(i, j);
             }
         }
         generation++;
@@ -229,15 +241,15 @@ public class Hexatron {
 //                topCells++;
 //            }
         }
-        float neighborConcentration=(concentracionAcumulada)/6;
-        if(concentracion>=neighborConcentration+15){//TODO idea of sand pile, change limit for droping
-            float nueva=(neighborConcentration+concentracion)/2 ;
-             matriz[i][j].setConcentration(nueva);
-            float cons=concentracion-nueva;
-            neighboorsChangeCons(cons/6,i,j);
+        float neighborConcentration = (concentracionAcumulada) / 6;
+        if (concentracion >= neighborConcentration + 15) {//TODO idea of sand pile, change limit for droping
+            float nueva = (neighborConcentration + concentracion) / 2;
+            matriz[i][j].setConcentration(nueva);
+            float cons = concentracion - nueva;
+            neighboorsChangeCons(cons / 6, i, j);
         }
 
-        
+
     }
 //Vieja concentracion difucion con reaccion
 //    private void concentrationDiffussion(int i, int j) {
@@ -341,9 +353,9 @@ public class Hexatron {
     }
 
     private void neighboorsChangeCons(float cons, int i, int j) {
-         for (int k = 1; k <= 6; k++) {
+        for (int k = 1; k <= 6; k++) {
             Celda cell = getCellAtFromRound(k, i, j, true);
-            cell.setConcentration(cell.getConcentration()+cons);
+            cell.setConcentration(cell.getConcentration() + cons);
         }
     }
 }
