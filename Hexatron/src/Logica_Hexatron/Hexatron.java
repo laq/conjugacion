@@ -5,6 +5,8 @@
 package Logica_Hexatron;
 
 import Funciones.Difusa;
+import java.util.ArrayList;
+import java.util.List;
 import utils.LogPrinter;
 
 /**
@@ -200,6 +202,13 @@ public class Hexatron {
                         }
                         case 3: {
                             //movimiento
+                            List<Integer> l = findFree(i, j);
+                            if (l.size() > 0) {
+                                int rnd = (int) (Math.random() * l.size());
+                                Celda c = getCellAtFrom(l.get(rnd), i, j, false);
+                            }
+//                            bact TODO MOVEMENT
+
                             break;
                         }
                         case 2: {
@@ -208,9 +217,9 @@ public class Hexatron {
                         }
                         case 0: {
 //                            muerte
-                            Celda newcell=new Vacio(bact.getConcentration());
-                            matrizClone[i][j]=newcell;
-                            
+                            Celda newcell = new Vacio(bact.getConcentration());
+                            matrizClone[i][j] = newcell;
+
                             break;
                         }
                     }
@@ -359,5 +368,16 @@ public class Hexatron {
             Celda cell = getCellAtFromRound(k, i, j, true);
             cell.setConcentration(cell.getConcentration() + cons);
         }
+    }
+
+    private List findFree(int i, int j) {
+        List<Integer> l = new ArrayList<Integer>();
+        for (int k = 1; k <= 6; k++) {
+            Celda cell = getCellAtFromRound(k, i, j, true);
+            if (cell instanceof Vacio) {
+                l.add(k);
+            }
+        }
+        return l;
     }
 }
