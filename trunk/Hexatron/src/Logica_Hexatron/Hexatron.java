@@ -191,37 +191,28 @@ public class Hexatron {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     Difusa difusa = new Difusa();
-                    int accion = difusa.accion((int) bact.getConcentration());
+                    double[] neighboors=neighboorsConcentration(bact, i, j);
+                    int accion = difusa.accion(neighboors, bact.getConcentration());
 //                    System.out.println("accion"+accion);
                     switch (accion) {
-                        case 4: {
-                            Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
-                            Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
-                            bact.conjugar(bact2);
-                            break;
-                        }
-                        case 3: {
-                            //movimiento
-                            List<Integer> l = findFree(i, j);
-                            if (l.size() > 0) {
-                                int rnd = (int) (Math.random() * l.size());
-                                Celda c = getCellAtFrom(l.get(rnd), i, j, false);
-                            }
-//                            bact TODO MOVEMENT
-
-                            break;
-                        }
                         case 2: {
-                            bact.girarBacteria();
+                            bact.girarBacteria(1);
+                            break;
+                        }
+                        case 1: {
+                            bact.girarBacteria(0);
                             break;
                         }
                         case 0: {
-//                            muerte
-                            Celda newcell = new Vacio(bact.getConcentration());
-                            matrizClone[i][j] = newcell;
-
+                            Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
+                            Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
+                            bact.conjugar(bact2);
+                            if(bact2==null){
+                                bact.girarBacteria();
+                            }
                             break;
                         }
+                     
                     }
                     bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
@@ -230,6 +221,18 @@ public class Hexatron {
             }
         }
         generation++;
+    }
+
+    private double[] neighboorsConcentration(Bacteria bact, int i, int j) {
+        double lcons=0,fcons=0,rcons=0;
+        Celda fcell = getCellAtFromRound(bact.getDireccionCabeza(), i, j, true);
+        fcons=fcell instanceof Bacteria?fcell.getConcentration():Double.NaN;
+        Celda lcell = getCellAtFromRound(bact.getDireccionCabeza() - 1, i, j, true);
+        lcons=lcell instanceof Bacteria?lcell.getConcentration():Double.NaN;
+        Celda rcell = getCellAtFromRound(bact.getDireccionCabeza() + 1, i, j, true);
+        rcons=rcell instanceof Bacteria?rcell.getConcentration():Double.NaN;
+        double[] neighboors = {fcons,rcons,lcons};
+        return neighboors;
     }
 
     private void concentrationDiffussion(int i, int j) {

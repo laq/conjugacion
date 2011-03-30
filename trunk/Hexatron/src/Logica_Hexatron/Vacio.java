@@ -14,7 +14,7 @@ public class Vacio  extends Celda{
         super(conc);
     }
     public Vacio(){
-        super();
+        super(Celda.validRandomConcentrationRange(200, -50));
     }
 
 
