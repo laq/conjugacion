@@ -46,4 +46,23 @@ public class Celda {
         }
         this.concentration = concentration;
     }
+
+    public static float validRandomConcentrationUpperHalf(){
+        return ((float) Math.random() * (concentrationMax - concentrationMin) / 2) + concentrationMin + (concentrationMax - concentrationMin) / 2;
+    }
+
+    /**
+     * gives a random valid value in the range given
+     * @param rangeSize
+     * @param center
+     * @return
+     */
+     public static float validRandomConcentrationRange(float rangeSize,float center){
+         rangeSize=Math.abs(rangeSize)/2;
+         float max=center+rangeSize;
+         float min=center-rangeSize;
+         max=max>concentrationMax?concentrationMax:max;
+         min=min<concentrationMin?concentrationMin:min;
+        return ((float) Math.random() * (max - min)) + min;
+    }
 }

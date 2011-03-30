@@ -30,7 +30,7 @@ public class Bacteria extends Celda {
      * @param tipo
      */
     public Bacteria(int tipo) {
-        super(((float) Math.random() * (concentrationMax - concentrationMin) / 2) + concentrationMin + (concentrationMax - concentrationMin) / 2);
+        super(randomConcentrationOnTipe(tipo));
 //    this.tipo = tipo;//BEFORE
 //        concentracionBact = (float) Math.random() * Celda.concentrationMax;
         if (conjugationOnConcentration) {
@@ -48,6 +48,15 @@ public class Bacteria extends Celda {
         }
         direccionCabeza = (int) (Math.random() * 5) + 1;
 
+    }
+    public static float randomConcentrationOnTipe(int type){
+        if(type==1)
+        {
+            return Celda.validRandomConcentrationRange(100, 50);
+        }
+        else{
+            return Celda.validRandomConcentrationRange(100, 0);
+        }
     }
 
     /**
@@ -138,13 +147,20 @@ public class Bacteria extends Celda {
     public void girarBacteria() {
         //Movimiento
         int i = (int) (Math.round(Math.random()));//random movement right or left
+       girarBacteria(i);
+    }
+    /**
+     *
+     * @param i <1 right >1 left
+     */
+     public void girarBacteria(int i) {
+
         if (i < 1) {
             this.setDireccionCabeza((this.getDireccionCabeza() % 6) + 1);
         } else {
             this.setDireccionCabeza(((this.getDireccionCabeza() + 4) % 6) + 1);
         }
     }
-
     /**
      * @return the concentracionBact
      */
