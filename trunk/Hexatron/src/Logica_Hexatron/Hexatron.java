@@ -191,7 +191,7 @@ public class Hexatron {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     Difusa difusa = new Difusa();
-                    double[] neighboors=neighboorsConcentration(bact, i, j);
+                    double[] neighboors = neighboorsConcentration(bact, i, j);
                     int accion = difusa.accion(neighboors, bact.getConcentration());
 //                    System.out.println("accion"+accion);
                     switch (accion) {
@@ -207,12 +207,14 @@ public class Hexatron {
                             Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
                             Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
                             bact.conjugar(bact2);
-                            if(bact2==null){
+                            if (bact2 == null) {
                                 bact.girarBacteria();
                             }
                             break;
                         }
-                     
+                        default:
+                            bact.girarBacteria();
+
                     }
                     bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
@@ -224,14 +226,14 @@ public class Hexatron {
     }
 
     private double[] neighboorsConcentration(Bacteria bact, int i, int j) {
-        double lcons=0,fcons=0,rcons=0;
+        double lcons = 0, fcons = 0, rcons = 0;
         Celda fcell = getCellAtFromRound(bact.getDireccionCabeza(), i, j, true);
-        fcons=fcell instanceof Bacteria?fcell.getConcentration():Double.NaN;
+        fcons = fcell instanceof Bacteria ? fcell.getConcentration() : Double.NaN;
         Celda lcell = getCellAtFromRound(bact.getDireccionCabeza() - 1, i, j, true);
-        lcons=lcell instanceof Bacteria?lcell.getConcentration():Double.NaN;
+        lcons = lcell instanceof Bacteria ? lcell.getConcentration() : Double.NaN;
         Celda rcell = getCellAtFromRound(bact.getDireccionCabeza() + 1, i, j, true);
-        rcons=rcell instanceof Bacteria?rcell.getConcentration():Double.NaN;
-        double[] neighboors = {fcons,rcons,lcons};
+        rcons = rcell instanceof Bacteria ? rcell.getConcentration() : Double.NaN;
+        double[] neighboors = {fcons, rcons, lcons};
         return neighboors;
     }
 
@@ -257,6 +259,12 @@ public class Hexatron {
         }
         float neighborConcentration = (concentracionAcumulada) / 6;
         if (concentracion >= neighborConcentration + 15) {//TODO idea of sand pile, change limit for droping
+            float nueva = (neighborConcentration + concentracion) / 2;
+            matriz[i][j].setConcentration(nueva);
+            float cons = concentracion - nueva;
+            neighboorsChangeCons(cons / 6, i, j);
+        }
+        if (concentracion <= neighborConcentration - 15) {//TODO idea of sand pile, change limit for droping
             float nueva = (neighborConcentration + concentracion) / 2;
             matriz[i][j].setConcentration(nueva);
             float cons = concentracion - nueva;
