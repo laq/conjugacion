@@ -12,5 +12,4 @@ package Logica_Hexatron;
 interface Plasmid{
      float calculateNewEnvState(float envAvrg, float currentenv);
 
-
 }

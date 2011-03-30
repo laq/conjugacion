@@ -16,7 +16,10 @@ public class Difusa {
     //Función difusa que retorna un arreglo de double con las membresias de las cinco acciones
     public double[] difuso(double[] neighboorsConcentration, double ownConcentration) {
          for(int i=0;i<neighboorsConcentration.length;i++){
-             membresia[i]=Math.abs(ownConcentration-neighboorsConcentration[i]);
+             membresia[i]=Math.abs((int)(ownConcentration-neighboorsConcentration[i]));
+             if(membresia[i]==Double.NaN){
+                 membresia[i]=5;
+             }
          }
         return membresia;
 
@@ -39,7 +42,6 @@ public class Difusa {
                 pos = i;
             }
         }
-//        System.out.println(pos);
         return pos;
     }
 

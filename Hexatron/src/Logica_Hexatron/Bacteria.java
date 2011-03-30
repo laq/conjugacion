@@ -125,7 +125,7 @@ public class Bacteria extends Celda {
      * @param bact2 the receptor bacteria
      */
     public void conjugar(Bacteria bact2) {
-        if (this.getTipo() == 1 && this.getTiempo() >= Constants.timeToConjugate) {
+        if (this.getTipo() == 1 ){//&& this.getTiempo() >= Constants.timeToConjugate) {
             if (bact2 != null) {//&& bact2.getTipo() != 1) {
                 if (conjugationOnConcentration) {
                     float cons = this.getConcentration() + bact2.getConcentration();

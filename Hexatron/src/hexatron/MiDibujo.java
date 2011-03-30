@@ -257,6 +257,7 @@ public class MiDibujo extends JFrame {
         menu.add(menuItem);
         menuItem = new JCheckBoxMenuItem("Show bact Concentration",false);
         m.lienzo.setShowConcentrationNumber(menuItem);
+          menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 m.repintar();
