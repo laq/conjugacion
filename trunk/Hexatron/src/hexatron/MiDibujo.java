@@ -25,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSlider;
 import javax.swing.KeyStroke;
 
@@ -34,7 +35,8 @@ import javax.swing.KeyStroke;
  */
 public class MiDibujo extends JFrame {
 
-    private Hexatron hexatron = new Hexatron();
+
+    private Hexatron hexatron = new Hexatron(true);
     private Lienzo lienzo = new Lienzo(getHexatron());
     private JLabel jlable;
     private JSlider jslider;
@@ -109,6 +111,8 @@ public class MiDibujo extends JFrame {
         menubar.add(menu);
         menu = menuConjugation();
         menubar.add(menu);
+        menu = menuAmbiente(midibujo);
+        menubar.add(menu);
         menu = menuView(midibujo);
         menubar.add(menu);
         menu = menuHelp(menu);
@@ -137,7 +141,7 @@ public class MiDibujo extends JFrame {
                 int alto = Integer.parseInt(salto);
                 midibujo.getHexatron().setAlto(alto);
                 midibujo.getHexatron().setAncho(ancho);
-                midibujo.getHexatron().poblar();
+                midibujo.getHexatron().poblar(midibujo.lienzo.isNeutralEnviroment());
                 midibujo.repintar();
                 //                midibujo.repaint();
             }
@@ -182,7 +186,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                midibujo.hexatron.poblar();
+                midibujo.hexatron.poblar(midibujo.lienzo.isNeutralEnviroment());
                 midibujo.hexatron.setGeneration(0);
                 midibujo.repaint();
             }
@@ -221,6 +225,33 @@ public class MiDibujo extends JFrame {
             }
         });
         menu.add(menuItem);
+        return menu;
+    }
+
+
+    private static JMenu menuAmbiente(final MiDibujo m) {
+         JMenu menu;
+        menu = new JMenu("Enviroment");
+         menu.setMnemonic('e');
+        JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem("Neutral",true);
+        m.lienzo.setAmbienteNeutral(menuItem);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                m.lienzo.getAmbienteRandom().setSelected(false);
+            }
+        });
+        menu.add(menuItem);
+         menuItem = new JRadioButtonMenuItem("Random",false);
+         m.lienzo.setAmbienteRandom(menuItem);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              m.lienzo.getAmbienteNeutral().setSelected(false);
+            }
+        });
+        menu.add(menuItem);
+     
         return menu;
     }
 
