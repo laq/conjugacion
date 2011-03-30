@@ -19,6 +19,7 @@ import java.awt.Stroke;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSlider;
 import utils.LogPrinter;
 
@@ -39,6 +40,8 @@ public class Lienzo extends JPanel implements Runnable {
     private int generations = 5;
     private JLabel jlable;
     private JSlider jslider;
+    private JRadioButtonMenuItem neutralEnviroment;
+    private JRadioButtonMenuItem randomEnviroment;
 
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
@@ -372,6 +375,22 @@ public class Lienzo extends JPanel implements Runnable {
         this.showConcentrationNumber = showConcentrationNumber;
     }
 
+    void setAmbienteNeutral(JRadioButtonMenuItem neutralEnviroment) {
+        this.neutralEnviroment=neutralEnviroment;
+    }
+     void setAmbienteRandom(JRadioButtonMenuItem randomEnviroment) {
+        this.randomEnviroment=randomEnviroment;
+    }
+    JRadioButtonMenuItem getAmbienteNeutral(){
+        return neutralEnviroment;
+    }
+    JRadioButtonMenuItem getAmbienteRandom(){
+        return randomEnviroment;
+    }
+
+    boolean isNeutralEnviroment(){
+        return neutralEnviroment.isSelected();
+    }
     /**
      * @return the jlable
      */
@@ -393,6 +412,9 @@ public class Lienzo extends JPanel implements Runnable {
     void setjslider(JSlider jslider) {
         this.jslider = jslider;
     }
+
+
+
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
      * llamando a paint()

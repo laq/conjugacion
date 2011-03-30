@@ -25,9 +25,9 @@ public class Hexatron {
         return matriz;
     }
 
-    public Hexatron() {
+    public Hexatron(boolean neutral) {
         matriz = new Celda[alto][ancho];
-        poblar();
+        poblar(neutral);
 
     }
 
@@ -59,7 +59,7 @@ public class Hexatron {
         this.alto = alto;
     }
 
-    public void poblar() {
+    public void poblar(boolean neutral) {
 
         matriz = new Celda[alto + 2][ancho + 2];
         for (int i = 0; i < matriz.length; i++) {
@@ -77,7 +77,7 @@ public class Hexatron {
                 } else if (tipo == 2) {
                     matriz[i][j] = new Bacteria(2);
                 } else {
-                    matriz[i][j] = border ? new Vacio(Constants.borderDefault) : new Vacio();
+                    matriz[i][j] = border ? new Vacio(Constants.borderDefault) : new Vacio(neutral);
                 }
             }
         }

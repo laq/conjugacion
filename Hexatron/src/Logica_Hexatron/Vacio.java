@@ -13,8 +13,18 @@ public class Vacio  extends Celda{
     public Vacio(float conc){
         super(conc);
     }
-    public Vacio(){
-        super(Celda.validRandomConcentrationRange(200, -50));
+    public Vacio(boolean neutral){
+        super(concentrationOnNeutral(neutral));
+    }
+
+    private static float concentrationOnNeutral(boolean neutral){
+        if(neutral){
+            return 0;
+        }
+        else{
+           return Celda.validRandomConcentrationRange(200, -50);
+        }
+
     }
 
 
