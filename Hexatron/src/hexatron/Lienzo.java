@@ -43,6 +43,8 @@ public class Lienzo extends JPanel implements Runnable {
     private JRadioButtonMenuItem neutralEnviroment;
     private JRadioButtonMenuItem randomEnviroment;
 
+
+    public float val;
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
      */
@@ -57,7 +59,7 @@ public class Lienzo extends JPanel implements Runnable {
         int pxheight = this.getHeight();
         float width = pxwidth / (hexatron.getAncho() + 2);
         float height = pxheight / (hexatron.getAlto() + 2);
-        float val = width > height ? height : width;
+        val = width > height ? height : width;
         int valHex = (int) (val / 2 - (val / 10));
         xPoints[0] = valHex;
         xPoints[1] = 2 * valHex;
@@ -274,8 +276,20 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Celda.concentrationMax + Celda.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Celda.concentrationMin);
-        float concentrationPerUnit =  (700 / (Celda.concentrationMax - Celda.concentrationMin));
-        int concentrationValue = ((int)(concentrationPerUnit * cons));
+         float concentrationPerUnit;
+          int concentrationValue;
+        if(cons<150){
+            concentrationPerUnit =  (200 / (Celda.concentrationMax - Celda.concentrationMin));
+            concentrationValue= ((int)(concentrationPerUnit * cons));
+        }else if(cons>350){
+            concentrationPerUnit =  (200 / (Celda.concentrationMax - Celda.concentrationMin));
+            concentrationValue = ((int)(concentrationPerUnit * cons))+600;
+        }else{
+              concentrationPerUnit =  (1300 / (Celda.concentrationMax - Celda.concentrationMin));
+              concentrationValue = ((int)(concentrationPerUnit * cons))-200;
+        }
+//        System.out.println(cons+" "+concentrationValue);
+        
         //int col=(int)(cell.getConcentration() / Celda.concentrationMax);
         int r = concentrationValue < 255 ? concentrationValue : 255;
         int g = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
