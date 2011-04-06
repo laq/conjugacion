@@ -15,6 +15,7 @@ public class Celda {
     final public static float concentrationMax = 250;
     final public static float concentrationMin = -250;//when this are modified the boarder default must also be modified
     private float concentration;
+    private boolean antibiotic=false;
     int x;
     int y;
 
@@ -64,5 +65,19 @@ public class Celda {
          max=max>concentrationMax?concentrationMax:max;
          min=min<concentrationMin?concentrationMin:min;
         return ((float) Math.random() * (max - min)) + min;
+    }
+
+    /**
+     * @return the antibiotic
+     */
+    public boolean isAntibiotic() {
+        return antibiotic;
+    }
+
+    /**
+     * @param antibiotic the antibiotic to set
+     */
+    public void setAntibiotic(boolean antibiotic) {
+        this.antibiotic = antibiotic;
     }
 }

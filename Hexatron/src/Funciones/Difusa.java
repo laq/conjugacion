@@ -13,7 +13,7 @@ public class Difusa {
 
     double membresia[] = new double[3];//conjugar, girar der, girar iz
 
-    //Función difusa que retorna un arreglo de double con las membresias de las cinco acciones
+    //Función difusa que retorna un arreglo de double con las membresias de las  acciones
     public double[] difuso(double[] neighboorsConcentration, double ownConcentration) {
          for(int i=0;i<neighboorsConcentration.length;i++){
              membresia[i]=Math.abs((int)(ownConcentration-neighboorsConcentration[i]));
