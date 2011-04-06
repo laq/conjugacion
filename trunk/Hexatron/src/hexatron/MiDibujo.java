@@ -67,7 +67,7 @@ public class MiDibujo extends JFrame {
     }
 
     public void addMouse() {
-        final MiDibujo midibujo=this;
+        final MiDibujo midibujo = this;
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
@@ -78,6 +78,11 @@ public class MiDibujo extends JFrame {
                 if (button == MouseEvent.BUTTON3) {
                     addAntibiotic(e.getPoint());
                     midibujo.repintar();
+                }
+                if (button == MouseEvent.BUTTON2) {
+                    addConstantAntibiotic(e.getPoint());
+
+
                 }
             }
 
@@ -98,13 +103,25 @@ public class MiDibujo extends JFrame {
             }
 
             private void addAntibiotic(Point point) {
-                int j=(int)(point.x/lienzo.val)-1;
-                int i=(int)(point.y/lienzo.val)-1;
-                j=j<0?0:j;
-                i=i<0?0:i;
-                System.out.println(i+" "+j);
-                Celda cell=hexatron.getMatriz()[i][j];
-                cell.setConcentration(cell.getConcentration()+(-1f/8f)*(cell.getConcentration()+50));
+                int j = (int) (point.x / lienzo.val) - 1;
+                int i = (int) (point.y / lienzo.val) - 1;
+                j = j < 0 ? 0 : j;
+                i = i < 0 ? 0 : i;
+//                System.out.println(i+" "+j);
+                Celda cell = hexatron.getMatriz()[i][j];
+                cell.setConcentration(cell.getConcentration() + (-1f / 8f) * (cell.getConcentration() + 50));
+            }
+
+            private void addConstantAntibiotic(Point point) {
+                int j = (int) (point.x / lienzo.val) - 1;
+                int i = (int) (point.y / lienzo.val) - 1;
+                j = j < 0 ? 0 : j;
+                i = i < 0 ? 0 : i;
+//                System.out.println(i+" "+j);
+                int opt = JOptionPane.showConfirmDialog(midibujo, "Antibiotic source added on:" + i + "," + j);
+                boolean conf=opt==JOptionPane.OK_OPTION;
+                Celda cell = hexatron.getMatriz()[i][j];
+                cell.setAntibiotic(conf);
             }
         });
     }

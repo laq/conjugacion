@@ -219,6 +219,11 @@ public class Hexatron {
                     bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
                 }
+                if(matrizClone[i][j] instanceof Vacio && matrizClone[i][j].isAntibiotic()){
+//                    System.out.println("antibiotic source");
+                     Celda cell=matriz[i][j];
+                     cell.setConcentration(cell.getConcentration()+(-1f/2f)*(cell.getConcentration()+50));
+                }
                 concentrationDiffussion(i, j);
             }
         }
