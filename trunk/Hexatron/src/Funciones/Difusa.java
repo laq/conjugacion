@@ -18,7 +18,7 @@ public class Difusa {
          for(int i=0;i<neighboorsConcentration.length;i++){
              membresia[i]=Math.abs((int)(ownConcentration-neighboorsConcentration[i]));
              if(membresia[i]==Double.NaN){
-                 membresia[i]=5;
+                 membresia[i]=50;
              }
          }
         return membresia;
