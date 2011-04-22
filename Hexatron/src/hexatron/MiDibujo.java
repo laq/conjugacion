@@ -4,6 +4,7 @@
  */
 package hexatron;
 
+import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Celda;
 import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
@@ -211,6 +212,20 @@ public class MiDibujo extends JFrame {
             }
         });
         menu.add(menuItem);
+
+        //bacteria percentage
+        menuItem = new JMenuItem("Change bacteria start percentage");
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                String sbper = JOptionPane.showInputDialog("Percentage of Bacteria in the environment: (actual " + Constants.bacteriaPercentage+")");
+                Constants.bacteriaPercentage = Float.parseFloat(sbper);
+                String sdper = JOptionPane.showInputDialog("Percentage of Bacteria who donate: (actual " + Constants.donorsPercentage+")");
+                Constants.donorsPercentage = Float.parseFloat(sdper);
+            }
+        });
+        menu.add(menuItem);
         //re pobloar
         menuItem = new JMenuItem("Clear and Restart(Random)");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
@@ -235,26 +250,45 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                float movement = Constants.movementProbability - Constants.conjugationProbability;
-                String sgen = JOptionPane.showInputDialog("Probability of conjugation, actual:" + Constants.conjugationProbability);
-                Constants.conjugationProbability = Float.parseFloat(sgen);
-                sgen = JOptionPane.showInputDialog("Probability of movement, actual:" + movement);
-                Constants.movementProbability = Float.parseFloat(sgen) + Constants.conjugationProbability;
+//                float movement = Constants.movementProbability - Constants.conjugationProbability;
+//                String sgen = JOptionPane.showInputDialog("Probability of conjugation, actual:" + Constants.conjugationProbability);
+//                Constants.conjugationProbability = Float.parseFloat(sgen);
+//                sgen = JOptionPane.showInputDialog("Probability of movement, actual:" + movement);
+//                Constants.movementProbability = Float.parseFloat(sgen) + Constants.conjugationProbability;
                 //No se hacen las siguientes por ser obvias
                 // sgen = JOptionPane.showInputDialog("Probability of doing nothing, actual:" + Constants.nothingProbability);
                 // Constants.nothingProbability = Integer.parseInt(sgen) + Constants.movementProbability;
             }
         });
+//        menu.add(menuItem);
+        menuItem = new JMenuItem("Conjugation on Concentration");
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                int choice=JOptionPane.showConfirmDialog(null,
+                        "Activate conjugation on concentration? (current state:"+Bacteria.conjugationOnConcentration+")",
+                        "Conjugation On concentration",
+                        JOptionPane.YES_NO_OPTION);
+            }
+        }
+        );
         menu.add(menuItem);
         menuItem = new JMenuItem("Min Conjugation Concentration");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Celda.concentrationMax + ")");
-                Constants.minConjugationConcentration = Float.parseFloat(sgen);
+                if(Bacteria.conjugationOnConcentration){
+                 String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Celda.concentrationMax + ")");
+                 Constants.minConjugationConcentration = Float.parseFloat(sgen);
+                }
+                else{
+                  JOptionPane.showMessageDialog(null, "The conjugation on concentration is not active", "Conjugation On Concentration", JOptionPane.INFORMATION_MESSAGE);
+                }
+                }
             }
-        });
+        );
         menu.add(menuItem);
         return menu;
     }
@@ -320,7 +354,7 @@ public class MiDibujo extends JFrame {
                 m.repintar();
             }
         });
-        menu.add(menuItem);
+//        menu.add(menuItem);
         menuItem = new JCheckBoxMenuItem("Show bact Concentration", false);
         m.lienzo.setShowConcentrationNumber(menuItem);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK));
@@ -341,7 +375,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Development verion, By: \n Stifen Panche \n y \n Leonardo Quiñonez", "About..", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Development version, By: \n Stifen Panche \n y \n Leonardo Quiñonez", "About..", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         menu.add(menuItem);

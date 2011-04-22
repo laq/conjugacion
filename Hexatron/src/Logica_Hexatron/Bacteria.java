@@ -27,7 +27,7 @@ public class Bacteria extends Celda {
 //    }
     /**
      * Creacion de bacteria basada en una concentracion
-     * @param tipo
+     * @param tipo 1 donor 2 reciever
      */
     public Bacteria(int tipo) {
         super(randomConcentrationOnTipe(tipo));

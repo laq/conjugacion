@@ -70,7 +70,10 @@ public class Hexatron {
                     tipo = 3;
                     border = true;
                 } else {
-                    tipo = (int) (Math.random() * 4) + 1;
+                     tipo = (int) Math.ceil(Constants.bacteriaPercentage-Math.random());
+                }
+                if(tipo==1){
+                    tipo =(int) Math.ceil(Math.random()-Constants.donorsPercentage)+1;
                 }
                 if (tipo == 1) {
                     matriz[i][j] = new Bacteria(1);
