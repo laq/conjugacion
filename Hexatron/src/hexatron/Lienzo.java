@@ -137,7 +137,12 @@ public class Lienzo extends JPanel implements Runnable {
             }
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
-            g.setColor(Color.green);
+            if(getMatriz()[i][j].isAntibiotic()){
+                g.setColor(Color.black);
+            }
+            else{
+                g.setColor(Color.green);
+            }
             g.drawPolygon(xPoints, yPoints, 6);
         } else if (getMatriz()[i][j] instanceof Quimico) {
             g.setColor(Color.PINK);

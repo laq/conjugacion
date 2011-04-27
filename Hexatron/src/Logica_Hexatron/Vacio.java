@@ -15,6 +15,9 @@ public class Vacio  extends Celda{
     }
     public Vacio(boolean neutral){
         super(concentrationOnNeutral(neutral));
+        if(Math.random()<Constants.antibioticPercentage){
+            this.setAntibiotic(true);
+        }
     }
 
     private static float concentrationOnNeutral(boolean neutral){
@@ -24,7 +27,6 @@ public class Vacio  extends Celda{
         else{
            return Celda.validRandomConcentrationRange(200, -50);
         }
-
     }
 
 

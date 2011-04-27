@@ -23,6 +23,7 @@ public class Constants {
     public static float borderDefault=0;
 
     public static float minConjugationConcentration=50;
+    public static float antibioticPercentage=0;
     
 
 }
