@@ -223,6 +223,8 @@ public class MiDibujo extends JFrame {
                 Constants.bacteriaPercentage = Float.parseFloat(sbper);
                 String sdper = JOptionPane.showInputDialog("Percentage of Bacteria who donate: (actual " + Constants.donorsPercentage+")");
                 Constants.donorsPercentage = Float.parseFloat(sdper);
+                String saper = JOptionPane.showInputDialog("Percentage of Empty cell wich have antibiotic: (actual " + Constants.antibioticPercentage+")");
+                Constants.antibioticPercentage = Float.parseFloat(saper);
             }
         });
         menu.add(menuItem);

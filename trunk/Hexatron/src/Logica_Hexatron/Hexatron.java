@@ -225,7 +225,7 @@ public class Hexatron {
                 if(matrizClone[i][j] instanceof Vacio && matrizClone[i][j].isAntibiotic()){
 //                    System.out.println("antibiotic source");
                      Celda cell=matriz[i][j];
-                     cell.setConcentration(cell.getConcentration()+(-1f/2f)*(cell.getConcentration()+50));
+                     cell.setConcentration(cell.getConcentration()+(-1)*(cell.getConcentration()+50));
                 }
                 concentrationDiffussion(i, j);
             }
