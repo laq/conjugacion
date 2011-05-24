@@ -16,11 +16,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Stroke;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import utils.LogPrinter;
 
 /**
@@ -54,7 +57,20 @@ public class Lienzo extends JPanel implements Runnable {
 
     @Override
     public void paint(Graphics g) {
-        jlable.setText("Current Generation:" + hexatron.getGeneration());
+        int totalCells=hexatron.getAlto()*hexatron.getAncho();
+        String space="                                                       ";
+        String totalBacteriaS= "   Total Bacteria:"+totalCells;
+        String donorBacteriaS= "       Donor Bacteria:"+hexatron.getDonadoras();
+        String recipientBacteriaS= "         Recipient Bacteria:"+hexatron.getReceptoras();
+        int emptyCells=(totalCells-hexatron.getDonadoras()-hexatron.getReceptoras());
+        String freeCells= "                 Empty Cells:"+emptyCells;
+        String antibioticCells="       Antibiotic Cells:"+hexatron.getAntibiotico();
+        String generalS=totalBacteriaS+donorBacteriaS+recipientBacteriaS+freeCells+antibioticCells;
+        float bacteria=totalCells-emptyCells;
+        float percentage=((float)hexatron.getDonadoras()/(float)(totalCells-emptyCells));        
+        generalS+="     Donor Percentage:"+(int)(percentage*100)+"% ";
+        jlable.setText("Current Generation:" + hexatron.getGeneration()+generalS);
+        jlable.setHorizontalAlignment(SwingConstants.CENTER);
         int pxwidth = this.getWidth();
         int pxheight = this.getHeight();
         float width = pxwidth / (hexatron.getAncho() + 2);
@@ -134,6 +150,7 @@ public class Lienzo extends JPanel implements Runnable {
             } else {
                 g.setColor(Color.CYAN);
                 g.fillPolygon(xPoints, yPoints, 6);
+                g.setColor(Color.orange);
             }
 
         } else if (getMatriz()[i][j] instanceof Vacio) {
@@ -147,6 +164,12 @@ public class Lienzo extends JPanel implements Runnable {
         } else if (getMatriz()[i][j] instanceof Quimico) {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
+        }
+         if (isShowConcentrationNumber()) {
+            Font f = g.getFont();
+            g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
+            g.drawString(" " + (int) getMatriz()[i][j].getConcentration(), xPoints[5], yPoints[5] + valHex);
+            g.setFont(f);
         }
     }
 

@@ -4,6 +4,8 @@
  */
 package Funciones;
 
+import utils.LogPrinter;
+
 
 /**
  *
@@ -16,9 +18,11 @@ public class Difusa {
     //Función difusa que retorna un arreglo de double con las membresias de las  acciones
     public double[] difuso(double[] neighboorsConcentration, double ownConcentration) {
          for(int i=0;i<neighboorsConcentration.length;i++){
-             membresia[i]=Math.abs((int)(ownConcentration-neighboorsConcentration[i]));
-             if(membresia[i]==Double.NaN){
-                 membresia[i]=50;
+             membresia[i]=Math.abs((ownConcentration-neighboorsConcentration[i]));
+             LogPrinter.printConsole(i+" "+ ownConcentration+" "+neighboorsConcentration[i]+" "+ membresia[i], 3);
+             if(Double.isNaN(membresia[i])){
+                 LogPrinter.printConsole("nan "+ membresia[i], 3);
+                 membresia[i]=20;
              }
          }
         return membresia;
@@ -36,7 +40,8 @@ public class Difusa {
         inicializar();
         difuso(neighboorsConcentration, ownConcentration);
         for (int i = 0; i < membresia.length; i++) {
-            membresia[i] = membresia[i] * Math.random();
+            LogPrinter.printConsole(i+" "+ membresia[i], 3);
+            membresia[i] = (Math.pow(membresia[i],2)) * Math.random();            
             if (membresia[i] > M) {
                 M = membresia[i];
                 pos = i;
@@ -57,7 +62,7 @@ public class Difusa {
        // Difusa d = new Difusa();
      //   for(int i=-250;i<=250;i++){
       //   System.out.println(i+":"+d.accion(i)+","+d.accion(i)+","+d.accion(i));
-        System.out.println(Double.NaN==10);
+        System.out.println((73-Double.NaN));
 //        }
         
     }
