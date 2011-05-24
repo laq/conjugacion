@@ -20,6 +20,9 @@ public class Hexatron {
     private int ancho = 50;
     private int alto = 50;
     private int generation = 0;
+    private int donadoras=0;
+    private int receptoras=0;
+    private int antibiotico=0;
 
     public Celda[][] getMatriz() {
         return matriz;
@@ -60,10 +63,12 @@ public class Hexatron {
     }
 
     public void poblar(boolean neutral) {
-
+        donadoras=0;
+        receptoras=0;
+        antibiotico=0;
         matriz = new Celda[alto + 2][ancho + 2];
         for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
+            for (int j = 0; j < matriz[i].length; j++) {              
                 boolean border = false;
                 int tipo = 0;
                 if (i == 0 || j == 0 || (i == matriz.length - 1) || (j == matriz[i].length - 1)) {
@@ -77,10 +82,15 @@ public class Hexatron {
                 }
                 if (tipo == 1) {
                     matriz[i][j] = new Bacteria(1);
+                    donadoras++;
                 } else if (tipo == 2) {
                     matriz[i][j] = new Bacteria(2);
+                    receptoras++;
                 } else {
                     matriz[i][j] = border ? new Vacio(Constants.borderDefault) : new Vacio(neutral);
+                     if(matriz[i][j].isAntibiotic()){
+                         antibiotico++;
+                     }
                 }
             }
         }
@@ -188,13 +198,16 @@ public class Hexatron {
 
     public void nextGen() {
         matrizClone = matriz.clone();
-
+        donadoras=0;
+        receptoras=0;
+        antibiotico=0;
         for (int i = 1; i < matriz.length - 1; i++) {
             for (int j = 1; j < matriz[i].length - 1; j++) {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     Difusa difusa = new Difusa();
                     double[] neighboors = neighboorsConcentration(bact, i, j);
+                    LogPrinter.printConsole("******i:j "+i+":"+j+" "+bact.getConcentration(),3);
                     int accion = difusa.accion(neighboors, bact.getConcentration());
 //                    System.out.println("accion"+accion);
                     switch (accion) {
@@ -226,21 +239,41 @@ public class Hexatron {
 //                    System.out.println("antibiotic source");
                      Celda cell=matriz[i][j];
                      cell.setConcentration(cell.getConcentration()+(-1)*(cell.getConcentration()+50));
+                     antibiotico++;
                 }
-                concentrationDiffussion(i, j);
+//                concentrationDiffussion(i, j);
             }
         }
+      // for(int k=0;k<5;k++){
+        for (int i = 1; i < matriz.length - 1; i++) {
+            for (int j = 1; j < matriz[i].length - 1; j++) {
+                if (matriz[i][j] instanceof Bacteria){
+                    Bacteria bact=(Bacteria)matriz[i][j];
+                    if(bact.getTipo()==1){//donor
+                        donadoras++;
+                    }
+                    else{
+                        receptoras++;
+                    }
+                }
+                 concentrationDiffussion(i, j);
+            }
+        }
+       //}
         generation++;
     }
 
     private double[] neighboorsConcentration(Bacteria bact, int i, int j) {
         double lcons = 0, fcons = 0, rcons = 0;
         Celda fcell = getCellAtFromRound(bact.getDireccionCabeza(), i, j, true);
-        fcons = fcell instanceof Bacteria ? fcell.getConcentration() : Double.NaN;
+         fcons = fcell.getConcentration();
+//        fcons = fcell instanceof Bacteria ? fcell.getConcentration() : Double.NaN;
         Celda lcell = getCellAtFromRound(bact.getDireccionCabeza() - 1, i, j, true);
-        lcons = lcell instanceof Bacteria ? lcell.getConcentration() : Double.NaN;
+        lcons= lcell.getConcentration();
+//        lcons = lcell instanceof Bacteria ? lcell.getConcentration() : Double.NaN;
         Celda rcell = getCellAtFromRound(bact.getDireccionCabeza() + 1, i, j, true);
-        rcons = rcell instanceof Bacteria ? rcell.getConcentration() : Double.NaN;
+        rcons = rcell.getConcentration();
+//        rcons = rcell instanceof Bacteria ? rcell.getConcentration() : Double.NaN;
         double[] neighboors = {fcons, rcons, lcons};
         return neighboors;
     }
@@ -398,5 +431,26 @@ public class Hexatron {
             }
         }
         return l;
+    }
+
+    /**
+     * @return the donadoras
+     */
+    public int getDonadoras() {
+        return donadoras;
+    }
+
+    /**
+     * @return the receptoras
+     */
+    public int getReceptoras() {
+        return receptoras;
+    }
+
+    /**
+     * @return the antibiotico
+     */
+    public int getAntibiotico() {
+        return antibiotico;
     }
 }

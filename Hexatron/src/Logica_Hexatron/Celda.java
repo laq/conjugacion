@@ -20,6 +20,7 @@ public class Celda {
     int y;
 
     public Celda(float conc) {
+        LogPrinter.printConsole("concentracoin" + conc, 3);
         this.setConcentration(conc);
     }
 
@@ -58,13 +59,13 @@ public class Celda {
      * @param center
      * @return
      */
-     public static float validRandomConcentrationRange(float rangeSize,float center){
+     public static int validRandomConcentrationRange(float rangeSize,float center){
          rangeSize=Math.abs(rangeSize)/2;
          float max=center+rangeSize;
          float min=center-rangeSize;
          max=max>concentrationMax?concentrationMax:max;
          min=min<concentrationMin?concentrationMin:min;
-        return ((float) Math.random() * (max - min)) + min;
+        return (int)(( Math.random() * (max - min)) + min);
     }
 
     /**

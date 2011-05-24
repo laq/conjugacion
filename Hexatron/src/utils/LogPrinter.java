@@ -10,7 +10,7 @@ package utils;
  * @author LAQ
  */
 public class LogPrinter {
-    private static int debugLevel=4;
+    private static int debugLevel=3;
 
     public static void printConsole(String s, int level){
         if(level<debugLevel){
