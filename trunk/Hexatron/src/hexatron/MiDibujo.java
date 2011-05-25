@@ -110,7 +110,8 @@ public class MiDibujo extends JFrame {
                 i = i < 0 ? 0 : i;
 //                System.out.println(i+" "+j);
                 Celda cell = hexatron.getMatriz()[i][j];
-                cell.setConcentration(cell.getConcentration() + (-1f / 8f) * (cell.getConcentration() + 50));
+//                cell.setConcentration(cell.getConcentration() + (-1f / 8f) * (cell.getConcentration() + 50));
+                  cell.setConcentration(cell.getConcentration() - 50);
             }
 
             private void addConstantAntibiotic(Point point) {
@@ -263,6 +264,19 @@ public class MiDibujo extends JFrame {
             }
         });
 //        menu.add(menuItem);
+        menuItem = new JMenuItem("Plasmid Type");
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
+        menuItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                 String stype=JOptionPane.showInputDialog(null,
+                        "Choose plasmid type: 1. for constant 2. for linear 3. for cubic"
+                        );
+                Bacteria.typePlasmid= Integer.parseInt(stype);
+            }
+        }
+        );
+        menu.add(menuItem);
         menuItem = new JMenuItem("Conjugation on Concentration");
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
@@ -272,6 +286,7 @@ public class MiDibujo extends JFrame {
                         "Activate conjugation on concentration? (current state:"+Bacteria.conjugationOnConcentration+")",
                         "Conjugation On concentration",
                         JOptionPane.YES_NO_OPTION);
+                Bacteria.conjugationOnConcentration=choice==JOptionPane.YES_OPTION;
             }
         }
         );

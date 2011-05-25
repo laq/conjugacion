@@ -4,6 +4,12 @@
  */
 package Logica_Hexatron;
 
+import Logica_Hexatron.plasmids.SimplePlasmid;
+import Logica_Hexatron.plasmids.Plasmid;
+import Logica_Hexatron.plasmids.SimplePlasmidConst;
+import Logica_Hexatron.plasmids.SimplePlasmidCub;
+import Logica_Hexatron.plasmids.SimplePlasmidLin;
+
 /**
  *
  * @author Ztiphen
@@ -18,6 +24,8 @@ public class Bacteria extends Celda {
     private int tiempoReceptora = 0;
     private Plasmid plasmid;
     public static boolean conjugationOnConcentration = false;
+    public static int typePlasmid=1;//1, 2 or 3 - constat, linear , cubic
+    private static float bacteriaCenter=(float)Math.random()*100;
 
     //BEFORE
 //    public Bacteria (int tipo)
@@ -36,26 +44,48 @@ public class Bacteria extends Celda {
         if (conjugationOnConcentration) {
             if (this.getConcentration() > Constants.minConjugationConcentration) {
                 this.tipo = 1;
-                plasmid = new SimplePlasmid();
+                plasmid = newPlasmid();
             } else {
                 this.tipo = 2;
             }
         } else {
             this.tipo = tipo;
             if (tipo == 1) {
-                plasmid = new SimplePlasmid();
+                plasmid = newPlasmid();
             }
         }
         direccionCabeza = (int) (Math.random() * 5) + 1;
 
     }
+
+
+    public Plasmid newPlasmid(){
+        Plasmid thisplasmid;
+        switch(typePlasmid){
+                    case 1:
+                        thisplasmid = new SimplePlasmidConst();
+                        break;
+
+                    case 2:
+                        thisplasmid = new SimplePlasmidLin();
+                        break;
+                    case 3:
+                        thisplasmid = new SimplePlasmidCub();
+                        break;
+                    default:
+                        thisplasmid= new SimplePlasmidLin();
+                }
+        return thisplasmid;
+    }
+
+
     public static float randomConcentrationOnTipe(int type){
         if(type==1)
         {
             return Celda.validRandomConcentrationRange(100, 50);
         }
         else{
-            return Celda.validRandomConcentrationRange(100, 0);
+            return Celda.validRandomConcentrationRange(100,bacteriaCenter );
         }
     }
 
@@ -210,6 +240,10 @@ public class Bacteria extends Celda {
                 plasmid = null;
             }
         }
+    }
+
+    public static void restartBacteriaCenter(){
+        bacteriaCenter=(float)Math.random()*50+25;
     }
 
 }

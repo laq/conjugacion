@@ -3,13 +3,16 @@
  * and open the template in the editor.
  */
 
-package Logica_Hexatron;
+package Logica_Hexatron.plasmids;
+
+
+
 
 /**
  *
  * @author LAQ
  */
-class SimplePlasmid implements Plasmid{
+public class SimplePlasmid implements Plasmid{
     float plasmidPlus=10;
 
     public SimplePlasmid() {

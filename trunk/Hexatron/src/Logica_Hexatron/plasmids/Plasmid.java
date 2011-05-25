@@ -3,13 +3,13 @@
  * and open the template in the editor.
  */
 
-package Logica_Hexatron;
+package Logica_Hexatron.plasmids;
 
 /**
  *
  * @author LAQ
  */
-interface Plasmid{
+public interface Plasmid{
      float calculateNewEnvState(float envAvrg, float currentenv);
 
 }
