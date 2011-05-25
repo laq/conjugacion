@@ -20,10 +20,10 @@ public class Difusa {
          for(int i=0;i<neighboorsConcentration.length;i++){
              membresia[i]=Math.abs((ownConcentration-neighboorsConcentration[i]));
              LogPrinter.printConsole(i+" "+ ownConcentration+" "+neighboorsConcentration[i]+" "+ membresia[i], 3);
-             if(Double.isNaN(membresia[i])){
-                 LogPrinter.printConsole("nan "+ membresia[i], 3);
-                 membresia[i]=20;
-             }
+//             if(Double.isNaN(membresia[i])){
+//                 LogPrinter.printConsole("nan "+ membresia[i], 3);
+//                 membresia[i]=20;
+//             }
          }
         return membresia;
 
@@ -39,14 +39,19 @@ public class Difusa {
         int pos = -1;
         inicializar();
         difuso(neighboorsConcentration, ownConcentration);
-        for (int i = 0; i < membresia.length; i++) {
-            LogPrinter.printConsole(i+" "+ membresia[i], 3);
-            membresia[i] = (Math.pow(membresia[i],2)) * Math.random();            
-            if (membresia[i] > M) {
-                M = membresia[i];
-                pos = i;
-            }
+        for (int i = 1; i < membresia.length; i++) {
+            LogPrinter.printConsole(i+" "+ membresia[i], 5);
+            membresia[i] += membresia[i-1];
+            LogPrinter.printConsole(i+" "+ membresia[i], 5);
         }
+        double rand=Math.random()*membresia[membresia.length-1];
+        LogPrinter.printConsole("rand="+rand, 3);
+         for (int i = membresia.length-1; i>=0; i--) {
+             if(rand<membresia[i]){
+                 pos=i;
+             }
+         }
+        LogPrinter.printConsole("pos"+pos, 5);
         return pos;
     }
 
@@ -58,7 +63,6 @@ public class Difusa {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic here
        // Difusa d = new Difusa();
      //   for(int i=-250;i<=250;i++){
       //   System.out.println(i+":"+d.accion(i)+","+d.accion(i)+","+d.accion(i));

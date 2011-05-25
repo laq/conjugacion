@@ -41,6 +41,27 @@ public class Hexatron {
         return ancho;
     }
 
+    public void printData() {
+//        generation;
+        int totalCells = getAlto() * getAncho();
+//        getDonadoras();
+//        getReceptoras();
+        int emptyCells = totalCells - getDonadoras() - getReceptoras();
+//        getAntibiotico();
+        float percentage = (float) getDonadoras() / (float) (totalCells-emptyCells);
+        //variables: tipo de plasmido
+        //rango
+
+        LogPrinter.printData(Integer.toString(generation),Integer.toString(totalCells),Integer.toString(Bacteria.typePlasmid)
+                ,Integer.toString(getDonadoras()),Integer.toString(getReceptoras())
+                ,Integer.toString(emptyCells),Integer.toString(getAntibiotico())
+                ,Float.toString(percentage));
+    }
+
+    public void printNames(){
+        LogPrinter.printData("Generation","Total Cells","Plasmid","Donors","Recipients","Empty","Antibiotic","Percentage");
+    }
+
     /**
      * @param ancho the ancho to set
      */
@@ -67,6 +88,7 @@ public class Hexatron {
         receptoras=0;
         antibiotico=0;
         matriz = new Celda[alto + 2][ancho + 2];
+        Bacteria.restartBacteriaCenter();
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {              
                 boolean border = false;
@@ -94,6 +116,7 @@ public class Hexatron {
                 }
             }
         }
+        printNames();
     }
 
 //    public void nextGen() {
@@ -261,6 +284,7 @@ public class Hexatron {
         }
        //}
         generation++;
+        printData();
     }
 
     private double[] neighboorsConcentration(Bacteria bact, int i, int j) {

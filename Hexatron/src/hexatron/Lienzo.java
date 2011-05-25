@@ -69,7 +69,9 @@ public class Lienzo extends JPanel implements Runnable {
         float bacteria=totalCells-emptyCells;
         float percentage=((float)hexatron.getDonadoras()/(float)(totalCells-emptyCells));        
         generalS+="     Donor Percentage:"+(int)(percentage*100)+"% ";
-        jlable.setText("Current Generation:" + hexatron.getGeneration()+generalS);
+        generalS="Current Generation:" + hexatron.getGeneration()+generalS;
+//        LogPrinter.writeFile(generalS+"\n");
+        jlable.setText(generalS);
         jlable.setHorizontalAlignment(SwingConstants.CENTER);
         int pxwidth = this.getWidth();
         int pxheight = this.getHeight();

@@ -24,6 +24,8 @@ public class Constants {
 
     public static float minConjugationConcentration=50;
     public static float antibioticPercentage=0;
+
+    public static float donorsCenter=50;
     
 
 }
