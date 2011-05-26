@@ -15,7 +15,7 @@ import Logica_Hexatron.Constants;
  * @author LAQ
  */
 public class SimplePlasmidConst implements Plasmid{
-    float plasmidPlus=10;
+    float plasmidPlus=0;
 
     public SimplePlasmidConst() {
         plasmidPlus=(float)Math.random()*9.9f+0.1f;
@@ -33,8 +33,11 @@ public class SimplePlasmidConst implements Plasmid{
         }
         
        // newEnv=(envAvrg+2*currentenv)/3;
-        
+//        System.out.println(newEnv+" "+currentenv);
         return newEnv;
     }
 
+     public void setPlasmidParameter(float parameter) {
+        plasmidPlus=parameter;
+    }
 }

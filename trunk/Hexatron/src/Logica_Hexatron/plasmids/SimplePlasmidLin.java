@@ -25,7 +25,11 @@ public class SimplePlasmidLin implements Plasmid{
         float newEnv=currentenv+(-plasmidPlus)*(currentenv-50);
        // newEnv=(envAvrg+2*currentenv)/3;
         
+        
         return newEnv;
     }
 
+     public void setPlasmidParameter(float parameter) {
+        plasmidPlus=parameter;
+    }
 }

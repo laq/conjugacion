@@ -29,4 +29,8 @@ public class SimplePlasmidCub implements Plasmid{
         return newEnv;
     }
 
+    public void setPlasmidParameter(float parameter) {
+        plasmidPlus=parameter;
+    }
+
 }

@@ -15,8 +15,8 @@ public class Constants {
 //    public static float movementProbability=0.75f;//0.25f;
 //    public static float nothingProbability=1f;//0.25f;
 
-    public static float bacteriaPercentage=0.5f;
-    public static float donorsPercentage=0.5f;
+    public static float bacteriaPercentage=0.7f;
+    public static float donorsPercentage=0.3f;
 
     public static int timeToConjugate=1;
 
