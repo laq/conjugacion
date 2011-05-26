@@ -229,7 +229,7 @@ public class Hexatron {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
                     Difusa difusa = new Difusa();
-                    double[] neighboors = neighboorsConcentration(bact, i, j);
+                    double[] neighboors = neighboorsConcentration(bact, i, j);                  
                     LogPrinter.printConsole("******i:j "+i+":"+j+" "+bact.getConcentration(),3);
                     int accion = difusa.accion(neighboors, bact.getConcentration());
 //                    System.out.println("accion"+accion);
@@ -247,7 +247,7 @@ public class Hexatron {
                             Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
                             bact.conjugar(bact2);
                             if (bact2 == null) {
-                                bact.girarBacteria();
+//                                bact.girarBacteria();//TODO cheq giro cuando conjugacion no fructifera
                             }
                             break;
                         }

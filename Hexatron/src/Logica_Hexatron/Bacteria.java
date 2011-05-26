@@ -4,8 +4,9 @@
  */
 package Logica_Hexatron;
 
-import Logica_Hexatron.plasmids.SimplePlasmid;
+
 import Logica_Hexatron.plasmids.Plasmid;
+import Logica_Hexatron.plasmids.SimplePlasmid;
 import Logica_Hexatron.plasmids.SimplePlasmidConst;
 import Logica_Hexatron.plasmids.SimplePlasmidCub;
 import Logica_Hexatron.plasmids.SimplePlasmidLin;
@@ -25,7 +26,7 @@ public class Bacteria extends Celda {
     private Plasmid plasmid;
     public static boolean conjugationOnConcentration = false;
     public static int typePlasmid=1;//1, 2 or 3 - constat, linear , cubic
-    private static float bacteriaCenter=(float)Math.random()*100;
+    private static float bacteriaCenter=50;
 
     //BEFORE
 //    public Bacteria (int tipo)
@@ -60,7 +61,7 @@ public class Bacteria extends Celda {
 
 
     public Plasmid newPlasmid(){
-        Plasmid thisplasmid;
+        Plasmid thisplasmid=null;
         switch(typePlasmid){
                     case 1:
                         thisplasmid = new SimplePlasmidConst();
@@ -71,9 +72,9 @@ public class Bacteria extends Celda {
                         break;
                     case 3:
                         thisplasmid = new SimplePlasmidCub();
-                        break;
-                    default:
-                        thisplasmid= new SimplePlasmidLin();
+                        break;  
+                     default:
+                        thisplasmid=new SimplePlasmid();//does nothing
                 }
         return thisplasmid;
     }
@@ -166,7 +167,7 @@ public class Bacteria extends Celda {
                     bact2.setConcentration(cons);
                 }else{
                     bact2.tipo=1;
-                    bact2.plasmid= new SimplePlasmid();
+                    bact2.plasmid= newPlasmid();
                 }
                 //   bact2.setConcentracionBact(cons);
                 //bact2.setTipo(1);//BEFORE
@@ -219,7 +220,7 @@ public class Bacteria extends Celda {
     }
 
     private float calculateNewEnvState(float envAvrg, float currentenv) {
-        if (tipo == 1) {
+        if (tipo == 1) {           
             return plasmid.calculateNewEnvState(envAvrg, currentenv);
         } else {
 //            System.out.println((envAvrg/currentenv)*5);//LAQ
@@ -234,7 +235,7 @@ public class Bacteria extends Celda {
         if (conjugationOnConcentration) {
             if (this.getConcentration() > Constants.minConjugationConcentration) {
                 tipo = 1;
-                plasmid = new SimplePlasmid();
+                plasmid = newPlasmid();
             } else {
                 tipo = 2;
                 plasmid = null;

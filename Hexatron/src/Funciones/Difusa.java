@@ -4,6 +4,7 @@
  */
 package Funciones;
 
+import java.lang.reflect.Array;
 import utils.LogPrinter;
 
 
@@ -39,19 +40,40 @@ public class Difusa {
         int pos = -1;
         inicializar();
         difuso(neighboorsConcentration, ownConcentration);
+        membresiaChange();
         for (int i = 1; i < membresia.length; i++) {
-            LogPrinter.printConsole(i+" "+ membresia[i], 5);
+            LogPrinter.printConsole(i+" "+ membresia[i], 4);
             membresia[i] += membresia[i-1];
-            LogPrinter.printConsole(i+" "+ membresia[i], 5);
+            LogPrinter.printConsole(i+" "+ membresia[i], 4);
         }
         double rand=Math.random()*membresia[membresia.length-1];
-        LogPrinter.printConsole("rand="+rand, 3);
+        LogPrinter.printConsole("rand="+rand, 4);
          for (int i = membresia.length-1; i>=0; i--) {
              if(rand<membresia[i]){
                  pos=i;
              }
          }
-        LogPrinter.printConsole("pos"+pos, 5);
+        LogPrinter.printConsole("pos"+pos, 4);
+        return pos;
+    }
+
+     /**
+     *
+     * @param concentracion
+     * @return  0: muerte, 1: Quieto, 2: girar, 3:mover, 4:conjugar
+     */
+    public int accionNoRand(double[] neighboorsConcentration, double ownConcentration) {
+        double M = Double.NEGATIVE_INFINITY;
+        int pos = -1;
+        inicializar();
+        difuso(neighboorsConcentration, ownConcentration);
+        for (int i = 0; i < membresia.length; i++) {
+           if(membresia[i]>M){
+               M=membresia[i];
+               pos=i;
+           }
+        }
+        LogPrinter.printConsole("pos"+pos, 4);
         return pos;
     }
 
@@ -69,5 +91,19 @@ public class Difusa {
         System.out.println((73-Double.NaN));
 //        }
         
+    }
+
+    private void membresiaChange() {
+         double min=Double.POSITIVE_INFINITY;
+         for (int i = 0; i < membresia.length; i++) {
+//             System.out.println("norm:"+i+":"+membresia[i]);
+             if(membresia[i]<min){
+                 min=membresia[i];
+             }
+         }
+          for (int i = 0; i < membresia.length; i++) {
+             membresia[i]=Math.pow(membresia[i]-min+1,2);
+//             System.out.println("rest"+i+":"+membresia[i]);
+          }
     }
 }
