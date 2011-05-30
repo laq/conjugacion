@@ -9,6 +9,9 @@ package Logica_Hexatron;
  *
  * @author Ztiphen
  */
- @Deprecated public  class Quimico  extends Celda{
+ public  class Antibiotic  extends Celda{
+
+    
+
 
 }

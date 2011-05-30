@@ -8,9 +8,8 @@ import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Celda;
 import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
-import java.awt.Checkbox;
+
 import java.awt.Graphics;
-import java.awt.MenuBar;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
