@@ -81,4 +81,6 @@ public class Celda {
     public void setAntibiotic(boolean antibiotic) {
         this.antibiotic = antibiotic;
     }
+
+
 }

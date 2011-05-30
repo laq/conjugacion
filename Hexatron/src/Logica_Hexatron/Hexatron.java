@@ -23,6 +23,7 @@ public class Hexatron {
     private int donadoras=0;
     private int receptoras=0;
     private int antibiotico=0;
+    private int antibioticTipe=1;
 
     public Celda[][] getMatriz() {
         return matriz;

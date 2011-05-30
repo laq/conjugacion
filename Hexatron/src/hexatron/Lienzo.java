@@ -7,7 +7,7 @@ package hexatron;
 import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Celda;
 import Logica_Hexatron.Hexatron;
-import Logica_Hexatron.Quimico;
+import Logica_Hexatron.Antibiotic;
 import Logica_Hexatron.Vacio;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -163,7 +163,7 @@ public class Lienzo extends JPanel implements Runnable {
                 g.setColor(Color.green);
             }
             g.drawPolygon(xPoints, yPoints, 6);
-        } else if (getMatriz()[i][j] instanceof Quimico) {
+        } else if (getMatriz()[i][j] instanceof Antibiotic) {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
@@ -198,7 +198,7 @@ public class Lienzo extends JPanel implements Runnable {
             g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
 //            g.drawPolygon(xPoints, yPoints, 6);
-        } else if (getMatriz()[i][j] instanceof Quimico) {
+        } else if (getMatriz()[i][j] instanceof Antibiotic) {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
@@ -229,7 +229,7 @@ public class Lienzo extends JPanel implements Runnable {
             // g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
             g.drawPolygon(xPoints, yPoints, 6);
-        } else if (getMatriz()[i][j] instanceof Quimico) {
+        } else if (getMatriz()[i][j] instanceof Antibiotic) {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
