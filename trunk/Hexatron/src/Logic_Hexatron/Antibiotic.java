@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package Logica_Hexatron;
+package Logic_Hexatron;
 
 /**
  * Class representing an antibiotic

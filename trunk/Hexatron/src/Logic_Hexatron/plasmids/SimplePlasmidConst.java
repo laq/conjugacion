@@ -1,6 +1,6 @@
-package Logica_Hexatron.plasmids;
+package Logic_Hexatron.plasmids;
 
-import Logica_Hexatron.Constants;
+import Logic_Hexatron.Constants;
 
 /**Plasmid with constant aproximation
  *

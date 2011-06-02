@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Logica_Hexatron;
+package Logic_Hexatron;
 
 import Functions.Fuzzy;
 import java.util.ArrayList;
