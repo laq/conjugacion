@@ -4,7 +4,7 @@
  */
 package Logica_Hexatron;
 
-import Funciones.Difusa;
+import Functions.Fuzzy;
 import java.util.ArrayList;
 import java.util.List;
 import utils.LogPrinter;
@@ -23,7 +23,7 @@ public class Hexatron {
     private int donadoras=0;
     private int receptoras=0;
     private int antibiotico=0;
-    private int antibioticType=1;
+//    private int antibioticType=1;
 
     public Cell[][] getMatriz() {
         return matriz;
@@ -239,11 +239,11 @@ public class Hexatron {
             for (int j = 1; j < matriz[i].length - 1; j++) {
                 if (matrizClone[i][j] instanceof Bacteria) {
                     Bacteria bact = (Bacteria) matriz[i][j];
-                    Difusa difusa = new Difusa();
+                    Fuzzy difusa = new Fuzzy();
                     double[] neighboors = neighboorsConcentration(bact, i, j);                  
                     LogPrinter.printConsole("******i:j "+i+":"+j+" "+bact.getConcentration(),3);
-                    int accion = difusa.accion(neighboors, bact.getConcentration());
-//                    System.out.println("accion"+accion);
+                    int accion = difusa.action(neighboors, bact.getConcentration());
+//                    System.out.println("action"+action);
                     switch (accion) {
                         case 2: {
                             bact.girarBacteria(1);

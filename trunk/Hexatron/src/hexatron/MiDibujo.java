@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
@@ -58,6 +61,17 @@ public class MiDibujo extends JFrame {
         midibujo.add(b);
         //  midibujo.draw();
         midibujo.setBounds(0, 0, screenx, screeny - 50);
+        midibujo.setTitle("Hexatron");
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(
+                    midibujo.getClass().getResource("icons/logo.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        midibujo.setIconImage(image);
         midibujo.setVisible(true);
         midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -106,7 +120,7 @@ public class MiDibujo extends JFrame {
 //                System.out.println(i+" "+j);
                 Cell cell = hexatron.getMatriz()[i][j];
 //                cell.setConcentration(cell.getConcentration() + (-1f / 8f) * (cell.getConcentration() + 50));
-                  cell.setConcentration(cell.getConcentration() - 50);
+                cell.setConcentration(cell.getConcentration() - 50);
             }
 
             private void addConstantAntibiotic(Point point) {
@@ -116,7 +130,7 @@ public class MiDibujo extends JFrame {
                 i = i < 0 ? 0 : i;
 //                System.out.println(i+" "+j);
                 int opt = JOptionPane.showConfirmDialog(midibujo, "Antibiotic source added on:" + i + "," + j);
-                boolean conf=opt==JOptionPane.OK_OPTION;
+                boolean conf = opt == JOptionPane.OK_OPTION;
                 Cell cell = hexatron.getMatriz()[i][j];
                 cell.setAntibiotic(conf);
             }
@@ -215,11 +229,11 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                String sbper = JOptionPane.showInputDialog("Percentage of Bacteria in the environment: (actual " + Constants.bacteriaPercentage+")");
+                String sbper = JOptionPane.showInputDialog("Percentage of Bacteria in the environment: (actual " + Constants.bacteriaPercentage + ")");
                 Constants.bacteriaPercentage = Float.parseFloat(sbper);
-                String sdper = JOptionPane.showInputDialog("Percentage of Bacteria who donate: (actual " + Constants.donorsPercentage+")");
+                String sdper = JOptionPane.showInputDialog("Percentage of Bacteria who donate: (actual " + Constants.donorsPercentage + ")");
                 Constants.donorsPercentage = Float.parseFloat(sdper);
-                String saper = JOptionPane.showInputDialog("Percentage of Empty cell wich have antibiotic: (actual " + Constants.antibioticPercentage+")");
+                String saper = JOptionPane.showInputDialog("Percentage of Empty cell wich have antibiotic: (actual " + Constants.antibioticPercentage + ")");
                 Constants.antibioticPercentage = Float.parseFloat(saper);
             }
         });
@@ -264,43 +278,38 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                 String stype=JOptionPane.showInputDialog(null,
-                        "Choose plasmid type: 1. for constant 2. for linear 3. for cubic"
-                        );
-                Bacteria.typePlasmid= Integer.parseInt(stype);
+                String stype = JOptionPane.showInputDialog(null,
+                        "Choose plasmid type: 1. for constant 2. for linear 3. for cubic");
+                Bacteria.typePlasmid = Integer.parseInt(stype);
             }
-        }
-        );
+        });
         menu.add(menuItem);
         menuItem = new JMenuItem("Conjugation on Concentration");
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                int choice=JOptionPane.showConfirmDialog(null,
-                        "Activate conjugation on concentration? (current state:"+Bacteria.conjugationOnConcentration+")",
+                int choice = JOptionPane.showConfirmDialog(null,
+                        "Activate conjugation on concentration? (current state:" + Bacteria.conjugationOnConcentration + ")",
                         "Conjugation On concentration",
                         JOptionPane.YES_NO_OPTION);
-                Bacteria.conjugationOnConcentration=choice==JOptionPane.YES_OPTION;
+                Bacteria.conjugationOnConcentration = choice == JOptionPane.YES_OPTION;
             }
-        }
-        );
+        });
         menu.add(menuItem);
         menuItem = new JMenuItem("Min Conjugation Concentration");
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if(Bacteria.conjugationOnConcentration){
-                 String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Cell.concentrationMax + ")");
-                 Constants.minConjugationConcentration = Float.parseFloat(sgen);
-                }
-                else{
-                  JOptionPane.showMessageDialog(null, "The conjugation on concentration is not active", "Conjugation On Concentration", JOptionPane.INFORMATION_MESSAGE);
-                }
+                if (Bacteria.conjugationOnConcentration) {
+                    String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Cell.concentrationMax + ")");
+                    Constants.minConjugationConcentration = Float.parseFloat(sgen);
+                } else {
+                    JOptionPane.showMessageDialog(null, "The conjugation on concentration is not active", "Conjugation On Concentration", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        );
+        });
         menu.add(menuItem);
         return menu;
     }

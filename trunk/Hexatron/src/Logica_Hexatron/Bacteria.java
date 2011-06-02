@@ -20,26 +20,26 @@ public class Bacteria extends Cell {
     private int tipo;//1 donadora 2 receptora
     private String codigo_gen;
     private float concentracionBact;
-    private int direccionCabeza;//1 hacia arriba 4 es hacia atras y el resto son los puntos intermedios
+    private int headDirection;//1 up 4 down the rest are the intermediate points
     private int tiempoDonadora = 0;
     private int tiempoReceptora = 0;
     private Plasmid plasmid;
     public static boolean conjugationOnConcentration = false;
     public static int typePlasmid=1;//1, 2 or 3 - constat, linear , cubic
-    private static float bacteriaCenter=50;
+    private static float bacteriaCenter=25;
 
     //BEFORE
 //    public Bacteria (int tipo)
 //    {
 //    this.tipo = tipo;
-//    direccionCabeza=(int)(Math.random()*5)+1;
+//    headDirection=(int)(Math.random()*5)+1;
 //    }
     /**
      * Creacion de bacteria basada en una concentracion
      * @param tipo 1 donor 2 reciever
      */
     public Bacteria(int tipo) {
-        super(randomConcentrationOnTipe(tipo));
+        super(randomConcentrationOnType(tipo));
 //    this.tipo = tipo;//BEFORE
 //        concentracionBact = (float) Math.random() * Cell.concentrationMax;
         if (conjugationOnConcentration) {
@@ -55,7 +55,7 @@ public class Bacteria extends Cell {
                 plasmid = newPlasmid();
             }
         }
-        direccionCabeza = (int) (Math.random() * 5) + 1;
+        headDirection = (int) (Math.random() * 5) + 1;
 
     }
 
@@ -80,13 +80,13 @@ public class Bacteria extends Cell {
     }
 
 
-    public static float randomConcentrationOnTipe(int type){
+    public static float randomConcentrationOnType(int type){
         if(type==1)
         {
-            return Cell.validRandomConcentrationRange(100, 50);
+            return Cell.validRandomConcentrationRange(50, 50);
         }
         else{
-            return Cell.validRandomConcentrationRange(100,bacteriaCenter );
+            return Cell.validRandomConcentrationRange(50,bacteriaCenter );
         }
     }
 
@@ -119,20 +119,20 @@ public class Bacteria extends Cell {
     }
 
     /**
-     * @return the direccionCabeza
+     * @return the headDirection
      */
     public int getDireccionCabeza() {
-        return direccionCabeza;
+        return headDirection;
     }
 
     /**
-     * @param direccionCabeza the direccionCabeza to set
+     * @param headDirection the headDirection to set
      */
     public void setDireccionCabeza(int direccionCabeza) {
         if (direccionCabeza < 1 || direccionCabeza > 6) {
             throw new Error("valor invalido");
         }
-        this.direccionCabeza = direccionCabeza;
+        this.headDirection = direccionCabeza;
     }
 
     public int getTiempo() {
