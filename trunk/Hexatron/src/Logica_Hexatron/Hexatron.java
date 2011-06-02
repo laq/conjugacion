@@ -120,7 +120,7 @@ public class Hexatron {
                     matriz[i][j] = new Bacteria(2);
                     receptoras++;
                 } else {
-                    matriz[i][j] = border ? new Vacio(Constants.borderDefault) : new Vacio(neutral);
+                    matriz[i][j] = border ? new Empty(Constants.borderDefault) : new Empty(neutral);
                      if(matriz[i][j].isAntibiotic()){
                          antibiotico++;
                      }
@@ -275,7 +275,7 @@ public class Hexatron {
                     bact.modifyEnviroment(enviromentAverage(i, j));
                     bact.runTime();
                 }
-                if(matrizClone[i][j] instanceof Vacio && matrizClone[i][j].isAntibiotic()){
+                if(matrizClone[i][j] instanceof Empty && matrizClone[i][j].isAntibiotic()){
 //                    System.out.println("antibiotic source");
                      Cell cell=matriz[i][j];
                      cell.setConcentration(cell.getConcentration()+(-1)*(cell.getConcentration()+50));
@@ -486,7 +486,7 @@ public class Hexatron {
         List<Integer> l = new ArrayList<Integer>();
         for (int k = 1; k <= 6; k++) {
             Cell cell = getCellAtFromRound(k, i, j, true);
-            if (cell instanceof Vacio) {
+            if (cell instanceof Empty) {
                 l.add(k);
             }
         }

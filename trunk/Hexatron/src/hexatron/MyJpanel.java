@@ -4,7 +4,7 @@ import Logica_Hexatron.Bacteria;
 import Logica_Hexatron.Cell;
 import Logica_Hexatron.Hexatron;
 import Logica_Hexatron.Antibiotic;
-import Logica_Hexatron.Vacio;
+import Logica_Hexatron.Empty;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
  * Class that graphically contains  the automata
  * @author LAQ
  */
-public class Lienzo extends JPanel implements Runnable {
+public class MyJpanel extends JPanel implements Runnable {
 
     private int xPoints[] = {5, 10, 10, 5, 0, 0};
     private int yPoints[] = {0, 5, 10, 15, 10, 5};
@@ -30,37 +30,36 @@ public class Lienzo extends JPanel implements Runnable {
     private JCheckBoxMenuItem concentrationLayer;
     private JCheckBoxMenuItem bacteriaConcentrationLayer;
     private JCheckBoxMenuItem showConcentrationNumber;
-    private Hexatron hexatron;        
+    private Hexatron hexatron;
     private int generations = 5;
     private JLabel jlable;
     private JSlider jslider;
     private JRadioButtonMenuItem neutralEnviroment;
     private JRadioButtonMenuItem randomEnviroment;
-
-
     public float val;
+
     /**
      * Constructor. Hace que el tamaño del canvas sea 100x100 pixels.
      */
-    public Lienzo(Hexatron hexatron) {
+    public MyJpanel(Hexatron hexatron) {
         this.hexatron = hexatron;
     }
 
     @Override
     public void paint(Graphics g) {
-        int totalCells=hexatron.getHeight()*hexatron.getWidth();
-        String space="                                                       ";
-        String totalBacteriaS= "   Total Bacteria:"+totalCells;
-        String donorBacteriaS= "       Donor Bacteria:"+hexatron.getDonadoras();
-        String recipientBacteriaS= "         Recipient Bacteria:"+hexatron.getReceptoras();
-        int emptyCells=(totalCells-hexatron.getDonadoras()-hexatron.getReceptoras());
-        String freeCells= "                 Empty Cells:"+emptyCells;
-        String antibioticCells="       Antibiotic Cells:"+hexatron.getAntibiotico();
-        String generalS=totalBacteriaS+donorBacteriaS+recipientBacteriaS+freeCells+antibioticCells;
-       // float bacteria=totalCells-emptyCells;
-        float percentage=((float)hexatron.getDonadoras()/(float)(totalCells-emptyCells));        
-        generalS+="     Donor Percentage:"+(int)(percentage*100)+"% ";
-        generalS="Current Generation:" + hexatron.getGeneration()+generalS;
+        int totalCells = hexatron.getHeight() * hexatron.getWidth();
+        String space = "                                                       ";
+        String totalBacteriaS = "   Total Bacteria:" + totalCells;
+        String donorBacteriaS = "       Donor Bacteria:" + hexatron.getDonadoras();
+        String recipientBacteriaS = "         Recipient Bacteria:" + hexatron.getReceptoras();
+        int emptyCells = (totalCells - hexatron.getDonadoras() - hexatron.getReceptoras());
+        String freeCells = "                 Empty Cells:" + emptyCells;
+        String antibioticCells = "       Antibiotic Cells:" + hexatron.getAntibiotico();
+        String generalS = totalBacteriaS + donorBacteriaS + recipientBacteriaS + freeCells + antibioticCells;
+        // float bacteria=totalCells-emptyCells;
+        float percentage = ((float) hexatron.getDonadoras() / (float) (totalCells - emptyCells));
+        generalS += "     Donor Percentage:" + (int) (percentage * 100) + "% ";
+        generalS = "Current Generation:" + hexatron.getGeneration() + generalS;
 //        LogPrinter.writeFile(generalS+"\n");
         jlable.setText(generalS);
         jlable.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,11 +145,10 @@ public class Lienzo extends JPanel implements Runnable {
                 g.setColor(Color.orange);
             }
 
-        } else if (getMatriz()[i][j] instanceof Vacio) {
-            if(getMatriz()[i][j].isAntibiotic()){
+        } else if (getMatriz()[i][j] instanceof Empty) {
+            if (getMatriz()[i][j].isAntibiotic()) {
                 g.setColor(Color.black);
-            }
-            else{
+            } else {
                 g.setColor(Color.green);
             }
             g.drawPolygon(xPoints, yPoints, 6);
@@ -158,7 +156,7 @@ public class Lienzo extends JPanel implements Runnable {
             g.setColor(Color.PINK);
             g.fillPolygon(xPoints, yPoints, 6);
         }
-         if (isShowConcentrationNumber()) {
+        if (isShowConcentrationNumber()) {
             Font f = g.getFont();
             g.setFont(new Font("Arial", Font.PLAIN, valHex - 1));
             g.drawString(" " + (int) getMatriz()[i][j].getConcentration(), xPoints[5], yPoints[5] + valHex);
@@ -184,7 +182,7 @@ public class Lienzo extends JPanel implements Runnable {
             g2d.setStroke(s);
 
 
-        } else if (getMatriz()[i][j] instanceof Vacio) {
+        } else if (getMatriz()[i][j] instanceof Empty) {
             g.setColor(colorRanger(getMatriz()[i][j]));
             g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
@@ -200,6 +198,7 @@ public class Lienzo extends JPanel implements Runnable {
             g.setFont(f);
         }
     }
+
     /**
      * No longer used method, used previously when there was a specific internal concentration of the bacteria.
      * @param g
@@ -208,7 +207,7 @@ public class Lienzo extends JPanel implements Runnable {
      * @param valHex
      * @deprecated
      */
-@Deprecated
+    @Deprecated
     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
         if (getMatriz()[i][j] instanceof Bacteria) {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
@@ -223,7 +222,7 @@ public class Lienzo extends JPanel implements Runnable {
             }
 
 
-        } else if (getMatriz()[i][j] instanceof Vacio) {
+        } else if (getMatriz()[i][j] instanceof Empty) {
             //   g.setColor(Color.white);
             // g.fillPolygon(xPoints, yPoints, 6);
             g.setColor(Color.green);
@@ -303,6 +302,7 @@ public class Lienzo extends JPanel implements Runnable {
         }
 
     }
+
     /**
      * returns a color in red scale from the Cell given.
      * @param cell
@@ -315,20 +315,20 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Cell.concentrationMax + Cell.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Cell.concentrationMin);
-         float concentrationPerUnit;
-          int concentrationValue;
-        if(cons<150){
-            concentrationPerUnit =  (200 / (Cell.concentrationMax - Cell.concentrationMin));
-            concentrationValue= ((int)(concentrationPerUnit * cons));
-        }else if(cons>350){
-            concentrationPerUnit =  (200 / (Cell.concentrationMax - Cell.concentrationMin));
-            concentrationValue = ((int)(concentrationPerUnit * cons))+600;
-        }else{
-              concentrationPerUnit =  (1300 / (Cell.concentrationMax - Cell.concentrationMin));
-              concentrationValue = ((int)(concentrationPerUnit * cons))-200;
+        float concentrationPerUnit;
+        int concentrationValue;
+        if (cons < 150) {
+            concentrationPerUnit = (200 / (Cell.concentrationMax - Cell.concentrationMin));
+            concentrationValue = ((int) (concentrationPerUnit * cons));
+        } else if (cons > 350) {
+            concentrationPerUnit = (200 / (Cell.concentrationMax - Cell.concentrationMin));
+            concentrationValue = ((int) (concentrationPerUnit * cons)) + 600;
+        } else {
+            concentrationPerUnit = (1300 / (Cell.concentrationMax - Cell.concentrationMin));
+            concentrationValue = ((int) (concentrationPerUnit * cons)) - 200;
         }
 //        System.out.println(cons+" "+concentrationValue);
-        
+
         //int col=(int)(cell.getConcentration() / Cell.concentrationMax);
         int r = concentrationValue < 255 ? concentrationValue : 255;
         int g = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
@@ -339,6 +339,7 @@ public class Lienzo extends JPanel implements Runnable {
         c = new Color(r, g, b);
         return c;
     }
+
     /**
      * returns a color in green scale from the Cell given.
      * @param cell
@@ -351,8 +352,8 @@ public class Lienzo extends JPanel implements Runnable {
         cons = (-1) * cons + (int) (Cell.concentrationMax + Cell.concentrationMin);
         //set the concentration so its only positive values
         cons = cons + (int) (0 - Cell.concentrationMin);
-        float concentrationPerUnit =  (510 / (Cell.concentrationMax - Cell.concentrationMin));
-        int concentrationValue = (int)(concentrationPerUnit * cons);
+        float concentrationPerUnit = (510 / (Cell.concentrationMax - Cell.concentrationMin));
+        int concentrationValue = (int) (concentrationPerUnit * cons);
         //int col=(int)(cell.getConcentration() / Cell.concentrationMax);
         int g = concentrationValue < 255 ? concentrationValue : 255;
         int b = concentrationValue < 510 && concentrationValue >= 255 ? concentrationValue - 255 : 255;
@@ -433,21 +434,25 @@ public class Lienzo extends JPanel implements Runnable {
     }
 
     void setEnvironmentNeutral(JRadioButtonMenuItem neutralEnviroment) {
-        this.neutralEnviroment=neutralEnviroment;
+        this.neutralEnviroment = neutralEnviroment;
     }
-     void setEnvironmentRandom(JRadioButtonMenuItem randomEnviroment) {
-        this.randomEnviroment=randomEnviroment;
+
+    void setEnvironmentRandom(JRadioButtonMenuItem randomEnviroment) {
+        this.randomEnviroment = randomEnviroment;
     }
-    JRadioButtonMenuItem getAmbienteNeutral(){
+
+    JRadioButtonMenuItem getAmbienteNeutral() {
         return neutralEnviroment;
     }
-    JRadioButtonMenuItem getAmbienteRandom(){
+
+    JRadioButtonMenuItem getAmbienteRandom() {
         return randomEnviroment;
     }
 
-    boolean isNeutralEnviroment(){
+    boolean isNeutralEnviroment() {
         return neutralEnviroment.isSelected();
     }
+
     /**
      * @return the jlable
      */
@@ -469,9 +474,6 @@ public class Lienzo extends JPanel implements Runnable {
     void setjslider(JSlider jslider) {
         this.jslider = jslider;
     }
-
-
-
     /**
      * Guarda la línea que se le pasa para dibujarla cuando se le indique
      * llamando a paint()
