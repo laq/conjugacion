@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package Logica_Hexatron.plasmids;
 
@@ -9,7 +5,8 @@ package Logica_Hexatron.plasmids;
 
 
 /**
- *
+ * A Plasmid that does nothing
+ * @author Ztiphen
  * @author LAQ
  */
 public class SimplePlasmid implements Plasmid{

@@ -12,8 +12,9 @@ import Logica_Hexatron.plasmids.SimplePlasmidCub;
 import Logica_Hexatron.plasmids.SimplePlasmidLin;
 
 /**
- *
+ * A Bacteria with the possibility of containing a plasmid.
  * @author Ztiphen
+ * @author LAQ
  */
 public class Bacteria extends Cell {
 

@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Logica_Hexatron;
 
 /**
  * Class that represents an empty cell
  * @author Ztiphen
+ * @author LAQ
  */
 public class Vacio  extends Cell{
     public Vacio(float conc){

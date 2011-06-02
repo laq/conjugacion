@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Logica_Hexatron.plasmids;
 
 
@@ -10,6 +5,7 @@ package Logica_Hexatron.plasmids;
 
 /**
  *Plasmid with cubic root aproximation
+ * @author Ztiphen
  * @author LAQ
  */
 public class SimplePlasmidCub implements Plasmid{

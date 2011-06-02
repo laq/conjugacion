@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logica_Hexatron;
 
 import utils.LogPrinter;
 
 /**
- *
+ * A Class representing a cell on the automata, having its own concentration
  * @author Ztiphen
+ * @author  LAQ
  */
 public class Cell {
 

@@ -18,7 +18,10 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 
-
+/**
+ * Class that graphically contains  the automata
+ * @author LAQ
+ */
 public class Lienzo extends JPanel implements Runnable {
 
     private int xPoints[] = {5, 10, 10, 5, 0, 0};
@@ -197,7 +200,15 @@ public class Lienzo extends JPanel implements Runnable {
             g.setFont(f);
         }
     }
-
+    /**
+     * No longer used method, used previously when there was a specific internal concentration of the bacteria.
+     * @param g
+     * @param i
+     * @param j
+     * @param valHex
+     * @deprecated
+     */
+@Deprecated
     private void paintBacteriaConcentrationLayer(Graphics g, int i, int j, int valHex) {
         if (getMatriz()[i][j] instanceof Bacteria) {
             Bacteria bact = (Bacteria) (getMatriz()[i][j]);
