@@ -9,7 +9,7 @@ package Logica_Hexatron;
  *
  * @author Ztiphen
  */
- public  class Antibiotic  extends Celda{
+ public  class Antibiotic  extends Cell{
 
     
 

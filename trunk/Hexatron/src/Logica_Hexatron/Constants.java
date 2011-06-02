@@ -18,7 +18,7 @@ public class Constants {
     public static float bacteriaPercentage=0.7f;
     public static float donorsPercentage=0.3f;
 
-    public static int timeToConjugate=1;
+//    public static int timeToConjugate=1;
 
     public static float borderDefault=0;
 

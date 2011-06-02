@@ -1,17 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
-import java.io.BufferedWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Class for logging information to either console or file
  * @author LAQ
  */
 public class LogPrinter {
@@ -22,6 +18,12 @@ public class LogPrinter {
     private static FileWriter fstream;
     private static int debugLevel = 3;
 
+
+    /**
+     * print to console the string s if the debug level is bigger than level
+     * @param s
+     * @param level
+     */
     public static void printConsole(String s, int level) {
         if (level < debugLevel) {
             System.out.println(s);
@@ -62,6 +64,10 @@ public class LogPrinter {
         }
     }
 
+    /**
+     * Print data to file, being values a set of strings
+     * @param values
+     */
     public static void printData(String... values ){
         for(String s:values){
             writeFile(s+"\t");

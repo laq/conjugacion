@@ -6,10 +6,10 @@
 package Logica_Hexatron;
 
 /**
- *
+ * Class that represents an empty cell
  * @author Ztiphen
  */
-public class Vacio  extends Celda{
+public class Vacio  extends Cell{
     public Vacio(float conc){
         super(conc);
     }
@@ -25,7 +25,7 @@ public class Vacio  extends Celda{
             return 0;
         }
         else{
-           return Celda.validRandomConcentrationRange(200, -50);
+           return Cell.validRandomConcentrationRange(200, -50);
         }
     }
 

@@ -15,36 +15,36 @@ import utils.LogPrinter;
  */
 public class Hexatron {
 
-    private Celda matriz[][];
-    private Celda matrizClone[][];
-    private int ancho = 50;
-    private int alto = 50;
+    private Cell matriz[][];
+    private Cell matrizClone[][];
+    private int width = 50;
+    private int height = 50;
     private int generation = 0;
     private int donadoras=0;
     private int receptoras=0;
     private int antibiotico=0;
-    private int antibioticTipe=1;
+    private int antibioticType=1;
 
-    public Celda[][] getMatriz() {
+    public Cell[][] getMatriz() {
         return matriz;
     }
 
     public Hexatron(boolean neutral) {
-        matriz = new Celda[alto][ancho];
+        matriz = new Cell[height][width];
         poblar(neutral);
 
     }
 
     /**
-     * @return the ancho
+     * @return the width
      */
-    public int getAncho() {
-        return ancho;
+    public int getWidth() {
+        return width;
     }
 
     public void printData() {
 //        generation;
-        int totalCells = getAlto() * getAncho();
+        int totalCells = getHeight() * getWidth();
 //        getDonadoras();
 //        getReceptoras();
         int emptyCells = totalCells - getDonadoras() - getReceptoras();
@@ -64,31 +64,35 @@ public class Hexatron {
     }
 
     /**
-     * @param ancho the ancho to set
+     * @param width the width to set
      */
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
+    public void setWidth(int ancho) {
+        this.width = ancho;
     }
 
     /**
-     * @return the alto
+     * @return the height
      */
-    public int getAlto() {
-        return alto;
+    public int getHeight() {
+        return height;
     }
 
     /**
-     * @param alto the alto to set
+     * @param height the height to set
      */
-    public void setAlto(int alto) {
-        this.alto = alto;
+    public void setHeight(int alto) {
+        this.height = alto;
     }
 
+    /**
+     * Populate the automata, where the empty cells have a neutral concentration or random
+     * @param neutral
+     */
     public void poblar(boolean neutral) {
         donadoras=0;
         receptoras=0;
         antibiotico=0;
-        matriz = new Celda[alto + 2][ancho + 2];
+        matriz = new Cell[height + 2][width + 2];
         Bacteria.restartBacteriaCenter();
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {              
@@ -131,13 +135,15 @@ public class Hexatron {
 //        }
 //    }
     /**
-     * Regresa la bacteria relativa a la actual en la direccion indicada por direction
+     * Returns a Cell relative to the current one(i,j) in the direction given
+     *
      * @param direction
      * @param i
      * @param j
+     * @param clone says whether the returned Cell should be taken from the normal matrix or the clone matrix(without changes)
      * @return
      */
-    public Celda getCellAtFrom(int direction, int i, int j, boolean clone) {
+    public Cell getCellAtFrom(int direction, int i, int j, boolean clone) {
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -174,13 +180,14 @@ public class Hexatron {
     }
 
     /**
-     * Regresa la bacteria relativa a la actual en la direccion indicada por direction
+     * Returns a Cell relative to the current one(i,j) in the direction given, taking in account a toroidal form.
      * @param direction
      * @param i
      * @param j
+     * @param clone says whether the returned Cell should be taken from the normal matrix or the clone matrix(without changes)
      * @return
      */
-    public Celda getCellAtFromRound(int direction, int i, int j, boolean clone) {
+    public Cell getCellAtFromRound(int direction, int i, int j, boolean clone) {
         int ii = i;
         int jj = j;
         int tempj = j;
@@ -220,6 +227,9 @@ public class Hexatron {
         }
     }
 
+    /**Main function of the Hexatron, calculates the next generation.
+     *
+     */
     public void nextGen() {
         matrizClone = matriz.clone();
         donadoras=0;
@@ -244,7 +254,7 @@ public class Hexatron {
                             break;
                         }
                         case 0: {
-                            Celda c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
+                            Cell c = getCellAtFromRound(bact.getDireccionCabeza(), i, j, false);
                             Bacteria bact2 = c instanceof Bacteria ? (Bacteria) c : null;
                             bact.conjugar(bact2);
                             if (bact2 == null) {
@@ -261,7 +271,7 @@ public class Hexatron {
                 }
                 if(matrizClone[i][j] instanceof Vacio && matrizClone[i][j].isAntibiotic()){
 //                    System.out.println("antibiotic source");
-                     Celda cell=matriz[i][j];
+                     Cell cell=matriz[i][j];
                      cell.setConcentration(cell.getConcentration()+(-1)*(cell.getConcentration()+50));
                      antibiotico++;
                 }
@@ -288,21 +298,34 @@ public class Hexatron {
         printData();
     }
 
+    /**
+     * Returns an array with the concentration of the 3 visible neighbors of a bacteria in a given position
+     * @param bact Bacteria
+     * @param i
+     * @param j
+     * @return
+     */
     private double[] neighboorsConcentration(Bacteria bact, int i, int j) {
         double lcons = 0, fcons = 0, rcons = 0;
-        Celda fcell = getCellAtFromRound(bact.getDireccionCabeza(), i, j, true);
+        Cell fcell = getCellAtFromRound(bact.getDireccionCabeza(), i, j, true);
          fcons = fcell.getConcentration();
 //        fcons = fcell instanceof Bacteria ? fcell.getConcentration() : Double.NaN;
-        Celda lcell = getCellAtFromRound(bact.getDireccionCabeza() - 1, i, j, true);
+        Cell lcell = getCellAtFromRound(bact.getDireccionCabeza() - 1, i, j, true);
         lcons= lcell.getConcentration();
 //        lcons = lcell instanceof Bacteria ? lcell.getConcentration() : Double.NaN;
-        Celda rcell = getCellAtFromRound(bact.getDireccionCabeza() + 1, i, j, true);
+        Cell rcell = getCellAtFromRound(bact.getDireccionCabeza() + 1, i, j, true);
         rcons = rcell.getConcentration();
 //        rcons = rcell instanceof Bacteria ? rcell.getConcentration() : Double.NaN;
         double[] neighboors = {fcons, rcons, lcons};
         return neighboors;
     }
 
+    /**
+     * For the cell in i,j calculates the difference of concentration and if bigger than 15 redistributes the concentration
+     * as in a sand pile model.
+     * @param i
+     * @param j
+     */
     private void concentrationDiffussion(int i, int j) {
         float concentracion = matrizClone[i][j].getConcentration();
         float concentracionAcumulada = 0;
@@ -316,21 +339,21 @@ public class Hexatron {
 //            if (tempcons == 0) {
 //                ceroCells++;
 //            }
-//            if (tempcons > 0 && tempcons < Celda.concentrationMax) {
+//            if (tempcons > 0 && tempcons < Cell.concentrationMax) {
 //                normalCells++;
 //            }
-//            if (tempcons == Celda.concentrationMax) {
+//            if (tempcons == Cell.concentrationMax) {
 //                topCells++;
 //            }
         }
         float neighborConcentration = (concentracionAcumulada) / 6;
-        if (concentracion >= neighborConcentration + 15) {//TODO idea of sand pile, change limit for droping
+        if (concentracion >= neighborConcentration + 15) {
             float nueva = (neighborConcentration + concentracion) / 2;
             matriz[i][j].setConcentration(nueva);
             float cons = concentracion - nueva;
             neighboorsChangeCons(cons / 6, i, j);
         }
-        if (concentracion <= neighborConcentration - 15) {//TODO idea of sand pile, change limit for droping
+        if (concentracion <= neighborConcentration - 15) {
             float nueva = (neighborConcentration + concentracion) / 2;
             matriz[i][j].setConcentration(nueva);
             float cons = concentracion - nueva;
@@ -353,10 +376,10 @@ public class Hexatron {
 //            if (tempcons == 0) {
 //                ceroCells++;
 //            }
-//            if (tempcons > 0 && tempcons < Celda.concentrationMax) {
+//            if (tempcons > 0 && tempcons < Cell.concentrationMax) {
 //                normalCells++;
 //            }
-//            if (tempcons == Celda.concentrationMax) {
+//            if (tempcons == Cell.concentrationMax) {
 //                topCells++;
 //            }
 //        }
@@ -366,7 +389,7 @@ public class Hexatron {
 ////            LogPrinter.printConsole(concentracion + ":" + i + "|" + j + " n:" + normalCells + " top:" + topCells + " nueva:" + nueva, 4);
 ////        }
 ////
-////        if (concentracion == Celda.concentrationMax) {//sick becomes healthy
+////        if (concentracion == Cell.concentrationMax) {//sick becomes healthy
 ////            nueva = 0;
 ////        }
 ////        if (concentracion == 0 && ((normalCells) < 1 && (topCells) < 2)) {
@@ -400,7 +423,7 @@ public class Hexatron {
         int normalCells = 0;
         int topCells = 0;
         for (int k = 1; k <= 6; k++) {
-            Celda c = getCellAtFromRound(k, i, j, true);
+            Cell c = getCellAtFromRound(k, i, j, true);
             if (c instanceof Bacteria) {
                 Bacteria bact = (Bacteria) c;
                 float tempcons = bact.getConcentracionBact();
@@ -408,18 +431,18 @@ public class Hexatron {
                 if (tempcons == 0) {
                     ceroCells++;
                 }
-                if (tempcons > 0 && tempcons < Celda.concentrationMax - 20) {
+                if (tempcons > 0 && tempcons < Cell.concentrationMax - 20) {
                     normalCells++;
                 }
-                if (tempcons > Celda.concentrationMax - 20) {
+                if (tempcons > Cell.concentrationMax - 20) {
                     topCells++;
                 }
             }
         }
-        if (concentracion > Celda.concentrationMax - 10) {
+        if (concentracion > Cell.concentrationMax - 10) {
             ((Bacteria) matriz[i][j]).setConcentracionBact(0);
         }
-        if (topCells > 5 && concentracion > Celda.concentrationMax - 20) {
+        if (topCells > 5 && concentracion > Cell.concentrationMax - 20) {
             Bacteria bact = ((Bacteria) matriz[i][j]);
             bact.setConcentracionBact(bact.getConcentracionBact() + 1);
             //LogPrinter.printConsole("cat to cero" + topCells + " " + normalCells + " " + ceroCells + " :" + i + "|" + j, 4);
@@ -440,9 +463,15 @@ public class Hexatron {
         return concentracionAcumulada / 6;
     }
 
+    /**
+     * Changes the concentration of all neighbors of i,j in a value(cons)
+     * @param cons
+     * @param i
+     * @param j
+     */
     private void neighboorsChangeCons(float cons, int i, int j) {
         for (int k = 1; k <= 6; k++) {
-            Celda cell = getCellAtFromRound(k, i, j, true);
+            Cell cell = getCellAtFromRound(k, i, j, true);
             cell.setConcentration(cell.getConcentration() + cons);
         }
     }
@@ -450,7 +479,7 @@ public class Hexatron {
     private List findFree(int i, int j) {
         List<Integer> l = new ArrayList<Integer>();
         for (int k = 1; k <= 6; k++) {
-            Celda cell = getCellAtFromRound(k, i, j, true);
+            Cell cell = getCellAtFromRound(k, i, j, true);
             if (cell instanceof Vacio) {
                 l.add(k);
             }

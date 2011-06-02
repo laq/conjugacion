@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package hexatron;
 
 import Logica_Hexatron.Bacteria;
-import Logica_Hexatron.Celda;
+import Logica_Hexatron.Cell;
 import Logica_Hexatron.Constants;
 import Logica_Hexatron.Hexatron;
 
@@ -60,7 +56,7 @@ public class MiDibujo extends JFrame {
         b.add(midibujo.jslider);
         b.add(midibujo.lienzo);
         midibujo.add(b);
-        //  midibujo.dibujar();
+        //  midibujo.draw();
         midibujo.setBounds(0, 0, screenx, screeny - 50);
         midibujo.setVisible(true);
         midibujo.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -77,7 +73,7 @@ public class MiDibujo extends JFrame {
                 }
                 if (button == MouseEvent.BUTTON3) {
                     addAntibiotic(e.getPoint());
-                    midibujo.repintar();
+                    midibujo.callRepaint();
                 }
                 if (button == MouseEvent.BUTTON2) {
                     addConstantAntibiotic(e.getPoint());
@@ -108,7 +104,7 @@ public class MiDibujo extends JFrame {
                 j = j < 0 ? 0 : j;
                 i = i < 0 ? 0 : i;
 //                System.out.println(i+" "+j);
-                Celda cell = hexatron.getMatriz()[i][j];
+                Cell cell = hexatron.getMatriz()[i][j];
 //                cell.setConcentration(cell.getConcentration() + (-1f / 8f) * (cell.getConcentration() + 50));
                   cell.setConcentration(cell.getConcentration() - 50);
             }
@@ -121,17 +117,17 @@ public class MiDibujo extends JFrame {
 //                System.out.println(i+" "+j);
                 int opt = JOptionPane.showConfirmDialog(midibujo, "Antibiotic source added on:" + i + "," + j);
                 boolean conf=opt==JOptionPane.OK_OPTION;
-                Celda cell = hexatron.getMatriz()[i][j];
+                Cell cell = hexatron.getMatriz()[i][j];
                 cell.setAntibiotic(conf);
             }
         });
     }
 
-    public void dibujar() {
+    public void draw() {
         this.add(lienzo);
     }
 
-    public void repintar() {
+    public void callRepaint() {
         lienzo.setHexatron(hexatron);
         lienzo.repaint();
     }
@@ -143,7 +139,7 @@ public class MiDibujo extends JFrame {
         menubar.add(menu);
         menu = menuConjugation();
         menubar.add(menu);
-        menu = menuAmbiente(midibujo);
+        menu = menuEnvironment(midibujo);
         menubar.add(menu);
         menu = menuView(midibujo);
         menubar.add(menu);
@@ -167,14 +163,14 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                String sanch = JOptionPane.showInputDialog("grill width, actual:" + midibujo.hexatron.getAncho());
+                String sanch = JOptionPane.showInputDialog("grill width, actual:" + midibujo.hexatron.getWidth());
                 int ancho = Integer.parseInt(sanch);
-                String salto = JOptionPane.showInputDialog("grill heigth, actual:" + midibujo.hexatron.getAlto());
+                String salto = JOptionPane.showInputDialog("grill heigth, actual:" + midibujo.hexatron.getHeight());
                 int alto = Integer.parseInt(salto);
-                midibujo.getHexatron().setAlto(alto);
-                midibujo.getHexatron().setAncho(ancho);
+                midibujo.getHexatron().setHeight(alto);
+                midibujo.getHexatron().setWidth(ancho);
                 midibujo.getHexatron().poblar(midibujo.lienzo.isNeutralEnviroment());
-                midibujo.repintar();
+                midibujo.callRepaint();
                 //                midibujo.repaint();
             }
         });
@@ -296,7 +292,7 @@ public class MiDibujo extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 if(Bacteria.conjugationOnConcentration){
-                 String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Celda.concentrationMax + ")");
+                 String sgen = JOptionPane.showInputDialog("Level for Doning(actual:" + Constants.minConjugationConcentration + " max:" + Cell.concentrationMax + ")");
                  Constants.minConjugationConcentration = Float.parseFloat(sgen);
                 }
                 else{
@@ -309,12 +305,12 @@ public class MiDibujo extends JFrame {
         return menu;
     }
 
-    private static JMenu menuAmbiente(final MiDibujo m) {
+    private static JMenu menuEnvironment(final MiDibujo m) {
         JMenu menu;
         menu = new JMenu("Enviroment");
         menu.setMnemonic('e');
         JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem("Neutral", true);
-        m.lienzo.setAmbienteNeutral(menuItem);
+        m.lienzo.setEnvironmentNeutral(menuItem);
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
 
@@ -324,7 +320,7 @@ public class MiDibujo extends JFrame {
         });
         menu.add(menuItem);
         menuItem = new JRadioButtonMenuItem("Random", false);
-        m.lienzo.setAmbienteRandom(menuItem);
+        m.lienzo.setEnvironmentRandom(menuItem);
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_DOWN_MASK));
         menuItem.addActionListener(new ActionListener() {
 
@@ -347,7 +343,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                m.repintar();
+                m.callRepaint();
             }
         });
         menu.add(menuItem);
@@ -357,7 +353,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                m.repintar();
+                m.callRepaint();
             }
         });
         menu.add(menuItem);
@@ -367,7 +363,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                m.repintar();
+                m.callRepaint();
             }
         });
 //        menu.add(menuItem);
@@ -377,7 +373,7 @@ public class MiDibujo extends JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                m.repintar();
+                m.callRepaint();
             }
         });
         menu.add(menuItem);
