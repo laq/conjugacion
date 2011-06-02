@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Dictionary;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -35,10 +34,10 @@ import javax.swing.KeyStroke;
  * @author Ztiphen
  * @author LAQ
  */
-public class MiDibujo extends JFrame {
+public class MyJFrame extends JFrame {
 
     private Hexatron hexatron = new Hexatron(true);
-    private Lienzo lienzo = new Lienzo(getHexatron());
+    private MyJpanel lienzo = new MyJpanel(getHexatron());
     private JLabel jlable;
     private JSlider jslider;
 
@@ -46,7 +45,7 @@ public class MiDibujo extends JFrame {
         int screenx = Toolkit.getDefaultToolkit().getScreenSize().width;
         int screeny = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-        MiDibujo midibujo = new MiDibujo();
+        MyJFrame midibujo = new MyJFrame();
         JMenuBar menubar = crearMenuBar(midibujo);
         midibujo.addMouse();
         midibujo.setJMenuBar(menubar);
@@ -84,7 +83,7 @@ public class MiDibujo extends JFrame {
     }
 
     public void addMouse() {
-        final MiDibujo midibujo = this;
+        final MyJFrame midibujo = this;
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
@@ -153,7 +152,7 @@ public class MiDibujo extends JFrame {
         lienzo.repaint();
     }
 
-    private static JMenuBar crearMenuBar(final MiDibujo midibujo) {
+    private static JMenuBar crearMenuBar(final MyJFrame midibujo) {
         JMenuBar menubar = new JMenuBar();
 
         JMenu menu = menuAutomata(midibujo);
@@ -174,7 +173,7 @@ public class MiDibujo extends JFrame {
         return menubar;
     }
 
-    private static JMenu menuAutomata(final MiDibujo midibujo) {
+    private static JMenu menuAutomata(final MyJFrame midibujo) {
         JMenu menu = new JMenu("Automata");
         menu.setMnemonic('a');
         JMenuItem menuItem = new JMenuItem("Dimensions");
@@ -321,7 +320,7 @@ public class MiDibujo extends JFrame {
         return menu;
     }
 
-    private static JMenu menuEnvironment(final MiDibujo m) {
+    private static JMenu menuEnvironment(final MyJFrame m) {
         JMenu menu;
         menu = new JMenu("Enviroment");
         menu.setMnemonic('e');
@@ -349,7 +348,7 @@ public class MiDibujo extends JFrame {
         return menu;
     }
 
-    private static JMenu menuView(final MiDibujo m) {
+    private static JMenu menuView(final MyJFrame m) {
         JMenu menu;
         menu = new JMenu("View");
         menu.setMnemonic('v');

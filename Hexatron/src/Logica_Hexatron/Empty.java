@@ -5,11 +5,11 @@ package Logica_Hexatron;
  * @author Ztiphen
  * @author LAQ
  */
-public class Vacio  extends Cell{
-    public Vacio(float conc){
+public class Empty  extends Cell{
+    public Empty(float conc){
         super(conc);
     }
-    public Vacio(boolean neutral){
+    public Empty(boolean neutral){
         super(concentrationOnNeutral(neutral));
         if(Math.random()<Constants.antibioticPercentage){
             this.setAntibiotic(true);
