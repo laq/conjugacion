@@ -4,7 +4,7 @@ import utils.LogPrinter;
 
 
 /**
- *Class to make decide the action to chose based on the concentration differences
+ *Class to decide the action to chose based on the concentration differences
  * @author Ztiphen
  * @author LAQ
  */

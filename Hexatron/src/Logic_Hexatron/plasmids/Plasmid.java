@@ -1,4 +1,4 @@
-package Logica_Hexatron.plasmids;
+package Logic_Hexatron.plasmids;
 
 /**
  * Plasmid interface different plasmids should extend this interface

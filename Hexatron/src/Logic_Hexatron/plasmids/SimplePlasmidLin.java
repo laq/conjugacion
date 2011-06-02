@@ -1,4 +1,4 @@
-package Logica_Hexatron.plasmids;
+package Logic_Hexatron.plasmids;
 
 /**
  * Plasmid with linear aproximation

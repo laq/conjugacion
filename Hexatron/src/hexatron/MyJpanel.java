@@ -1,10 +1,10 @@
 package hexatron;
 
-import Logica_Hexatron.Bacteria;
-import Logica_Hexatron.Cell;
-import Logica_Hexatron.Hexatron;
-import Logica_Hexatron.Antibiotic;
-import Logica_Hexatron.Empty;
+import Logic_Hexatron.Bacteria;
+import Logic_Hexatron.Cell;
+import Logic_Hexatron.Hexatron;
+import Logic_Hexatron.Antibiotic;
+import Logic_Hexatron.Empty;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;

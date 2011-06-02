@@ -1,5 +1,5 @@
 
-package Logica_Hexatron.plasmids;
+package Logic_Hexatron.plasmids;
 
 
 

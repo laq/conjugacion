@@ -1,4 +1,4 @@
-package Logica_Hexatron;
+package Logic_Hexatron;
 
 import utils.LogPrinter;
 
