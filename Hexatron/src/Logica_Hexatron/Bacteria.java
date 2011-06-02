@@ -15,7 +15,7 @@ import Logica_Hexatron.plasmids.SimplePlasmidLin;
  *
  * @author Ztiphen
  */
-public class Bacteria extends Celda {
+public class Bacteria extends Cell {
 
     private int tipo;//1 donadora 2 receptora
     private String codigo_gen;
@@ -41,7 +41,7 @@ public class Bacteria extends Celda {
     public Bacteria(int tipo) {
         super(randomConcentrationOnTipe(tipo));
 //    this.tipo = tipo;//BEFORE
-//        concentracionBact = (float) Math.random() * Celda.concentrationMax;
+//        concentracionBact = (float) Math.random() * Cell.concentrationMax;
         if (conjugationOnConcentration) {
             if (this.getConcentration() > Constants.minConjugationConcentration) {
                 this.tipo = 1;
@@ -83,10 +83,10 @@ public class Bacteria extends Celda {
     public static float randomConcentrationOnTipe(int type){
         if(type==1)
         {
-            return Celda.validRandomConcentrationRange(100, 50);
+            return Cell.validRandomConcentrationRange(100, 50);
         }
         else{
-            return Celda.validRandomConcentrationRange(100,bacteriaCenter );
+            return Cell.validRandomConcentrationRange(100,bacteriaCenter );
         }
     }
 

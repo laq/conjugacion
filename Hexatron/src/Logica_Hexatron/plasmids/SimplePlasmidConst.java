@@ -10,7 +10,7 @@ import Logica_Hexatron.Constants;
 
 
 
-/**
+/**Plasmid with constant aproximation
  *
  * @author LAQ
  */

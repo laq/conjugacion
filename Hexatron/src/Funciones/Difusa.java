@@ -88,7 +88,8 @@ public class Difusa {
        // Difusa d = new Difusa();
      //   for(int i=-250;i<=250;i++){
       //   System.out.println(i+":"+d.accion(i)+","+d.accion(i)+","+d.accion(i));
-        System.out.println((73-Double.NaN));
+        double a=Math.pow((-8d), (1d/3d));
+        System.out.println(a+""+Math.cbrt(-8));
 //        }
         
     }

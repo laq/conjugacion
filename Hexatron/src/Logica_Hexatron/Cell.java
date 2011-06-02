@@ -10,7 +10,7 @@ import utils.LogPrinter;
  *
  * @author Ztiphen
  */
-public class Celda {
+public class Cell {
 
     final public static float concentrationMax = 250;
     final public static float concentrationMin = -250;//when this are modified the boarder default must also be modified
@@ -19,12 +19,12 @@ public class Celda {
     int x;
     int y;
 
-    public Celda(float conc) {
+    public Cell(float conc) {
         LogPrinter.printConsole("concentracoin" + conc, 3);
         this.setConcentration(conc);
     }
 
-    public Celda() {
+    public Cell() {
         concentration = ((float) Math.random() * (concentrationMax - concentrationMin)) + concentrationMin;
         LogPrinter.printConsole("celdaInicio" + concentration, 4);
     }
@@ -40,11 +40,11 @@ public class Celda {
      * @param concentration the concentration to set
      */
     public void setConcentration(float concentration) {
-        if (concentration > Celda.concentrationMax) {
-            concentration = Celda.concentrationMax;
+        if (concentration > Cell.concentrationMax) {
+            concentration = Cell.concentrationMax;
         }
-        if (concentration < Celda.concentrationMin) {
-            concentration = Celda.concentrationMin;
+        if (concentration < Cell.concentrationMin) {
+            concentration = Cell.concentrationMin;
         }
         this.concentration = concentration;
     }

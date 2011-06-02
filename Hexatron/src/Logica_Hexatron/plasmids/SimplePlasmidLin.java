@@ -9,7 +9,7 @@ package Logica_Hexatron.plasmids;
 
 
 /**
- *
+ * Plasmid with linear aproximation
  * @author LAQ
  */
 public class SimplePlasmidLin implements Plasmid{

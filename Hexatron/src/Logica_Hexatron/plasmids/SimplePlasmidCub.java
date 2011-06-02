@@ -9,7 +9,7 @@ package Logica_Hexatron.plasmids;
 
 
 /**
- *
+ *Plasmid with cubic root aproximation
  * @author LAQ
  */
 public class SimplePlasmidCub implements Plasmid{
@@ -22,7 +22,9 @@ public class SimplePlasmidCub implements Plasmid{
     public float calculateNewEnvState(float envAvrg, float currentenv) {
         //posible y=x+(-(x-50)^(1/3)) more smooth
         //current y=x+(-1/4)*(x-50)
-        float newEnv=currentenv+(float)(plasmidPlus*Math.pow((-currentenv+50), (1/3))); 
+        
+        float newEnv=currentenv+(float)(plasmidPlus*Math.cbrt((-currentenv+50f)));
+        
 
        // newEnv=(envAvrg+2*currentenv)/3;
         
