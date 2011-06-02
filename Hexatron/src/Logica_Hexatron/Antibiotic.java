@@ -6,9 +6,10 @@
 package Logica_Hexatron;
 
 /**
- *
+ * Class representing an antibiotic
  * @author Ztiphen
  */
+@Deprecated
  public  class Antibiotic  extends Cell{
 
     

@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Dictionary;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,8 +31,9 @@ import javax.swing.JSlider;
 import javax.swing.KeyStroke;
 
 /**
- *
+ * Graphical container of the whole program.
  * @author Ztiphen
+ * @author LAQ
  */
 public class MiDibujo extends JFrame {
 
@@ -54,9 +56,14 @@ public class MiDibujo extends JFrame {
         midibujo.jlable = new JLabel("Generations : 0");
         b.add(midibujo.jlable);
         midibujo.lienzo.setJlable(midibujo.jlable);
-        midibujo.jslider = new JSlider(0, 1500, 750);
+        midibujo.jslider = new JSlider(0, 1000, 250);
         midibujo.lienzo.setjslider(midibujo.jslider);
-        b.add(midibujo.jslider);
+        Box c =  new Box(BoxLayout.X_AXIS);
+        c.add(new JLabel("Slow"));
+        c.add(midibujo.jslider);
+        c.add(new JLabel("Fast"));
+
+        b.add(c);
         b.add(midibujo.lienzo);
         midibujo.add(b);
         //  midibujo.draw();

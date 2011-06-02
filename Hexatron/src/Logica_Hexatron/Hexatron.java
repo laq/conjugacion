@@ -10,8 +10,9 @@ import java.util.List;
 import utils.LogPrinter;
 
 /**
- *
+ * Main class of the simulator, contains all the information and the principal methods.
  * @author Ztiphen
+ * @author LAQ
  */
 public class Hexatron {
 
@@ -41,7 +42,9 @@ public class Hexatron {
     public int getWidth() {
         return width;
     }
-
+    /**
+     * Prints the different variables to a file
+     */
     public void printData() {
 //        generation;
         int totalCells = getHeight() * getWidth();
@@ -59,6 +62,9 @@ public class Hexatron {
                 ,Float.toString(percentage));
     }
 
+    /**
+     * Prints the name of the variables to write on the file
+     */
     public void printNames(){
         LogPrinter.printData("Generation","Total Cells","Plasmid","Donors","Recipients","Empty","Antibiotic","Percentage");
     }
