@@ -1,0 +1,1 @@
+simula la conjugacion bacteriana
